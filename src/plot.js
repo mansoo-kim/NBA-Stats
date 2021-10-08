@@ -56,14 +56,17 @@ export default class Plot {
       .attr("r", 5)
       .on("mouseenter", (_, d) => {
         circlesLabel
-          .style("visibility", "visible")
-          .html(
-            `<strong>${d["Player"].split("\\")[0]}</strong>
-            <p>${xStat}: ${d[xStat]}</p>
-            <p>${yStat}: ${d[yStat]}</p>`
-            )
-          .style("left", (xScale(d[xStat]) - 30) + "px")
-          .style("top", (yScale(d[yStat]) - 55) + "px")
+        .style("visibility", "visible")
+        .html(
+          `<strong>${d["Player"].split("\\")[0]}</strong>
+          <p>${yStat}: ${d[yStat]}</p>
+          <p>${xStat}: ${d[xStat]}</p>`
+        )
+      })
+      .on("mousemove", (event) => {
+        circlesLabel
+          .style("left", event.pageX - 30 + "px")
+          .style("top", event.pageY - 55 + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
 
