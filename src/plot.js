@@ -1,5 +1,8 @@
 import * as d3 from "d3";
+import { scaleX, scaleY, updateXAxis, updateYAxis } from "./update_utils";
 
+const WIDTH = 1000;
+const HEIGHT = 600;
 const YEARS = [2021, 2020]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
@@ -13,8 +16,7 @@ const RIGHT_MARGIN = 30;
 
 export default class Plot {
 
-  constructor(dimensions) {
-    [this.width, this.height] = dimensions;
+  constructor() {
     this.getStats();
   }
 
@@ -23,21 +25,17 @@ export default class Plot {
     console.log(data);
 
     // SVG
-    this.svg = d3.select(".scatter").append("svg").attr("width", this.width).attr("height", this.height);
+    this.svg = d3.select(".scatter").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
 
     // X-Axis
-    const xScale = d3.scaleLinear()
-      .domain([d3.min(data, d => d[DEFAULT_X]), d3.max(data, d => d[DEFAULT_X])])
-      .range([LEFT_MARGIN, this.width-RIGHT_MARGIN]);
+    const xScale = scaleX(data, DEFAULT_X)
 
     const xAxis = this.svg.append("g")
-      .attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`)
+      .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
       .call(d3.axisBottom(xScale));
 
     // Y-Axis
-    const yScale = d3.scaleLinear()
-      .domain([d3.min(data, d => d[DEFAULT_Y]), d3.max(data, d => d[DEFAULT_Y])])
-      .range([this.height-BOTTOM_MARGIN, TOP_MARGIN]);
+    const yScale = scaleY(data, DEFAULT_Y)
 
     const yAxis = this.svg.append("g")
       .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
@@ -53,7 +51,7 @@ export default class Plot {
       .attr("cx", d => xScale(d[DEFAULT_X]))
       .attr("cy", d => yScale(d[DEFAULT_Y]))
       .attr("r", 5)
-      .on("mouseenter", function(event, d) {
+      .on("mouseenter", (_, d) => {
         circlesLabel
           .style("visibility", "visible")
           .html(
@@ -67,13 +65,19 @@ export default class Plot {
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
 
       // Options for Year Select
-      const selectYear = d3.select(".year-select")
+      const yearSelect = d3.select(".year-select")
+      const yearOptions = yearSelect
         .selectAll("option")
         .data(YEARS)
         .enter()
         .append("option")
         .text(d => d)
-        .attr("value", d => d);
+        .attr("value", d => d)
+
+      yearSelect.on("change", (event) => {
+        console.log(event.target.value);
+      })
+
   }
 
 
