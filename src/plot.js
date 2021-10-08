@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { scaleX, scaleY, updateXAxis, updateYAxis } from "./update_utils";
+import { scaleX, scaleY, updateXAxis, updateYAxis, updateCirclesX, updateCirclesY } from "./update_utils";
 
 const WIDTH = 1000;
 const HEIGHT = 600;
@@ -21,8 +21,8 @@ export default class Plot {
   }
 
   buildScatter(allData) {
+    console.log(allData);
     const data = allData[DEFAULT_YEAR]
-    console.log(data);
 
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
@@ -76,6 +76,13 @@ export default class Plot {
 
       yearSelect.on("change", (event) => {
         console.log(event.target.value);
+        let newData = allData[event.target.value];
+        let newXScale = scaleX(newData, DEFAULT_X);
+        let newYScale = scaleY(newData, DEFAULT_Y);
+        updateXAxis(xAxis, newXScale);
+        updateYAxis(yAxis, newYScale);
+        updateCirclesX(circles, newXScale, DEFAULT_X);
+        updateCirclesY(circles, newYScale, DEFAULT_Y);
       })
 
   }

@@ -2,12 +2,6 @@ import * as d3 from "d3";
 
 const WIDTH = 1000;
 const HEIGHT = 600;
-const YEARS = [2021, 2020]
-const DEFAULT_YEAR = 2021
-const DEFAULT_Y = "PTS"
-const DEFAULT_X = "MP"
-const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
-const NAN_COLS = ["Player", "Pos", "Tm"]
 const BOTTOM_MARGIN = 30;
 const LEFT_MARGIN = 30;
 const TOP_MARGIN = 30;
@@ -31,4 +25,12 @@ export const updateXAxis = (axis, scale) => {
 
 export const updateYAxis = (axis, scale) => {
   return axis.call(d3.axisLeft(scale));
+}
+
+export const updateCirclesX = (circles, scale, column) => {
+  return circles.attr("cx", d => scale(d[column]))
+}
+
+export const updateCirclesY = (circles, scale, column) => {
+  return circles.attr("cy", d => scale(d[column]))
 }
