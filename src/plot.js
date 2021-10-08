@@ -46,7 +46,11 @@ export default class Plot {
       .on("mouseover", function(event, d) {
         circlesLabel
           .style("visibility", "visible")
-          .text(d["Player"].split("\\")[0])
+          .html(
+            `${d["Player"].split("\\")[0]}
+            ${DEFAULT_X}: ${d[DEFAULT_X]}
+            ${DEFAULT_Y}: ${d[DEFAULT_Y]}`
+            )
           .style("left", (xScale(d[DEFAULT_X]) - 35) + "px")
           .style("top", (yScale(d[DEFAULT_Y]) - 25) + "px")
       })
