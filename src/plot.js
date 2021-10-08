@@ -3,7 +3,7 @@ import { scaleX, scaleY, updateXAxis, updateYAxis, updateCirclesX, updateCircles
 
 const WIDTH = 1000;
 const HEIGHT = 600;
-const YEARS = [2021, 2020]
+const YEARS = [2020, 2021]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
@@ -117,7 +117,8 @@ export default class Plot {
         .enter()
         .append("option")
         .text(d => d)
-        .attr("value", d => d);
+        .attr("value", d => d)
+        .property("selected", d => d === DEFAULT_YEAR);
 
       yearSelect.on("change", (event) => {
         console.log(event.target.value);
