@@ -12,6 +12,7 @@ export default class Plot {
     this.svg = d3.select(".scatter").append("svg")
     this.data = {};
     this.getYear(2021);
+    this.getYear(2020);
   }
 
   buildScatter() {
