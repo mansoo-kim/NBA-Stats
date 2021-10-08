@@ -31,18 +31,21 @@ export default class Plot {
     this.svg = d3.select(".scatter").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
 
     // X-Axis
-    const xScale = scaleX(data, xStat)
+    const xScale = scaleX(data, xStat);
+    const xAxisF = scale => d3.axisBottom(scale).tickSize(-HEIGHT + TOP_MARGIN + BOTTOM_MARGIN);
 
     const xAxis = this.svg.append("g")
       .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
-      .call(d3.axisBottom(xScale));
+      .call(xAxisF(xScale));
+
 
     // Y-Axis
     const yScale = scaleY(data, yStat)
+    const yAxisF = scale => d3.axisLeft(scale).tickSize(-WIDTH + LEFT_MARGIN + RIGHT_MARGIN);
 
     const yAxis = this.svg.append("g")
       .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
-      .call(d3.axisLeft(yScale));
+      .call(yAxisF(yScale));
 
     // Hover text tooltips for circles
     const circlesLabel = d3.select(".tooltip")
@@ -86,7 +89,7 @@ export default class Plot {
         console.log(event.target.value);
         xStat = event.target.value;
         let newXScale = scaleX(data, xStat);
-        updateXAxis(xAxis, newXScale);
+        updateXAxis(xAxis, xAxisF, newXScale);
         updateCirclesX(circles, newXScale, xStat);
       })
 
@@ -105,7 +108,7 @@ export default class Plot {
         console.log(event.target.value);
         yStat = event.target.value;
         let newYScale = scaleY(data, yStat);
-        updateYAxis(yAxis, newYScale);
+        updateYAxis(yAxis, yAxisF, newYScale);
         updateCirclesY(circles, newYScale, yStat);
       })
 
@@ -125,8 +128,8 @@ export default class Plot {
         let newData = allData[event.target.value];
         let newXScale = scaleX(newData, xStat);
         let newYScale = scaleY(newData, yStat);
-        updateXAxis(xAxis, newXScale);
-        updateYAxis(yAxis, newYScale);
+        updateXAxis(xAxis, xAxisF, newXScale);
+        updateYAxis(yAxis, yAxisF, newYScale);
         console.log(circles);
         circles = this.svg.selectAll("circle").data(newData).enter().append("circle");
         console.log(circles);

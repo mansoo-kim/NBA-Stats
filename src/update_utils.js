@@ -9,22 +9,24 @@ const RIGHT_MARGIN = 30;
 
 export const scaleX = (data, column) => {
   return d3.scaleLinear()
-    .domain([d3.min(data, d => d[column]), d3.max(data, d => d[column])])
-    .range([LEFT_MARGIN, WIDTH-RIGHT_MARGIN]);
+    .domain(d3.extent(data, d => d[column]))
+    .range([LEFT_MARGIN, WIDTH-RIGHT_MARGIN])
+    .nice();
 }
 
 export const scaleY = (data, column) => {
   return d3.scaleLinear()
-    .domain([d3.min(data, d => d[column]), d3.max(data, d => d[column])])
-    .range([HEIGHT-BOTTOM_MARGIN, TOP_MARGIN]);
+    .domain(d3.extent(data, d => d[column]))
+    .range([HEIGHT-BOTTOM_MARGIN, TOP_MARGIN])
+    .nice();
 }
 
-export const updateXAxis = (axis, scale) => {
-  return axis.call(d3.axisBottom(scale));
+export const updateXAxis = (axis, f, scale) => {
+  return axis.call(f(scale));
 }
 
-export const updateYAxis = (axis, scale) => {
-  return axis.call(d3.axisLeft(scale));
+export const updateYAxis = (axis, f, scale) => {
+  return axis.call(f(scale));
 }
 
 export const updateCirclesX = (circles, scale, column) => {

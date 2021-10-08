@@ -1,6 +1,15 @@
 @import "styles/reset";
 
+body {
+  font-family: sans-serif;
+}
+
 .tooltip {
   display: flex;
   flex-direction: column;
+}
+
+circle {
+  opacity: 0.5;
+  fill: blue;
 }
