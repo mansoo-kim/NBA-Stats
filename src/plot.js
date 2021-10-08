@@ -34,7 +34,7 @@ export default class Plot {
     let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(d3.axisLeft(yScale));
 
     // Hover text tooltips for circles
-    let circlesLabel = d3.select(".scatter").append("div")
+    let circlesLabel = d3.select(".tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
@@ -43,16 +43,16 @@ export default class Plot {
       .attr("cx", d => xScale(d[DEFAULT_X]))
       .attr("cy", d => yScale(d[DEFAULT_Y]))
       .attr("r", 5)
-      .on("mouseover", function(event, d) {
+      .on("mouseenter", function(event, d) {
         circlesLabel
           .style("visibility", "visible")
           .html(
-            `${d["Player"].split("\\")[0]}
-            ${DEFAULT_X}: ${d[DEFAULT_X]}
-            ${DEFAULT_Y}: ${d[DEFAULT_Y]}`
+            `<strong>${d["Player"].split("\\")[0]}</strong>
+            <p>${DEFAULT_X}: ${d[DEFAULT_X]}</p>
+            <p>${DEFAULT_Y}: ${d[DEFAULT_Y]}</p>`
             )
           .style("left", (xScale(d[DEFAULT_X]) - 35) + "px")
-          .style("top", (yScale(d[DEFAULT_Y]) - 25) + "px")
+          .style("top", (yScale(d[DEFAULT_Y]) - 60) + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
 
