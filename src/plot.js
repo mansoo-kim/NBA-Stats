@@ -8,6 +8,8 @@ const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%"
 const NAN_COLS = ["Player", "Pos", "Tm"]
 const BOTTOM_MARGIN = 30;
 const LEFT_MARGIN = 30;
+const TOP_MARGIN = 30;
+const RIGHT_MARGIN = 30;
 
 export default class Plot {
 
@@ -23,17 +25,20 @@ export default class Plot {
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", this.width).attr("height", this.height);
 
-    d3.select()
-
     // X-Axis
-    let xScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width])
+    let xScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_X]), d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width-RIGHT_MARGIN])
     let bottomAxis = d3.axisBottom(xScale);
     let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(bottomAxis);
 
     // Y-Axis
-    let yScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, 0])
+    let yScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_Y]), d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, TOP_MARGIN])
     let leftAxis = d3.axisLeft(yScale);
     let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(leftAxis);
+
+    let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+      .attr("cx", d => xScale(d[DEFAULT_X]))
+      .attr("cy", d => yScale(d[DEFAULT_Y]))
+      .attr("r", 5)
   }
 
 
