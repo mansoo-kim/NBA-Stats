@@ -19,27 +19,27 @@ export default class Plot {
   }
 
   buildScatter(allData) {
-    let data = allData[DEFAULT_YEAR]
+    const data = allData[DEFAULT_YEAR]
     console.log(data);
 
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", this.width).attr("height", this.height);
 
     // X-Axis
-    let xScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_X]), d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width-RIGHT_MARGIN])
-    let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(d3.axisBottom(xScale));
+    const xScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_X]), d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width-RIGHT_MARGIN])
+    const xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(d3.axisBottom(xScale));
 
     // Y-Axis
-    let yScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_Y]), d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, TOP_MARGIN])
-    let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(d3.axisLeft(yScale));
+    const yScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_Y]), d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, TOP_MARGIN])
+    const yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(d3.axisLeft(yScale));
 
     // Hover text tooltips for circles
-    let circlesLabel = d3.select(".tooltip")
+    const circlesLabel = d3.select(".tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
     // Circles
-    let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+    const circles = this.svg.selectAll("circle").data(data).enter().append("circle")
       .attr("cx", d => xScale(d[DEFAULT_X]))
       .attr("cy", d => yScale(d[DEFAULT_Y]))
       .attr("r", 5)
@@ -51,12 +51,19 @@ export default class Plot {
             <p>${DEFAULT_X}: ${d[DEFAULT_X]}</p>
             <p>${DEFAULT_Y}: ${d[DEFAULT_Y]}</p>`
             )
-          .style("left", (xScale(d[DEFAULT_X]) - 35) + "px")
-          .style("top", (yScale(d[DEFAULT_Y]) - 60) + "px")
+          .style("left", (xScale(d[DEFAULT_X]) - 30) + "px")
+          .style("top", (yScale(d[DEFAULT_Y]) - 55) + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
 
-
+      // Change Year
+      const selectYear = d3.select(".year-select")
+        .selectAll("yearOptions")
+        .data(YEARS)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d);
   }
 
 
