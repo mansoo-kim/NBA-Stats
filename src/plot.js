@@ -6,6 +6,8 @@ const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
 const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
 const NAN_COLS = ["Player", "Pos", "Tm"]
+const BOTTOM_MARGIN = 30;
+const LEFT_MARGIN = 30;
 
 export default class Plot {
 
@@ -24,14 +26,14 @@ export default class Plot {
     d3.select()
 
     // X-Axis
-    let xScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_X])]).range([0, this.width])
+    let xScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width])
     let bottomAxis = d3.axisBottom(xScale);
-    let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height})`).call(bottomAxis);
+    let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(bottomAxis);
 
     // Y-Axis
-    let yScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_Y])]).range([this.height, 0])
+    let yScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, 0])
     let leftAxis = d3.axisLeft(yScale);
-    let yAxis = this.svg.append("g").call(leftAxis);
+    let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(leftAxis);
   }
 
 
