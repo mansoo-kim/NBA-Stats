@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 
 const YEARS = [2021, 2020]
+const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
 const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
@@ -14,15 +15,23 @@ export default class Plot {
   }
 
   buildScatter(allData) {
-    console.log(allData);
+    let data = allData[DEFAULT_YEAR]
+    console.log(data);
 
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", this.width).attr("height", this.height);
 
+    d3.select()
+
     // X-Axis
-    let bottomAxis = d3.axisBottom(d3.scaleLinear().domain([0, 40]).range([0, this.width]));
+    let xScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_X])]).range([0, this.width])
+    let bottomAxis = d3.axisBottom(xScale);
     let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height})`).call(bottomAxis);
 
+    // Y-Axis
+    let yScale = d3.scaleLinear().domain([0, d3.max(data, d => d[DEFAULT_Y])]).range([this.height, 0])
+    let leftAxis = d3.axisLeft(yScale);
+    let yAxis = this.svg.append("g").call(leftAxis);
   }
 
 
