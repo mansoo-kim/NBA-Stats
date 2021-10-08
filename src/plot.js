@@ -65,7 +65,7 @@ export default class Plot {
       })
       .on("mousemove", (event) => {
         circlesLabel
-          .style("left", event.pageX - 30 + "px")
+          .style("left", event.pageX - 35 + "px")
           .style("top", event.pageY - 55 + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
@@ -78,7 +78,9 @@ export default class Plot {
         .enter()
         .append("option")
         .text(d => d)
-        .attr("value", d => d);
+        .attr("value", d => d)
+        .property("selected", d => d === xStat);
+      console.log(xStat);
 
       xSelect.on("change", (event) => {
         console.log(event.target.value);
@@ -96,7 +98,8 @@ export default class Plot {
         .enter()
         .append("option")
         .text(d => d)
-        .attr("value", d => d);
+        .attr("value", d => d)
+        .property("selected", d => d === yStat);
 
       ySelect.on("change", (event) => {
         console.log(event.target.value);
