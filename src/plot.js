@@ -27,18 +27,32 @@ export default class Plot {
 
     // X-Axis
     let xScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_X]), d3.max(data, d => d[DEFAULT_X])]).range([LEFT_MARGIN, this.width-RIGHT_MARGIN])
-    let bottomAxis = d3.axisBottom(xScale);
-    let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(bottomAxis);
+    let xAxis = this.svg.append("g").attr("transform", `translate(0, ${this.height - BOTTOM_MARGIN})`).call(d3.axisBottom(xScale));
 
     // Y-Axis
     let yScale = d3.scaleLinear().domain([d3.min(data, d => d[DEFAULT_Y]), d3.max(data, d => d[DEFAULT_Y])]).range([this.height-BOTTOM_MARGIN, TOP_MARGIN])
-    let leftAxis = d3.axisLeft(yScale);
-    let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(leftAxis);
+    let yAxis = this.svg.append("g").attr("transform", `translate(${LEFT_MARGIN}, 0)`).call(d3.axisLeft(yScale));
 
+    // Hover text tooltips for circles
+    let circlesLabel = d3.select(".scatter").append("div")
+      .style("visibility", "hidden")
+      .style("position", "absolute");
+
+    // Circles
     let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
       .attr("cx", d => xScale(d[DEFAULT_X]))
       .attr("cy", d => yScale(d[DEFAULT_Y]))
       .attr("r", 5)
+      .on("mouseover", function(event, d) {
+        circlesLabel
+          .style("visibility", "visible")
+          .text(d["Player"].split("\\")[0])
+          .style("left", (xScale(d[DEFAULT_X]) - 35) + "px")
+          .style("top", (yScale(d[DEFAULT_Y]) - 25) + "px")
+      })
+      .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
+
+
   }
 
 
