@@ -124,6 +124,7 @@ export default class Plot {
         updateAxis(xGrid, xGridF, newXScale);
         updateAxis(xAxis, xAxisF, newXScale);
         updateCirclesX(circles, newXScale, xStat);
+        xLabel.text(xStat);
       })
 
       // Options for Y-axis
@@ -144,6 +145,7 @@ export default class Plot {
         updateAxis(yGrid, yGridF, newYScale);
         updateAxis(yAxis, yAxisF, newYScale);
         updateCirclesY(circles, newYScale, yStat);
+        yLabel.text(yStat);
       })
 
       // Options for Year Select
