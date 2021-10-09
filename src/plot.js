@@ -44,6 +44,14 @@ export default class Plot {
       .attr("class", "axis")
       .call(xAxisF(xScale));
 
+    const xLabel = xAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("x", WIDTH/2)
+      .attr("y", 40)
+      .attr('text-anchor', 'middle')
+      .attr("fill", "black")
+      .text(xStat)
+
     // Y-Axis
     const yScale = scaleY(data, yStat)
 
@@ -62,6 +70,15 @@ export default class Plot {
       .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yAxisF(yScale));
+
+    const yLabel = yAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -HEIGHT/2)
+      .attr("y", -30)
+      .attr('text-anchor', 'middle')
+      .attr("fill", "black")
+      .text(yStat)
 
     // Hover text tooltips for circles
     const circlesLabel = d3.select(".tooltip")
