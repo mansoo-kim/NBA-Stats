@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as Util from "./plot_utils";
 
-const YEARS = [2020, 2021]
+const YEARS = [2021, 2020, 2019, 2018]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
@@ -160,7 +160,7 @@ export default class Plot {
       .data(YEARS)
       .enter()
       .append("option")
-      .text(d => d)
+      .text(d => `${d-1} - ${d}`)
       .attr("value", d => d)
       .property("selected", d => d === year);
 
