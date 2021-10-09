@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { scaleX, scaleY, updateXAxis, updateYAxis, updateCirclesX, updateCirclesY } from "./update_utils";
+import { scaleX, scaleY, updateAxis, updateCirclesX, updateCirclesY } from "./update_utils";
 import { WIDTH, HEIGHT, BOTTOM_MARGIN, LEFT_MARGIN, TOP_MARGIN, RIGHT_MARGIN} from "./constants";
 
 const YEARS = [2020, 2021]
@@ -56,7 +56,7 @@ export default class Plot {
       .attr("class", "axis")
       .call(yGridF(yScale));
 
-    const yAxisF = scale => d3.axisLeft(scale).tickSize(10)
+    const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
 
     const yAxis = this.svg.append("g")
       .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
@@ -104,8 +104,8 @@ export default class Plot {
         console.log(event.target.value);
         xStat = event.target.value;
         let newXScale = scaleX(data, xStat);
-        updateXAxis(xGrid, xGridF, newXScale);
-        updateXAxis(xAxis, xAxisF, newXScale);
+        updateAxis(xGrid, xGridF, newXScale);
+        updateAxis(xAxis, xAxisF, newXScale);
         updateCirclesX(circles, newXScale, xStat);
       })
 
@@ -124,8 +124,8 @@ export default class Plot {
         console.log(event.target.value);
         yStat = event.target.value;
         let newYScale = scaleY(data, yStat);
-        updateYAxis(yGrid, yGridF, newYScale);
-        updateYAxis(yAxis, yAxisF, newYScale);
+        updateAxis(yGrid, yGridF, newYScale);
+        updateAxis(yAxis, yAxisF, newYScale);
         updateCirclesY(circles, newYScale, yStat);
       })
 
@@ -145,8 +145,10 @@ export default class Plot {
         let newData = allData[event.target.value];
         let newXScale = scaleX(newData, xStat);
         let newYScale = scaleY(newData, yStat);
-        updateXAxis(xAxis, xAxisF, newXScale);
-        updateYAxis(yAxis, yAxisF, newYScale);
+        updateAxis(xGrid, xGridF, newXScale);
+        updateAxis(yGrid, yGridF, newYScale);
+        updateAxis(xAxis, xAxisF, newXScale);
+        updateAxis(yAxis, yAxisF, newYScale);
         console.log(circles);
         circles = this.svg.selectAll("circle").data(newData).enter().append("circle");
         console.log(circles);

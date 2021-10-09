@@ -16,11 +16,7 @@ export const scaleY = (data, column) => {
     .nice();
 }
 
-export const updateXAxis = (axis, f, scale) => {
-  return axis.call(f(scale));
-}
-
-export const updateYAxis = (axis, f, scale) => {
+export const updateAxis = (axis, f, scale) => {
   return axis.call(f(scale));
 }
 
