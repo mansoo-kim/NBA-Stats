@@ -1,6 +1,5 @@
 import * as d3 from "d3";
-import { scaleX, scaleY, updateAxis, updateCirclesX, updateCirclesY } from "./update_utils";
-import { WIDTH, HEIGHT, BOTTOM_MARGIN, LEFT_MARGIN, TOP_MARGIN, RIGHT_MARGIN} from "./constants";
+import * as Util from "./plot_utils";
 
 const YEARS = [2020, 2021]
 const DEFAULT_YEAR = 2021
@@ -23,58 +22,58 @@ export default class Plot {
     let yStat = DEFAULT_Y;
 
     // SVG
-    this.svg = d3.select(".scatter").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
+    this.svg = d3.select(".scatter").append("svg").attr("width", Util.WIDTH).attr("height", Util.HEIGHT);
 
     // X-Axis
-    const xScale = scaleX(data, xStat);
+    const xScale = Util.scaleX(data, xStat);
 
     const xGridF = scale => d3.axisBottom(scale)
-      .tickSize(-HEIGHT + TOP_MARGIN + BOTTOM_MARGIN)
+      .tickSize(-Util.HEIGHT + Util.TOP_MARGIN + Util.BOTTOM_MARGIN)
       .tickFormat("");
 
     const xGrid = this.svg.append("g")
-      .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
+      .attr("transform", `translate(0, ${Util.HEIGHT - Util.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xGridF(xScale));
 
     const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
 
     const xAxis = this.svg.append("g")
-      .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
+      .attr("transform", `translate(0, ${Util.HEIGHT - Util.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xAxisF(xScale));
 
     const xLabel = xAxis.append("text")
       .attr("class", "axis-label")
-      .attr("x", WIDTH/2)
+      .attr("x", Util.WIDTH/2)
       .attr("y", 40)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
       .text(xStat)
 
     // Y-Axis
-    const yScale = scaleY(data, yStat)
+    const yScale = Util.scaleY(data, yStat)
 
     const yGridF = scale => d3.axisLeft(scale)
-      .tickSize(-WIDTH + LEFT_MARGIN + RIGHT_MARGIN)
+      .tickSize(-Util.WIDTH + Util.LEFT_MARGIN + Util.RIGHT_MARGIN)
       .tickFormat("");
 
     const yGrid = this.svg.append("g")
-      .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
+      .attr("transform", `translate(${Util.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yGridF(yScale));
 
     const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
 
     const yAxis = this.svg.append("g")
-      .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
+      .attr("transform", `translate(${Util.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yAxisF(yScale));
 
     const yLabel = yAxis.append("text")
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
-      .attr("x", -HEIGHT/2)
+      .attr("x", -Util.HEIGHT/2)
       .attr("y", -30)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
@@ -120,10 +119,10 @@ export default class Plot {
       xSelect.on("change", (event) => {
         console.log(event.target.value);
         xStat = event.target.value;
-        let newXScale = scaleX(data, xStat);
-        updateAxis(xGrid, xGridF, newXScale);
-        updateAxis(xAxis, xAxisF, newXScale);
-        updateCirclesX(circles, newXScale, xStat);
+        let newXScale = Util.scaleX(data, xStat);
+        Util.updateAxis(xGrid, xGridF, newXScale);
+        Util.updateAxis(xAxis, xAxisF, newXScale);
+        Util.updateCirclesX(circles, newXScale, xStat);
         xLabel.text(xStat);
       })
 
@@ -141,10 +140,10 @@ export default class Plot {
       ySelect.on("change", (event) => {
         console.log(event.target.value);
         yStat = event.target.value;
-        let newYScale = scaleY(data, yStat);
-        updateAxis(yGrid, yGridF, newYScale);
-        updateAxis(yAxis, yAxisF, newYScale);
-        updateCirclesY(circles, newYScale, yStat);
+        let newYScale = Util.scaleY(data, yStat);
+        Util.updateAxis(yGrid, yGridF, newYScale);
+        Util.updateAxis(yAxis, yAxisF, newYScale);
+        Util.updateCirclesY(circles, newYScale, yStat);
         yLabel.text(yStat);
       })
 
