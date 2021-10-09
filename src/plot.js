@@ -20,12 +20,13 @@ export default class Plot {
     let data = allData[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
+    let year = DEFAULT_YEAR;
 
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", Util.WIDTH).attr("height", Util.HEIGHT);
 
     // X-Axis
-    const xScale = Util.scaleX(data, xStat);
+    let xScale = Util.scaleX(data, xStat);
 
     const xGridF = scale => d3.axisBottom(scale)
       .tickSize(-Util.HEIGHT + Util.TOP_MARGIN + Util.BOTTOM_MARGIN)
@@ -52,7 +53,7 @@ export default class Plot {
       .text(xStat)
 
     // Y-Axis
-    const yScale = Util.scaleY(data, yStat)
+    let yScale = Util.scaleY(data, yStat)
 
     const yGridF = scale => d3.axisLeft(scale)
       .tickSize(-Util.WIDTH + Util.LEFT_MARGIN + Util.RIGHT_MARGIN)
@@ -119,10 +120,10 @@ export default class Plot {
       xSelect.on("change", (event) => {
         console.log(event.target.value);
         xStat = event.target.value;
-        let newXScale = Util.scaleX(data, xStat);
-        Util.updateAxis(xGrid, xGridF, newXScale);
-        Util.updateAxis(xAxis, xAxisF, newXScale);
-        Util.updateCirclesX(circles, newXScale, xStat);
+        xScale = Util.scaleX(data, xStat);
+        Util.updateAxis(xGrid, xGridF, xScale);
+        Util.updateAxis(xAxis, xAxisF, xScale);
+        Util.updateCirclesX(circles, xScale, xStat);
         xLabel.text(xStat);
       })
 
@@ -140,10 +141,10 @@ export default class Plot {
       ySelect.on("change", (event) => {
         console.log(event.target.value);
         yStat = event.target.value;
-        let newYScale = Util.scaleY(data, yStat);
-        Util.updateAxis(yGrid, yGridF, newYScale);
-        Util.updateAxis(yAxis, yAxisF, newYScale);
-        Util.updateCirclesY(circles, newYScale, yStat);
+        yScale = Util.scaleY(data, yStat);
+        Util.updateAxis(yGrid, yGridF, yScale);
+        Util.updateAxis(yAxis, yAxisF, yScale);
+        Util.updateCirclesY(circles, yScale, yStat);
         yLabel.text(yStat);
       })
 
@@ -156,25 +157,41 @@ export default class Plot {
         .append("option")
         .text(d => d)
         .attr("value", d => d)
-        .property("selected", d => d === DEFAULT_YEAR);
+        .property("selected", d => d === year);
 
       yearSelect.on("change", (event) => {
         console.log(event.target.value);
-        let newData = allData[event.target.value];
-        let newXScale = scaleX(newData, xStat);
-        let newYScale = scaleY(newData, yStat);
-        updateAxis(xGrid, xGridF, newXScale);
-        updateAxis(yGrid, yGridF, newYScale);
-        updateAxis(xAxis, xAxisF, newXScale);
-        updateAxis(yAxis, yAxisF, newYScale);
+        data = allData[event.target.value];
+        xScale = Util.scaleX(data, xStat);
+        yScale = Util.scaleY(data, yStat);
+        Util.updateAxis(xGrid, xGridF, xScale);
+        Util.updateAxis(yGrid, yGridF, yScale);
+        Util.updateAxis(xAxis, xAxisF, xScale);
+        Util.updateAxis(yAxis, yAxisF, yScale);
         console.log(circles);
-        circles = this.svg.selectAll("circle").data(newData).enter().append("circle");
-        console.log(circles);
-        updateCirclesX(circles, newXScale, xStat);
-        console.log(circles);
-        updateCirclesY(circles, newYScale, yStat);
-        console.log(circles);
+        circles.remove();
+        circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+          .attr("cx", d => xScale(d[xStat]))
+          .attr("cy", d => yScale(d[yStat]))
+          .attr("r", 5)
+          .on("mouseenter", (_, d) => {
+            circlesLabel
+            .style("visibility", "visible")
+            .html(
+              `<strong>${d["Player"].split("\\")[0]}</strong>
+              <p>${yStat}: ${d[yStat]}</p>
+              <p>${xStat}: ${d[xStat]}</p>`
+            )
+          })
+          .on("mousemove", (event) => {
+            circlesLabel
+              .style("left", event.pageX - 35 + "px")
+              .style("top", event.pageY - 55 + "px")
+          })
+          .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
+          console.log(circles);
       })
+
 
   }
 
