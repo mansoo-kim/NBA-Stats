@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as Util from "./plot_utils";
 
-const YEARS = [2021, 2020, 2019, 2018]
+const YEARS = [2021, 2020, 2019, 2018, 2017]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
@@ -16,10 +16,9 @@ export default class Plot {
     this.getStats();
   }
 
-  buildScatter(allYears, allStars) {
+  buildScatter(allYears) {
     console.log(allYears);
     let data = allYears[DEFAULT_YEAR]
-    let stars = allStars[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
     let aStat = DEFAULT_A;
@@ -97,7 +96,7 @@ export default class Plot {
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
       .attr("r", d => aScale(Math.sqrt(d[aStat])))
-      .attr("class", d => stars.includes(d["Player"]) ? "all-star" : null)
+      .attr("class", d => d["All-Star"] === "true" ? "all-star" : null)
       .on("mouseenter", (_, d) => {
         circlesLabel
         .style("visibility", "visible")
@@ -193,8 +192,6 @@ export default class Plot {
     yearSelect.on("change", (event) => {
       console.log(event.target.value);
       data = allYears[event.target.value];
-      stars = allStars[event.target.value];
-      console.log(stars);
       xScale = Util.scaleX(data, xStat);
       yScale = Util.scaleY(data, yStat);
       aScale = Util.scaleA(data, aStat);
@@ -207,11 +204,10 @@ export default class Plot {
     })
   }
 
-
   async getStats() {
     const allYears = {};
     for (let year of YEARS) {
-      let data = await d3.csv(`src/data/${year-1}-${year}-per-game.csv`);
+      let data = await d3.csv(`src/data/${year-1}-${year}-stats.csv`);
       for (let datum of data) {
           for (let col of COL_NAMES) {
             if (!NAN_COLS.includes(col)) datum[col] = +datum[col]
@@ -221,8 +217,6 @@ export default class Plot {
         allYears[year] = data;
     }
 
-    const allStars = await d3.json('src/data/all-stars.json');
-
-    this.buildScatter(allYears, allStars);
+    this.buildScatter(allYears);
   }
 }
