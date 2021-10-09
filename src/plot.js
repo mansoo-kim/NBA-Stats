@@ -110,8 +110,8 @@ export default class Plot {
       })
       .on("mousemove", (event) => {
         circlesLabel
-          .style("left", event.pageX - 35 + "px")
-          .style("top", event.pageY - 65 + "px")
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 30 + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
     }
@@ -197,6 +197,7 @@ export default class Plot {
       console.log(stars);
       xScale = Util.scaleX(data, xStat);
       yScale = Util.scaleY(data, yStat);
+      aScale = Util.scaleA(data, aStat);
       Util.updateAxis(xGrid, xGridF, xScale);
       Util.updateAxis(yGrid, yGridF, yScale);
       Util.updateAxis(xAxis, xAxisF, xScale);
