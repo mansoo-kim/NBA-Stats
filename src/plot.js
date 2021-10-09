@@ -5,6 +5,7 @@ const YEARS = [2021, 2020, 2019, 2018]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
+const DEFAULT_A = "FGA" // A for Area
 const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
 const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
 const NAN_COLS = ["Player", "Pos", "Tm"]
@@ -21,6 +22,7 @@ export default class Plot {
     let stars = allStars[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
+    let aStat = DEFAULT_A;
     let year = DEFAULT_YEAR;
 
     // SVG
@@ -81,6 +83,9 @@ export default class Plot {
       .attr("fill", "black")
       .text(yStat)
 
+    // Area for Circles
+    let aScale = Util.scaleA(data, aStat);
+
     // Hover text tooltip for circles
     const circlesLabel = d3.select(".tooltip")
       .style("visibility", "hidden")
@@ -91,7 +96,7 @@ export default class Plot {
       return this.svg.selectAll("circle").data(data).enter().append("circle")
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
-      .attr("r", 5)
+      .attr("r", d => aScale(Math.sqrt(d[aStat])))
       .attr("class", d => stars.includes(d["Player"]) ? "all-star" : null)
       .on("mouseenter", (_, d) => {
         circlesLabel
@@ -99,13 +104,14 @@ export default class Plot {
         .html(
           `<strong>${d["Player"]}</strong>
           <p>${yStat}: ${d[yStat]}</p>
-          <p>${xStat}: ${d[xStat]}</p>`
+          <p>${xStat}: ${d[xStat]}</p>
+          <p>${aStat}: ${d[aStat]}</p>`
         )
       })
       .on("mousemove", (event) => {
         circlesLabel
           .style("left", event.pageX - 35 + "px")
-          .style("top", event.pageY - 55 + "px")
+          .style("top", event.pageY - 65 + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
     }
@@ -153,6 +159,24 @@ export default class Plot {
       Util.updateAxis(yAxis, yAxisF, yScale);
       Util.updateCirclesY(circles, yScale, yStat);
       yLabel.text(yStat);
+    })
+
+    // Options for Area
+    const aSelect = d3.select(".a-select")
+    const aOptions = aSelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === aStat);
+
+    aSelect.on("change", (event) => {
+      console.log(event.target.value);
+      aStat = event.target.value;
+      aScale = Util.scaleA(data, aStat);
+      Util.updateCirclesA(circles, aScale, aStat);
     })
 
     // Options for Year Select

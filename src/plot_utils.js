@@ -21,14 +21,24 @@ export const scaleY = (data, column) => {
     .nice();
 }
 
+export const scaleA = (data, column) => {
+  return d3.scaleLinear()
+    .domain(d3.extent(data, d => Math.sqrt(d[column])))
+    .range([2, 10]);
+}
+
 export const updateAxis = (axis, f, scale) => {
   return axis.call(f(scale));
 }
 
 export const updateCirclesX = (circles, scale, column) => {
-  return circles.attr("cx", d => scale(d[column]))
+  return circles.attr("cx", d => scale(d[column]));
 }
 
 export const updateCirclesY = (circles, scale, column) => {
-  return circles.attr("cy", d => scale(d[column]))
+  return circles.attr("cy", d => scale(d[column]));
+}
+
+export const updateCirclesA = (circles, scale, column) => {
+  return circles.attr("r", d => scale(Math.sqrt(d[column])));
 }
