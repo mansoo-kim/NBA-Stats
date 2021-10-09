@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 
-years = [2021]
+years = [2021, 2020, 2019, 2018, 2017]
 
 with open('all-stars.json') as json_data:
     all_stars_dict = json.load(json_data)
@@ -25,4 +25,4 @@ for year in years:
     merged.loc[merged['Player'].isin(all_stars_dict[str(year)]), "All-Star"] = "true"
 
     # Save the combined stats to csv
-    merged.to_csv("{}-{}-stats.csv".format(year-1, year), index=False)
+    merged.to_csv("../{}-{}-stats.csv".format(year-1, year), index=False)
