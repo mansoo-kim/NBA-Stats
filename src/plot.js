@@ -5,10 +5,9 @@ const YEARS = [2021, 2020, 2019, 2018, 2017]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
 const DEFAULT_X = "MP"
-const DEFAULT_A = "FGA" // A for Area
-const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
-const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
-const NAN_COLS = ["Player", "Pos", "Tm"]
+const DEFAULT_A = "VORP" // A for Area
+const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"]
+// const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
 
 export default class Plot {
 
@@ -96,7 +95,7 @@ export default class Plot {
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
       .attr("r", d => aScale(Math.sqrt(d[aStat])))
-      .attr("class", d => d["All-Star"] === "true" ? "all-star" : null)
+      .attr("class", d => d["All-Star"] === true ? "all-star" : null)
       .on("mouseenter", (_, d) => {
         circlesLabel
         .style("visibility", "visible")
@@ -209,10 +208,10 @@ export default class Plot {
     for (let year of YEARS) {
       let data = await d3.csv(`src/data/${year-1}-${year}-stats.csv`);
       for (let datum of data) {
-          for (let col of COL_NAMES) {
-            if (!NAN_COLS.includes(col)) datum[col] = +datum[col]
+          for (let col of DISPLAYABLE_COLS) {
+            datum[col] = +datum[col]
           }
-          datum["Player"] = datum["Player"].split("\\")[0]
+          datum["All-Star"] = (datum["All-Star"] === "true");
         }
         allYears[year] = data;
     }

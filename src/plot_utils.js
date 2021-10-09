@@ -24,7 +24,7 @@ export const scaleY = (data, column) => {
 export const scaleA = (data, column) => {
   return d3.scaleLinear()
     .domain(d3.extent(data, d => Math.sqrt(d[column])))
-    .range([2, 10]);
+    .range([3, 13]);
 }
 
 export const updateAxis = (axis, f, scale) => {

@@ -12,7 +12,7 @@ for year in years:
     advanced = pd.read_csv("{}-{}-advanced.csv".format(year-1, year))
 
     # Drop duplicate/unecessary columns in advanced csv
-    advanced.drop(['Rk', 'Pos', 'Age', 'Tm', 'MP', 'Unnamed: 19', 'Unnamed: 24'], axis=1, inplace=True)
+    advanced.drop(['Rk', 'Pos', 'Age', 'Tm', 'G', 'MP', 'Unnamed: 19', 'Unnamed: 24'], axis=1, inplace=True)
 
     # Merge/Join two csvs
     merged = per_game.merge(advanced, on="Player")
