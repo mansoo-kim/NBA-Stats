@@ -169,6 +169,8 @@ export default class Plot {
     yearSelect.on("change", (event) => {
       console.log(event.target.value);
       data = allYears[event.target.value];
+      stars = allStars[event.target.value];
+      console.log(stars);
       xScale = Util.scaleX(data, xStat);
       yScale = Util.scaleY(data, yStat);
       Util.updateAxis(xGrid, xGridF, xScale);
