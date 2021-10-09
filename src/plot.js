@@ -80,13 +80,14 @@ export default class Plot {
       .attr("fill", "black")
       .text(yStat)
 
-    // Hover text tooltips for circles
+    // Hover text tooltip for circles
     const circlesLabel = d3.select(".tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
-    // Circles
-    let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+    // Create circles
+    const createNewCircles = () => {
+      return this.svg.selectAll("circle").data(data).enter().append("circle")
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
       .attr("r", 5)
@@ -105,94 +106,76 @@ export default class Plot {
           .style("top", event.pageY - 55 + "px")
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
+    }
 
-      // Options for X-axis
-      const xSelect = d3.select(".x-select")
-      const xOptions = xSelect
-        .selectAll("option")
-        .data(DISPLAYABLE_COLS)
-        .enter()
-        .append("option")
-        .text(d => d)
-        .attr("value", d => d)
-        .property("selected", d => d === xStat);
+    // Circles
+    let circles = createNewCircles();
 
-      xSelect.on("change", (event) => {
-        console.log(event.target.value);
-        xStat = event.target.value;
-        xScale = Util.scaleX(data, xStat);
-        Util.updateAxis(xGrid, xGridF, xScale);
-        Util.updateAxis(xAxis, xAxisF, xScale);
-        Util.updateCirclesX(circles, xScale, xStat);
-        xLabel.text(xStat);
-      })
+    // Options for X-axis
+    const xSelect = d3.select(".x-select")
+    const xOptions = xSelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === xStat);
 
-      // Options for Y-axis
-      const ySelect = d3.select(".y-select")
-      const yOptions = ySelect
-        .selectAll("option")
-        .data(DISPLAYABLE_COLS)
-        .enter()
-        .append("option")
-        .text(d => d)
-        .attr("value", d => d)
-        .property("selected", d => d === yStat);
+    xSelect.on("change", (event) => {
+      console.log(event.target.value);
+      xStat = event.target.value;
+      xScale = Util.scaleX(data, xStat);
+      Util.updateAxis(xGrid, xGridF, xScale);
+      Util.updateAxis(xAxis, xAxisF, xScale);
+      Util.updateCirclesX(circles, xScale, xStat);
+      xLabel.text(xStat);
+    })
 
-      ySelect.on("change", (event) => {
-        console.log(event.target.value);
-        yStat = event.target.value;
-        yScale = Util.scaleY(data, yStat);
-        Util.updateAxis(yGrid, yGridF, yScale);
-        Util.updateAxis(yAxis, yAxisF, yScale);
-        Util.updateCirclesY(circles, yScale, yStat);
-        yLabel.text(yStat);
-      })
+    // Options for Y-axis
+    const ySelect = d3.select(".y-select")
+    const yOptions = ySelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === yStat);
 
-      // Options for Year Select
-      const yearSelect = d3.select(".year-select")
-      const yearOptions = yearSelect
-        .selectAll("option")
-        .data(YEARS)
-        .enter()
-        .append("option")
-        .text(d => d)
-        .attr("value", d => d)
-        .property("selected", d => d === year);
+    ySelect.on("change", (event) => {
+      console.log(event.target.value);
+      yStat = event.target.value;
+      yScale = Util.scaleY(data, yStat);
+      Util.updateAxis(yGrid, yGridF, yScale);
+      Util.updateAxis(yAxis, yAxisF, yScale);
+      Util.updateCirclesY(circles, yScale, yStat);
+      yLabel.text(yStat);
+    })
 
-      yearSelect.on("change", (event) => {
-        console.log(event.target.value);
-        data = allData[event.target.value];
-        xScale = Util.scaleX(data, xStat);
-        yScale = Util.scaleY(data, yStat);
-        Util.updateAxis(xGrid, xGridF, xScale);
-        Util.updateAxis(yGrid, yGridF, yScale);
-        Util.updateAxis(xAxis, xAxisF, xScale);
-        Util.updateAxis(yAxis, yAxisF, yScale);
-        console.log(circles);
-        circles.remove();
-        circles = this.svg.selectAll("circle").data(data).enter().append("circle")
-          .attr("cx", d => xScale(d[xStat]))
-          .attr("cy", d => yScale(d[yStat]))
-          .attr("r", 5)
-          .on("mouseenter", (_, d) => {
-            circlesLabel
-            .style("visibility", "visible")
-            .html(
-              `<strong>${d["Player"].split("\\")[0]}</strong>
-              <p>${yStat}: ${d[yStat]}</p>
-              <p>${xStat}: ${d[xStat]}</p>`
-            )
-          })
-          .on("mousemove", (event) => {
-            circlesLabel
-              .style("left", event.pageX - 35 + "px")
-              .style("top", event.pageY - 55 + "px")
-          })
-          .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
-          console.log(circles);
-      })
+    // Options for Year Select
+    const yearSelect = d3.select(".year-select")
+    const yearOptions = yearSelect
+      .selectAll("option")
+      .data(YEARS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === year);
 
-
+    yearSelect.on("change", (event) => {
+      console.log(event.target.value);
+      data = allData[event.target.value];
+      xScale = Util.scaleX(data, xStat);
+      yScale = Util.scaleY(data, yStat);
+      Util.updateAxis(xGrid, xGridF, xScale);
+      Util.updateAxis(yGrid, yGridF, yScale);
+      Util.updateAxis(xAxis, xAxisF, xScale);
+      Util.updateAxis(yAxis, yAxisF, yScale);
+      circles.remove();
+      circles = createNewCircles();
+    })
   }
 
 
