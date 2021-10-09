@@ -15,9 +15,10 @@ export default class Plot {
     this.getStats();
   }
 
-  buildScatter(allData) {
-    console.log(allData);
-    let data = allData[DEFAULT_YEAR]
+  buildScatter(allYears, allStars) {
+    console.log(allYears);
+    let data = allYears[DEFAULT_YEAR]
+    let stars = allStars[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
     let year = DEFAULT_YEAR;
@@ -91,11 +92,12 @@ export default class Plot {
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
       .attr("r", 5)
+      .attr("class", d => stars.includes(d["Player"]) ? "all-star" : null)
       .on("mouseenter", (_, d) => {
         circlesLabel
         .style("visibility", "visible")
         .html(
-          `<strong>${d["Player"].split("\\")[0]}</strong>
+          `<strong>${d["Player"]}</strong>
           <p>${yStat}: ${d[yStat]}</p>
           <p>${xStat}: ${d[xStat]}</p>`
         )
@@ -166,7 +168,7 @@ export default class Plot {
 
     yearSelect.on("change", (event) => {
       console.log(event.target.value);
-      data = allData[event.target.value];
+      data = allYears[event.target.value];
       xScale = Util.scaleX(data, xStat);
       yScale = Util.scaleY(data, yStat);
       Util.updateAxis(xGrid, xGridF, xScale);
@@ -180,17 +182,20 @@ export default class Plot {
 
 
   async getStats() {
-    let allData = {}
+    const allYears = {};
     for (let year of YEARS) {
       let data = await d3.csv(`src/data/${year-1}-${year}-per-game.csv`);
       for (let datum of data) {
           for (let col of COL_NAMES) {
             if (!NAN_COLS.includes(col)) datum[col] = +datum[col]
           }
+          datum["Player"] = datum["Player"].split("\\")[0]
         }
-      allData[year] = data;
+        allYears[year] = data;
     }
 
-    this.buildScatter(allData);
+    const allStars = await d3.json('src/data/all-stars.json');
+
+    this.buildScatter(allYears, allStars);
   }
 }
