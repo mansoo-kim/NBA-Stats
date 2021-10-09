@@ -1,11 +1,6 @@
 import * as d3 from "d3";
+import { WIDTH, HEIGHT, BOTTOM_MARGIN, LEFT_MARGIN, TOP_MARGIN, RIGHT_MARGIN} from "./constants";
 
-const WIDTH = 1000;
-const HEIGHT = 600;
-const BOTTOM_MARGIN = 30;
-const LEFT_MARGIN = 30;
-const TOP_MARGIN = 30;
-const RIGHT_MARGIN = 30;
 
 export const scaleX = (data, column) => {
   return d3.scaleLinear()

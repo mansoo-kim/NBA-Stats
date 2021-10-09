@@ -10,6 +10,14 @@ body {
 }
 
 circle {
-  opacity: 0.5;
-  fill: blue;
+  opacity: 0.8;
+  fill: lightblue;
+}
+
+.tick line {
+  stroke: lightgray;
+}
+
+.axis path {
+  stroke: lightgray;
 }

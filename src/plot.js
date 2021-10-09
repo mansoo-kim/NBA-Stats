@@ -1,8 +1,7 @@
 import * as d3 from "d3";
 import { scaleX, scaleY, updateXAxis, updateYAxis, updateCirclesX, updateCirclesY } from "./update_utils";
+import { WIDTH, HEIGHT, BOTTOM_MARGIN, LEFT_MARGIN, TOP_MARGIN, RIGHT_MARGIN} from "./constants";
 
-const WIDTH = 1000;
-const HEIGHT = 600;
 const YEARS = [2020, 2021]
 const DEFAULT_YEAR = 2021
 const DEFAULT_Y = "PTS"
@@ -10,10 +9,6 @@ const DEFAULT_X = "MP"
 const COL_NAMES = ["Rk","Player","Pos","Age","Tm","G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
 const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS"]
 const NAN_COLS = ["Player", "Pos", "Tm"]
-const BOTTOM_MARGIN = 30;
-const LEFT_MARGIN = 30;
-const TOP_MARGIN = 30;
-const RIGHT_MARGIN = 30;
 
 export default class Plot {
 
@@ -32,19 +27,40 @@ export default class Plot {
 
     // X-Axis
     const xScale = scaleX(data, xStat);
-    const xAxisF = scale => d3.axisBottom(scale).tickSize(-HEIGHT + TOP_MARGIN + BOTTOM_MARGIN);
+
+    const xGridF = scale => d3.axisBottom(scale)
+      .tickSize(-HEIGHT + TOP_MARGIN + BOTTOM_MARGIN)
+      .tickFormat("");
+
+    const xGrid = this.svg.append("g")
+      .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
+      .attr("class", "axis")
+      .call(xGridF(xScale));
+
+    const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
 
     const xAxis = this.svg.append("g")
       .attr("transform", `translate(0, ${HEIGHT - BOTTOM_MARGIN})`)
+      .attr("class", "axis")
       .call(xAxisF(xScale));
-
 
     // Y-Axis
     const yScale = scaleY(data, yStat)
-    const yAxisF = scale => d3.axisLeft(scale).tickSize(-WIDTH + LEFT_MARGIN + RIGHT_MARGIN);
+
+    const yGridF = scale => d3.axisLeft(scale)
+      .tickSize(-WIDTH + LEFT_MARGIN + RIGHT_MARGIN)
+      .tickFormat("");
+
+    const yGrid = this.svg.append("g")
+      .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
+      .call(yGridF(yScale));
+
+    const yAxisF = scale => d3.axisLeft(scale).tickSize(10)
 
     const yAxis = this.svg.append("g")
       .attr("transform", `translate(${LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
       .call(yAxisF(yScale));
 
     // Hover text tooltips for circles
@@ -83,12 +99,12 @@ export default class Plot {
         .text(d => d)
         .attr("value", d => d)
         .property("selected", d => d === xStat);
-      console.log(xStat);
 
       xSelect.on("change", (event) => {
         console.log(event.target.value);
         xStat = event.target.value;
         let newXScale = scaleX(data, xStat);
+        updateXAxis(xGrid, xGridF, newXScale);
         updateXAxis(xAxis, xAxisF, newXScale);
         updateCirclesX(circles, newXScale, xStat);
       })
@@ -108,6 +124,7 @@ export default class Plot {
         console.log(event.target.value);
         yStat = event.target.value;
         let newYScale = scaleY(data, yStat);
+        updateYAxis(yGrid, yGridF, newYScale);
         updateYAxis(yAxis, yAxisF, newYScale);
         updateCirclesY(circles, newYScale, yStat);
       })
