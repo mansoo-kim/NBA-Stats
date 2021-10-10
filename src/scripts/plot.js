@@ -2,11 +2,11 @@ import * as d3 from "d3";
 import * as Util from "./plot_utils";
 
 const YEARS = [2021, 2020, 2019, 2018, 2017]
-const DEFAULT_YEAR = 2020
-const DEFAULT_Y = "PTS"
-const DEFAULT_X = "MP"
-const DEFAULT_A = "VORP" // A for Area
-const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"]
+const DEFAULT_YEAR = 2021;
+const DEFAULT_Y = "PTS";
+const DEFAULT_X = "MP";
+const DEFAULT_A = "VORP";
+const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"];
 // const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
 
 export default class Plot {
@@ -51,7 +51,7 @@ export default class Plot {
       .attr("y", 40)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
-      .text(xStat)
+      .text(xStat);
 
     // Y-Axis
     let yScale = Util.scaleY(data, yStat)
@@ -79,7 +79,7 @@ export default class Plot {
       .attr("y", -30)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
-      .text(yStat)
+      .text(yStat);
 
     // Area for Circles
     let aScale = Util.scaleA(data, aStat);
@@ -99,12 +99,12 @@ export default class Plot {
           <p>${yStat}: ${d[yStat]}</p>
           <p>${xStat}: ${d[xStat]}</p>
           <p>${aStat}: ${d[aStat]}</p>`
-        )
+        );
       })
       .on("mousemove", (event) => {
         circlesLabel
           .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 30 + "px")
+          .style("top", event.pageY - 30 + "px");
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"))
       .attr("cx", d => xScale(d[xStat]))
@@ -113,7 +113,7 @@ export default class Plot {
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
     // Options for X-axis
-    const xSelect = d3.select(".x-select")
+    const xSelect = d3.select(".x-select");
     const xOptions = xSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -131,10 +131,10 @@ export default class Plot {
       Util.updateAxis(xAxis, xAxisF, xScale);
       Util.updateCirclesX(circles, xScale, xStat);
       xLabel.text(xStat);
-    })
+    });
 
     // Options for Y-axis
-    const ySelect = d3.select(".y-select")
+    const ySelect = d3.select(".y-select");
     const yOptions = ySelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -152,10 +152,10 @@ export default class Plot {
       Util.updateAxis(yAxis, yAxisF, yScale);
       Util.updateCirclesY(circles, yScale, yStat);
       yLabel.text(yStat);
-    })
+    });
 
     // Options for Area
-    const aSelect = d3.select(".a-select")
+    const aSelect = d3.select(".a-select");
     const aOptions = aSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -170,10 +170,10 @@ export default class Plot {
       aStat = event.target.value;
       aScale = Util.scaleA(data, aStat);
       Util.updateCirclesA(circles, aScale, aStat);
-    })
+    });
 
     // Options for Year Select
-    const yearSelect = d3.select(".year-select")
+    const yearSelect = d3.select(".year-select");
     const yearOptions = yearSelect
       .selectAll("option")
       .data(YEARS)
@@ -197,7 +197,7 @@ export default class Plot {
       circles.enter().append("circle");
       circles.exit().remove();
       Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
-    })
+    });
   }
 
   async getStats() {
