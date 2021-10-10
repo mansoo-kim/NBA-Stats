@@ -28,19 +28,19 @@ export const scaleA = (data, column) => {
 }
 
 export const updateAxis = (axis, f, scale) => {
-  return axis.transition().duration(1000).call(f(scale));
+  axis.transition().duration(1000).call(f(scale));
 }
 
 export const updateCirclesX = (circles, scale, column) => {
-  return circles.transition().duration(1000).attr("cx", d => scale(d[column]));
+  circles.transition().duration(1000).attr("cx", d => scale(d[column]));
 }
 
 export const updateCirclesY = (circles, scale, column) => {
-  return circles.transition().duration(1000).attr("cy", d => scale(d[column]));
+  circles.transition().duration(1000).attr("cy", d => scale(d[column]));
 }
 
 export const updateCirclesA = (circles, scale, column) => {
-  return circles.transition().duration(1000).attr("r", d => scale(Math.sqrt(d[column])));
+  circles.transition().duration(1000).attr("r", d => scale(Math.sqrt(d[column])));
 }
 
 export const updateCircles = (circles, xScale, yScale, aScale, xStat, yStat, aStat) => {
