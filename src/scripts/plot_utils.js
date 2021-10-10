@@ -22,9 +22,14 @@ export const scaleY = (data, column) => {
 }
 
 export const scaleA = (data, column) => {
-  return d3.scaleLinear()
-    .domain(d3.extent(data, d => Math.sqrt(d[column])))
-    .range([3, 13]);
+  const scale = d3.scaleLinear()
+    .domain(d3.extent(data, d => d[column]))
+    .range([30, 500]);
+
+  return (d) => {
+    const area = scale(d);
+    return Math.sqrt(area/ Math.PI);
+  };
 }
 
 export const updateAxis = (axis, f, scale) => {
@@ -40,7 +45,7 @@ export const updateCirclesY = (circles, scale, column) => {
 }
 
 export const updateCirclesA = (circles, scale, column) => {
-  circles.transition().duration(1000).attr("r", d => scale(Math.sqrt(d[column])));
+  circles.transition().duration(1000).attr("r", d => scale(d[column]));
 }
 
 export const updateCircles = (circles, xScale, yScale, aScale, xStat, yStat, aStat) => {
@@ -48,6 +53,6 @@ export const updateCircles = (circles, xScale, yScale, aScale, xStat, yStat, aSt
     .transition().duration(1000)
     .attr("cx", d => xScale(d[xStat]))
     .attr("cy", d => yScale(d[yStat]))
-    .attr("r", d => aScale(Math.sqrt(d[aStat])))
+    .attr("r", d => aScale(d[aStat]))
     .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 }

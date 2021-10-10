@@ -109,8 +109,30 @@ export default class Plot {
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"))
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
-      .attr("r", d => aScale(Math.sqrt(d[aStat])))
+      .attr("r", d => aScale(d[aStat]))
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
+
+    // Options for Y-axis
+    const ySelect = d3.select("body").append("select")
+      .attr("class", "y-select");
+    const yOptions = ySelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === yStat);
+
+    ySelect.on("change", (event) => {
+      console.log(event.target.value);
+      yStat = event.target.value;
+      yScale = Util.scaleY(data, yStat);
+      Util.updateAxis(yGrid, yGridF, yScale);
+      Util.updateAxis(yAxis, yAxisF, yScale);
+      Util.updateCirclesY(circles, yScale, yStat);
+      yLabel.text(yStat);
+    });
 
     // Options for X-axis
     const xSelect = d3.select("body").append("select")
@@ -134,27 +156,6 @@ export default class Plot {
       xLabel.text(xStat);
     });
 
-    // Options for Y-axis
-    const ySelect = d3.select("body").append("select")
-      .attr("class", "y-select");
-    const yOptions = ySelect
-      .selectAll("option")
-      .data(DISPLAYABLE_COLS)
-      .enter()
-      .append("option")
-      .text(d => d)
-      .attr("value", d => d)
-      .property("selected", d => d === yStat);
-
-    ySelect.on("change", (event) => {
-      console.log(event.target.value);
-      yStat = event.target.value;
-      yScale = Util.scaleY(data, yStat);
-      Util.updateAxis(yGrid, yGridF, yScale);
-      Util.updateAxis(yAxis, yAxisF, yScale);
-      Util.updateCirclesY(circles, yScale, yStat);
-      yLabel.text(yStat);
-    });
 
     // Options for Area
     const aSelect = d3.select("body").append("select")
