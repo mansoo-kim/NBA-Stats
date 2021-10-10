@@ -89,14 +89,9 @@ export default class Plot {
       .style("visibility", "hidden")
       .style("position", "absolute");
 
-    // Create circles
-    const createNewCircles = () => {
-      return this.svg.selectAll("circle").data(data).enter().append("circle")
-      .attr("cx", d => xScale(d[xStat]))
-      .attr("cy", d => yScale(d[yStat]))
-      .attr("r", d => aScale(Math.sqrt(d[aStat])))
-      .attr("class", d => d["All-Star"] === true ? "all-star" : null)
-      .on("mouseenter", (_, d) => {
+    // Circles
+    let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+    circles.on("mouseenter", (_, d) => {
         circlesLabel
         .style("visibility", "visible")
         .html(
@@ -111,11 +106,11 @@ export default class Plot {
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY - 30 + "px")
       })
-      .on("mouseleave", () => circlesLabel.style("visibility", "hidden"));
-    }
-
-    // Circles
-    let circles = createNewCircles();
+      .on("mouseleave", () => circlesLabel.style("visibility", "hidden"))
+      .attr("cx", d => xScale(d[xStat]))
+      .attr("cy", d => yScale(d[yStat]))
+      .attr("r", d => aScale(Math.sqrt(d[aStat])))
+      .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
     // Options for X-axis
     const xSelect = d3.select(".x-select")
@@ -198,8 +193,9 @@ export default class Plot {
       Util.updateAxis(yGrid, yGridF, yScale);
       Util.updateAxis(xAxis, xAxisF, xScale);
       Util.updateAxis(yAxis, yAxisF, yScale);
-      circles.remove();
-      circles = createNewCircles();
+      circles.data(data).enter();
+      Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
+      console.log(circles);
     })
   }
 

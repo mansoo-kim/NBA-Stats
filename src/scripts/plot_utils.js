@@ -42,3 +42,12 @@ export const updateCirclesY = (circles, scale, column) => {
 export const updateCirclesA = (circles, scale, column) => {
   return circles.transition().duration(1000).attr("r", d => scale(Math.sqrt(d[column])));
 }
+
+export const updateCircles = (circles, xScale, yScale, aScale, xStat, yStat, aStat) => {
+  circles
+    .transition().duration(1000)
+    .attr("cx", d => xScale(d[xStat]))
+    .attr("cy", d => yScale(d[yStat]))
+    .attr("r", d => aScale(Math.sqrt(d[aStat])))
+    .attr("class", d => d["All-Star"] === true ? "all-star" : null);
+}
