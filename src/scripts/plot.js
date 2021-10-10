@@ -113,7 +113,8 @@ export default class Plot {
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
     // Options for X-axis
-    const xSelect = d3.select(".x-select");
+    const xSelect = d3.select("body").append("select")
+      .attr("class", "x-select");
     const xOptions = xSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -134,7 +135,8 @@ export default class Plot {
     });
 
     // Options for Y-axis
-    const ySelect = d3.select(".y-select");
+    const ySelect = d3.select("body").append("select")
+      .attr("class", "y-select");
     const yOptions = ySelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -155,7 +157,8 @@ export default class Plot {
     });
 
     // Options for Area
-    const aSelect = d3.select(".a-select");
+    const aSelect = d3.select("body").append("select")
+      .attr("class", "a-select");
     const aOptions = aSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -173,7 +176,8 @@ export default class Plot {
     });
 
     // Options for Year Select
-    const yearSelect = d3.select(".year-select");
+    const yearSelect = d3.select("body").append("select")
+      .attr("class", "year-select");
     const yearOptions = yearSelect
       .selectAll("option")
       .data(YEARS)
