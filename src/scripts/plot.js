@@ -115,8 +115,11 @@ export default class Plot {
     // Div for selecting stats/year
     const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
 
-    // Options for Year Select
-    const yearSelect = selects.append("select")
+    //
+
+    // Year options and label
+    const yearSelectLabel = selects.append("label").text("Year: ");
+    const yearSelect = yearSelectLabel.append("select")
       .attr("class", "year-select");
     const yearOptions = yearSelect
       .selectAll("option")
@@ -143,8 +146,9 @@ export default class Plot {
       Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
     });
 
-    // Options for Y-axis
-    const ySelect = selects.append("select")
+    // Y-axis options and label
+    const ySelectLabel = selects.append("label").text("Y-axis: ");
+    const ySelect = ySelectLabel.append("select")
       .attr("class", "y-select");
     const yOptions = ySelect
       .selectAll("option")
@@ -165,8 +169,9 @@ export default class Plot {
       yLabel.text(yStat);
     });
 
-    // Options for X-axis
-    const xSelect = selects.append("select")
+    // X-axis options and label
+    const xSelectLabel = selects.append("label").text("X-axis: ");
+    const xSelect = xSelectLabel.append("select")
       .attr("class", "x-select");
     const xOptions = xSelect
       .selectAll("option")
@@ -187,9 +192,9 @@ export default class Plot {
       xLabel.text(xStat);
     });
 
-
-    // Options for Area
-    const aSelect = selects.append("select")
+    // Area options and label
+    const aSelectLabel = selects.append("label").text("Circle size: ");
+    const aSelect = aSelectLabel.append("select")
       .attr("class", "a-select");
     const aOptions = aSelect
       .selectAll("option")
