@@ -84,7 +84,7 @@ export default class Plot {
     let aScale = Util.scaleA(data, aStat);
 
     // Hover text tooltip for circles
-    const circlesLabel = d3.select(".scatter").append("div")
+    const circlesTooltip = d3.select(".scatter").append("div")
       .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
@@ -94,7 +94,7 @@ export default class Plot {
       .attr("class", "scatter-circles")
       .selectAll("circle").data(data).enter().append("circle")
     circles.on("mouseenter", (_, d) => {
-        circlesLabel
+        circlesTooltip
         .style("visibility", "visible")
         .html(
           `<strong>${d["Player"]}</strong>
@@ -104,11 +104,11 @@ export default class Plot {
         );
       })
       .on("mousemove", (event) => {
-        circlesLabel
+        circlesTooltip
           .style("left", event.pageX + 20 + "px")
           .style("top", event.pageY - 40 + "px");
       })
-      .on("mouseleave", () => circlesLabel.style("visibility", "hidden"))
+      .on("mouseleave", () => circlesTooltip.style("visibility", "hidden"))
       .attr("cx", d => xScale(d[xStat]))
       .attr("cy", d => yScale(d[yStat]))
       .attr("r", d => aScale(d[aStat]))
@@ -117,24 +117,43 @@ export default class Plot {
     // Div for selecting stats/year
     const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
 
-    // Add legend for All-Stars
-    const legend = selects.append("svg").attr("width", 140).attr("height", 80);
-    legend.append("circle").attr("class", "all-star")
+    // Legend
+    const legend = selects.append("svg").attr("width", 140).attr("height", 120);
+
+    // for circle size
+
+    legend.append("circle").attr("class", "legend")
       .attr("cx", 20)
       .attr("cy", 25)
-      .attr("r", 7);
-    legend.append("text").text("All-Stars")
-      .attr("x", 33)
+      .attr("r", 4);
+    legend.append("text").text("---")
+      .attr("x", 30)
+      .attr("y", 29);
+    legend.append("circle").attr("class", "legend")
+      .attr("cx", 60)
+      .attr("cy", 25)
+      .attr("r", 8);
+    const aLabel = legend.append("text").text(aStat)
+      .attr("x", 73)
       .attr("y", 32);
 
-    // Legend for non All-stars
-    legend.append("circle")
+    // for All-Stars
+    legend.append("circle").attr("class", "all-star")
       .attr("cx", 20)
       .attr("cy", 50)
       .attr("r", 7);
-    legend.append("text").text("Not All-Stars")
+    legend.append("text").text("All-Stars")
       .attr("x", 33)
       .attr("y", 57);
+
+    // for non All-stars
+    legend.append("circle")
+      .attr("cx", 20)
+      .attr("cy", 75)
+      .attr("r", 7);
+    legend.append("text").text("Not All-Stars")
+      .attr("x", 33)
+      .attr("y", 82);
 
     // Year options and label
     const yearSelectLabel = selects.append("label").text("Season: ");
@@ -230,6 +249,7 @@ export default class Plot {
       aStat = event.target.value;
       aScale = Util.scaleA(data, aStat);
       Util.updateCirclesA(circles, aScale, aStat);
+      aLabel.text(aStat);
     });
   }
 
