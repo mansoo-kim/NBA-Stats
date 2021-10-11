@@ -112,72 +112,11 @@ export default class Plot {
       .attr("r", d => aScale(d[aStat]))
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
-    // Options for Y-axis
-    const ySelect = d3.select("body").append("select")
-      .attr("class", "y-select");
-    const yOptions = ySelect
-      .selectAll("option")
-      .data(DISPLAYABLE_COLS)
-      .enter()
-      .append("option")
-      .text(d => d)
-      .attr("value", d => d)
-      .property("selected", d => d === yStat);
-
-    ySelect.on("change", (event) => {
-      console.log(event.target.value);
-      yStat = event.target.value;
-      yScale = Util.scaleY(data, yStat);
-      Util.updateAxis(yGrid, yGridF, yScale);
-      Util.updateAxis(yAxis, yAxisF, yScale);
-      Util.updateCirclesY(circles, yScale, yStat);
-      yLabel.text(yStat);
-    });
-
-    // Options for X-axis
-    const xSelect = d3.select("body").append("select")
-      .attr("class", "x-select");
-    const xOptions = xSelect
-      .selectAll("option")
-      .data(DISPLAYABLE_COLS)
-      .enter()
-      .append("option")
-      .text(d => d)
-      .attr("value", d => d)
-      .property("selected", d => d === xStat);
-
-    xSelect.on("change", (event) => {
-      console.log(event.target.value);
-      xStat = event.target.value;
-      xScale = Util.scaleX(data, xStat);
-      Util.updateAxis(xGrid, xGridF, xScale);
-      Util.updateAxis(xAxis, xAxisF, xScale);
-      Util.updateCirclesX(circles, xScale, xStat);
-      xLabel.text(xStat);
-    });
-
-
-    // Options for Area
-    const aSelect = d3.select("body").append("select")
-      .attr("class", "a-select");
-    const aOptions = aSelect
-      .selectAll("option")
-      .data(DISPLAYABLE_COLS)
-      .enter()
-      .append("option")
-      .text(d => d)
-      .attr("value", d => d)
-      .property("selected", d => d === aStat);
-
-    aSelect.on("change", (event) => {
-      console.log(event.target.value);
-      aStat = event.target.value;
-      aScale = Util.scaleA(data, aStat);
-      Util.updateCirclesA(circles, aScale, aStat);
-    });
+    // Div for selecting stats/year
+    const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
 
     // Options for Year Select
-    const yearSelect = d3.select("body").append("select")
+    const yearSelect = selects.append("select")
       .attr("class", "year-select");
     const yearOptions = yearSelect
       .selectAll("option")
@@ -202,6 +141,70 @@ export default class Plot {
       circles.enter().append("circle");
       circles.exit().remove();
       Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
+    });
+
+    // Options for Y-axis
+    const ySelect = selects.append("select")
+      .attr("class", "y-select");
+    const yOptions = ySelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === yStat);
+
+    ySelect.on("change", (event) => {
+      console.log(event.target.value);
+      yStat = event.target.value;
+      yScale = Util.scaleY(data, yStat);
+      Util.updateAxis(yGrid, yGridF, yScale);
+      Util.updateAxis(yAxis, yAxisF, yScale);
+      Util.updateCirclesY(circles, yScale, yStat);
+      yLabel.text(yStat);
+    });
+
+    // Options for X-axis
+    const xSelect = selects.append("select")
+      .attr("class", "x-select");
+    const xOptions = xSelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === xStat);
+
+    xSelect.on("change", (event) => {
+      console.log(event.target.value);
+      xStat = event.target.value;
+      xScale = Util.scaleX(data, xStat);
+      Util.updateAxis(xGrid, xGridF, xScale);
+      Util.updateAxis(xAxis, xAxisF, xScale);
+      Util.updateCirclesX(circles, xScale, xStat);
+      xLabel.text(xStat);
+    });
+
+
+    // Options for Area
+    const aSelect = selects.append("select")
+      .attr("class", "a-select");
+    const aOptions = aSelect
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
+      .property("selected", d => d === aStat);
+
+    aSelect.on("change", (event) => {
+      console.log(event.target.value);
+      aStat = event.target.value;
+      aScale = Util.scaleA(data, aStat);
+      Util.updateCirclesA(circles, aScale, aStat);
     });
   }
 

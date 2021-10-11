@@ -57,6 +57,9 @@ table {
 
 body {
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .tooltip {
@@ -65,9 +68,20 @@ body {
   align-items: center;
 }
 
+.scatter {
+  display: flex;
+}
+
+.scatter-selects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 circle {
-  opacity: 0.8;
+  opacity: 0.6;
   fill: lightblue;
+  border: 1px solid black;
 }
 
 circle.all-star {
