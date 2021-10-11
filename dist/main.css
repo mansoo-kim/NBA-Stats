@@ -68,42 +68,36 @@ header {
   align-items: center;
   width: 80%;
 }
-
-.nav-div {
+header .nav-div {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-
-.description {
+header .nav-div .hover-div {
+  position: relative;
+}
+header .nav-div .hover-div .description {
   display: none;
   position: absolute;
 }
-
-.hover-div {
-  position: relative;
-}
-
-.hover-div:hover .description {
+header .nav-div .hover-div:hover .description {
   display: block;
 }
-
-h1 {
-  padding: 10px;
-  font-size: 24px;
-}
-
-.nav-links {
+header .nav-div .nav-links {
   align-self: flex-end;
   display: flex;
 }
-.nav-links a {
+header .nav-div .nav-links a {
   display: flex;
   align-items: center;
   padding: 5px;
 }
-.nav-links a img {
+header .nav-div .nav-links a img {
   width: 40px;
+}
+header h1 {
+  padding: 10px;
+  font-size: 24px;
 }
 
 .tooltip {
