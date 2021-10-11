@@ -24,7 +24,22 @@ header {
       .description {
         display: none;
         position: absolute;
+
+        .stats-list {
+          display: flex;
+          flex-direction: column;
+          width: 1000px;
+          background: violet;
+          opacity: 70%;
+          font-size: 14px;
+          padding: 10px;
+
+          li {
+            padding: 2px 5px;
+          }
+        }
       }
+
     }
 
     .hover-div:hover .description {
@@ -66,6 +81,7 @@ header {
 .scatter {
   display: flex;
   width: 70%;
+  justify-content: space-evenly;
 }
 
 .scatter-selects {
