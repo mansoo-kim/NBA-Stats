@@ -103,8 +103,8 @@ export default class Plot {
       })
       .on("mousemove", (event) => {
         circlesLabel
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY - 30 + "px");
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 40 + "px");
       })
       .on("mouseleave", () => circlesLabel.style("visibility", "hidden"))
       .attr("cx", d => xScale(d[xStat]))
@@ -123,7 +123,7 @@ export default class Plot {
       .attr("r", 7);
     legend.append("text").text("All-Stars for Selected Season")
       .attr("x", 33)
-      .attr("y", 31);
+      .attr("y", 32);
 
     // Year options and label
     const yearSelectLabel = selects.append("label").text("Season: ");

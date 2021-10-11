@@ -4,7 +4,7 @@ export const WIDTH = 900;
 export const HEIGHT = 900;
 export const BOTTOM_MARGIN = 60;
 export const LEFT_MARGIN = 60;
-export const TOP_MARGIN = 60;
+export const TOP_MARGIN = 30;
 export const RIGHT_MARGIN = 60;
 
 export const scaleX = (data, column) => {
