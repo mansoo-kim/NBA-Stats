@@ -24,7 +24,7 @@ export const scaleY = (data, column) => {
 export const scaleA = (data, column) => {
   const scale = d3.scaleLinear()
     .domain(d3.extent(data, d => d[column]))
-    .range([30, 500]);
+    .range([Math.PI*Math.pow(3, 2), Math.PI*Math.pow(13, 2)]);
 
   return (d) => {
     const area = scale(d);
