@@ -85,7 +85,8 @@ export default class Plot {
     let aScale = Util.scaleA(data, aStat);
 
     // Hover text tooltip for circles
-    const circlesLabel = d3.select(".tooltip")
+    const circlesLabel = d3.select(".scatter").append("div")
+      .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
