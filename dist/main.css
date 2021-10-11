@@ -74,8 +74,14 @@ header {
   width: 100%;
   justify-content: space-between;
 }
-.hover-div .description {
+
+.description {
   display: none;
+  position: absolute;
+}
+
+.hover-div {
+  position: relative;
 }
 
 .hover-div:hover .description {
