@@ -116,19 +116,26 @@ header h1 {
 }
 
 .tooltip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: whitesmoke;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
 }
 
+.circle-tooltips {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label-tooltips {
+  width: 200;
+}
+
 .scatter {
   display: flex;
-  width: 70%;
-  justify-content: space-evenly;
+  width: 100%;
+  justify-content: center;
 }
 
 .scatter-selects {

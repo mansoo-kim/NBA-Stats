@@ -139,15 +139,17 @@ export default class Plot {
 
     // Hover text tooltip for circles
     const circlesTooltip = d3.select(".scatter").append("div")
-      .attr("class", "tooltip")
+      .attr("class", "tooltip circle-tooltips")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
     // Circles
     let circles = this.svg.append("g")
       .attr("class", "scatter-circles")
-      .selectAll("circle").data(data).enter().append("circle")
-    circles.on("mouseenter", (_, d) => {
+      .selectAll("circle").data(data).enter().append("circle");
+
+    circles
+      .on("mouseenter", (_, d) => {
         circlesTooltip
         .style("visibility", "visible")
         .html(
@@ -175,7 +177,6 @@ export default class Plot {
     const legend = selects.append("svg").attr("width", 140).attr("height", 120);
 
     // for circle size
-
     legend.append("circle").attr("class", "legend")
       .attr("cx", 20)
       .attr("cy", 25)
@@ -305,6 +306,61 @@ export default class Plot {
       Util.updateCirclesA(circles, aScale, aStat);
       aLabel.text(aStat);
     });
+
+    // Hover text tooltip for axis/area labels
+    const labelTooltip = d3.select(".scatter").append("div")
+      .attr("class", "tooltip label-tooltips")
+      .style("visibility", "hidden")
+      .style("position", "absolute");
+
+    xLabel
+      .on("mouseenter", () => {
+        let stat = xLabel.text();
+        labelTooltip
+        .style("visibility", "visible")
+        .html(
+          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
+        );
+      })
+      .on("mousemove", (event) => {
+        labelTooltip
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 40 + "px");
+      })
+      .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
+
+    yLabel
+      .on("mouseenter", () => {
+        let stat = yLabel.text();
+        labelTooltip
+        .style("visibility", "visible")
+        .html(
+          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
+        );
+      })
+      .on("mousemove", (event) => {
+        labelTooltip
+          .style("left", event.pageX + "px")
+          .style("top", event.pageY + "px");
+      })
+      .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
+
+    aLabel
+      .on("mouseenter", () => {
+        let stat = aLabel.text();
+        labelTooltip
+        .style("visibility", "visible")
+        .html(
+          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
+        );
+      })
+      .on("mousemove", (event) => {
+        labelTooltip
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 40 + "px");
+      })
+      .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
+
   }
 
   async getStats() {
