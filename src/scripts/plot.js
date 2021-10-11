@@ -16,7 +16,6 @@ export default class Plot {
   }
 
   buildScatter(allYears) {
-    console.log(allYears);
     let data = allYears[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
@@ -119,14 +118,23 @@ export default class Plot {
     const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
 
     // Add legend for All-Stars
-    const legend = selects.append("svg").attr("width", 250).attr("height", 50);
+    const legend = selects.append("svg").attr("width", 140).attr("height", 80);
     legend.append("circle").attr("class", "all-star")
       .attr("cx", 20)
       .attr("cy", 25)
       .attr("r", 7);
-    legend.append("text").text("All-Stars for Selected Season")
+    legend.append("text").text("All-Stars")
       .attr("x", 33)
       .attr("y", 32);
+
+    // Legend for non All-stars
+    legend.append("circle")
+      .attr("cx", 20)
+      .attr("cy", 50)
+      .attr("r", 7);
+    legend.append("text").text("Not All-Stars")
+      .attr("x", 33)
+      .attr("y", 57);
 
     // Year options and label
     const yearSelectLabel = selects.append("label").text("Season: ");
