@@ -115,10 +115,18 @@ export default class Plot {
     // Div for selecting stats/year
     const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
 
-    //
+    // Add legend for All-Stars
+    const legend = selects.append("svg").attr("width", 250).attr("height", 50);
+    legend.append("circle").attr("class", "all-star")
+      .attr("cx", 20)
+      .attr("cy", 25)
+      .attr("r", 7);
+    legend.append("text").text("All-Stars for Selected Season")
+      .attr("x", 33)
+      .attr("y", 31);
 
     // Year options and label
-    const yearSelectLabel = selects.append("label").text("Year: ");
+    const yearSelectLabel = selects.append("label").text("Season: ");
     const yearSelect = yearSelectLabel.append("select")
       .attr("class", "year-select");
     const yearOptions = yearSelect
