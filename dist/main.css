@@ -79,18 +79,21 @@ header .nav-div .hover-div {
 header .nav-div .hover-div .description {
   display: none;
   position: absolute;
+  padding: 5px;
+  background: violet;
+  opacity: 70%;
+  font-size: 14px;
+  text-align: center;
 }
 header .nav-div .hover-div .description .stats-list {
   display: flex;
   flex-direction: column;
   width: 1000px;
-  background: violet;
-  opacity: 70%;
-  font-size: 14px;
-  padding: 10px;
+  padding: 5px;
 }
 header .nav-div .hover-div .description .stats-list li {
   padding: 2px 5px;
+  text-align: left;
 }
 header .nav-div .hover-div:hover .description {
   display: block;
