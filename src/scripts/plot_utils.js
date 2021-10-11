@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 
-export const WIDTH = 900;
-export const HEIGHT = 900;
+export const WIDTH = 800;
+export const HEIGHT = 800;
 export const BOTTOM_MARGIN = 60;
 export const LEFT_MARGIN = 60;
 export const TOP_MARGIN = 30;
