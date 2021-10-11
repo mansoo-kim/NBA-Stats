@@ -8,7 +8,7 @@ const DEFAULT_X = "MP";
 const DEFAULT_A = "VORP";
 const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"];
 // const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
-const DESCRIPTION = {
+const DESCRIPTIONS = {
   "Age": "Player's age on Februrary 1st of the season",
   "G": "Games Played",
   "GS": "Games Started",
@@ -69,6 +69,12 @@ export default class Plot {
     let yStat = DEFAULT_Y;
     let aStat = DEFAULT_A;
     let year = DEFAULT_YEAR;
+
+    // Add li for stats description
+    const statsUl = d3.select(".stats-list");
+    for (const [key, val] of Object.entries(DESCRIPTIONS)) {
+      statsUl.append("li").text(`${key} - ${val}`)
+    }
 
     // SVG
     this.svg = d3.select(".scatter").append("svg").attr("width", Util.WIDTH).attr("height", Util.HEIGHT);

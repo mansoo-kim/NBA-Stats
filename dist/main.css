@@ -88,7 +88,7 @@ header .nav-div .hover-div .description {
 header .nav-div .hover-div .description .stats-list {
   display: flex;
   flex-direction: column;
-  width: 1000px;
+  width: 900px;
   padding: 5px;
 }
 header .nav-div .hover-div .description .stats-list li {
