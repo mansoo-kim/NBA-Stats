@@ -90,7 +90,9 @@ export default class Plot {
       .style("position", "absolute");
 
     // Circles
-    let circles = this.svg.selectAll("circle").data(data).enter().append("circle")
+    let circles = this.svg.append("g")
+      .attr("class", "scatter-circles")
+      .selectAll("circle").data(data).enter().append("circle")
     circles.on("mouseenter", (_, d) => {
         circlesLabel
         .style("visibility", "visible")
@@ -149,8 +151,9 @@ export default class Plot {
       Util.updateAxis(xAxis, xAxisF, xScale);
       Util.updateAxis(yAxis, yAxisF, yScale);
       circles = circles.data(data);
-      circles.enter().append("circle");
       circles.exit().remove();
+      circles.enter().append("circle");
+      circles = this.svg.select(".scatter-circles").selectAll("circle");
       Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
     });
 
