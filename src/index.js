@@ -4,4 +4,10 @@ import train from "./scripts/train";
 
 setup();
 const plot = new Plot();
-train();
+
+const trainButton = document.getElementById("train-button");
+
+trainButton.addEventListener("click", () => {
+  const data = plot.getData();
+  train(data);
+});

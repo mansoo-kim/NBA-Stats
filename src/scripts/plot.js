@@ -63,7 +63,12 @@ export default class Plot {
     this.getStats();
   }
 
+  getData() {
+    return this.allData;
+  }
+
   buildScatter(allYears) {
+    this.allData = allYears;
     let data = allYears[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
     let yStat = DEFAULT_Y;
