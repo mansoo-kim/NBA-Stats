@@ -86,7 +86,7 @@ header .hover-div .description {
   left: -60px;
   padding: 5px;
   background: whitesmoke;
-  opacity: 80%;
+  opacity: 90%;
   font-size: 12px;
   text-align: center;
   border-radius: 10px;
@@ -129,6 +129,7 @@ button {
 
 .tooltip {
   background: whitesmoke;
+  opacity: 90%;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
@@ -176,13 +177,13 @@ strong, .strong {
 }
 
 circle {
-  opacity: 0.6;
-  fill: lightblue;
+  opacity: 0.5;
+  fill: #17408b;
   stroke: black;
 }
 
 circle.all-star {
-  fill: violet;
+  fill: #c9082a;
 }
 
 circle.legend {
