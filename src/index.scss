@@ -50,7 +50,6 @@ header {
         }
       }
     }
-
   }
 
   .hover-div:hover .description {
@@ -99,9 +98,9 @@ button {
   max-width: 200px;
 }
 
-strong {
-  font-weight: 600;
+strong, .strong {
   margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .scatter {
@@ -116,6 +115,10 @@ strong {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  :first-child {
+    align-self: flex-end;
+  }
 
   .scatter-selects {
     display: table;
@@ -160,5 +163,5 @@ circle.legend {
 
 .axis-label {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
 }

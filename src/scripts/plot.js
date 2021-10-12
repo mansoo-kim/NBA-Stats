@@ -101,7 +101,7 @@ export default class Plot {
     const xLabel = xAxis.append("text")
       .attr("class", "axis-label")
       .attr("x", Util.WIDTH/2)
-      .attr("y", 40)
+      .attr("y", 50)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
       .text(xStat);
@@ -129,7 +129,7 @@ export default class Plot {
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
       .attr("x", -Util.HEIGHT/2 + 14)
-      .attr("y", -30)
+      .attr("y", -40)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
       .text(yStat);
@@ -175,7 +175,7 @@ export default class Plot {
     const legendSelect = d3.select(".scatter").append("div").attr("class", "legend-selects");
 
     // Legend
-    const legend = legendSelect.append("svg").attr("width", 140).attr("height", 120);
+    const legend = legendSelect.append("svg").attr("width", 162).attr("height", 120);
 
     // for circle size
     legend.append("circle").attr("class", "legend")
@@ -189,7 +189,7 @@ export default class Plot {
       .attr("cx", 47)
       .attr("cy", 25)
       .attr("r", 8);
-    const aLabel = legend.append("text").text(aStat)
+    const aLabel = legend.append("text").text(aStat).attr("class", "strong")
       .attr("x", 66)
       .attr("y", 32);
 
