@@ -111,11 +111,28 @@ strong {
   justify-content: center;
 }
 
-.scatter-selects {
+.legend-selects {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .scatter-selects {
+    display: table;
+
+    div {
+      display: table-row;
+    }
+
+    label, select {
+      display: table-cell;
+    }
+
+    label {
+      text-align: right;
+      padding-right: 5px;
+    }
+  }
 }
 
 circle {

@@ -170,11 +170,12 @@ export default class Plot {
       .attr("r", d => aScale(d[aStat]))
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
+
     // Div for selecting stats/year
-    const selects = d3.select(".scatter").append("div").attr("class", "scatter-selects")
+    const legendSelect = d3.select(".scatter").append("div").attr("class", "legend-selects");
 
     // Legend
-    const legend = selects.append("svg").attr("width", 140).attr("height", 120);
+    const legend = legendSelect.append("svg").attr("width", 140).attr("height", 120);
 
     // for circle size
     legend.append("circle").attr("class", "legend")
@@ -189,7 +190,7 @@ export default class Plot {
       .attr("cy", 25)
       .attr("r", 8);
     const aLabel = legend.append("text").text(aStat)
-      .attr("x", 58)
+      .attr("x", 62)
       .attr("y", 32);
 
     // for All-Stars
@@ -198,7 +199,7 @@ export default class Plot {
       .attr("cy", 50)
       .attr("r", 7);
     legend.append("text").text("All-Stars")
-      .attr("x", 58)
+      .attr("x", 62)
       .attr("y", 57);
 
     // for non All-stars
@@ -207,13 +208,16 @@ export default class Plot {
       .attr("cy", 75)
       .attr("r", 7);
     legend.append("text").text("Not All-Stars")
-      .attr("x", 58)
+      .attr("x", 62)
       .attr("y", 82);
 
+    // Div for selects
+    const selects = legendSelect.append("div").attr("class", "scatter-selects");
+
     // Year options and label
-    const yearSelectLabel = selects.append("label").text("Season: ");
-    const yearSelect = yearSelectLabel.append("select")
-      .attr("class", "year-select");
+    const yearSelectGroup = selects.append("div");
+    yearSelectGroup.append("label").text("Season:");
+    const yearSelect = yearSelectGroup.append("select");
     const yearOptions = yearSelect
       .selectAll("option")
       .data(YEARS)
@@ -257,9 +261,9 @@ export default class Plot {
     });
 
     // Y-axis options and label
-    const ySelectLabel = selects.append("label").text("Y-axis: ");
-    const ySelect = ySelectLabel.append("select")
-      .attr("class", "y-select");
+    const ySelectGroup = selects.append("div");
+    ySelectGroup.append("label").text("Y-axis:");
+    const ySelect = ySelectGroup.append("select");
     const yOptions = ySelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -280,9 +284,9 @@ export default class Plot {
     });
 
     // X-axis options and label
-    const xSelectLabel = selects.append("label").text("X-axis: ");
-    const xSelect = xSelectLabel.append("select")
-      .attr("class", "x-select");
+    const xSelectGroup = selects.append("div");
+    xSelectGroup.append("label").text("X-axis:");
+    const xSelect = xSelectGroup.append("select");
     const xOptions = xSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -303,9 +307,9 @@ export default class Plot {
     });
 
     // Area options and label
-    const aSelectLabel = selects.append("label").text("Circle size: ");
-    const aSelect = aSelectLabel.append("select")
-      .attr("class", "a-select");
+    const aSelectGroup = selects.append("div");
+    aSelectGroup.append("label").text("Circle size:");
+    const aSelect = aSelectGroup.append("select");
     const aOptions = aSelect
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
