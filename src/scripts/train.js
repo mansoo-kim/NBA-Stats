@@ -1,4 +1,4 @@
-import { DISPLAYABLE_COLS } from "./plot_utils"
+import { DISPLAYABLE_COLS } from "./constants"
 import * as d3 from "d3";
 
 export default class ML {

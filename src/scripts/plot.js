@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import * as Util from "./plot_utils";
+import * as Constants from "./constants";
 
 const YEARS = [2021, 2020, 2019, 2018, 2017]
 const DEFAULT_YEAR = 2021;
@@ -7,55 +8,6 @@ const DEFAULT_Y = "PTS";
 const DEFAULT_X = "MP";
 const DEFAULT_A = "VORP";
 // const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
-
-const DESCRIPTIONS = {
-  "Age": "Player's age on Februrary 1st of the season",
-  "G": "Games Played",
-  "GS": "Games Started",
-  "MP": "Minutes Played Per Game",
-  "FG": "Field Goals Scored Per Game",
-  "FGA": "Field Goal Attempts Per Game",
-  "FG%": "Field Goals %",
-  "3P": "3-point Field Goals Scored Per Game",
-  "3PA": "3-point Field Goal Attempts Per Game",
-  "3P%": "3-point Field Goals %",
-  "2P": "2-point Field Goals Scored Per Game",
-  "2PA": "2-point Field Goal Attempts Per Game",
-  "2P%": "2-point Field Goals %",
-  "eFG%": "Effective Field Goal % - adjusts for the fact that a 3-point field goal is worth more than a 2-point field goal",
-  "FT": "Free Throws Per Game",
-  "FTA": "Free Throw Attempts Per Game",
-  "FT%": "Free Throw %",
-  "ORB": "Offensive Rebounds Per Game",
-  "DRB": "Defensive Rebounds Per Game",
-  "TRB": "Total Rebounds Per Game",
-  "AST": "Assists Per Game",
-  "STL": "Steals Per Game",
-  "BLK": "Blocks Per Game",
-  "TOV": "Turnovers Per Game",
-  "PF": "Personal Fouls Per Game",
-  "PTS": "Points Per Game",
-  "PER": "Player Efficiency Rating - measure of per-minute production standardized such that the league average is 15",
-  "TS%": "True Shooting % - measure of shooting efficiency that takes into account 2-point field goals, 3-point field goals, and free throws",
-  "3PAr": " 3-Point Attempt Rate - % of FG attempts from 3-point range",
-  "FTr": "Free Throw Attempt Rate - number of FT attempts per FG attempt",
-  "ORB%": "Offensive Rebound % - estimate of the % of available offensive rebounds a player grabbed while they were on the floor",
-  "DRB%": "Defensive Rebound % - estimate of the % of available defensive rebounds a player grabbed while they were on the floor",
-  "TRB%": "Total Rebound % - estimate of the % of available rebounds a player grabbed while they were on the floor",
-  "AST%": "Assist % - estimate of the % of teammate field goals a player assisted while they were on the floor",
-  "STL%": "Steal % - estimate of the % of opponent possessions that end with a steal by the player while they were on the floor",
-  "BLK%": "Block % - estimate of the % of opponent two-point field goal attempts blocked by the player while they were on the floor",
-  "TOV%": "Turnover % - estimate of turnovers committed per 100 plays",
-  "USG%": "Usage % - estimate of the % of team plays used by a player while they were on the floor",
-  "OWS": "Offensive Win Shares - estimate of the number of wins contributed by a player due to offense",
-  "DWS": "Defensive Win Shares - estimate of the number of wins contributed by a player due to defense",
-  "WS": "Win Shares - estimate of the number of wins contributed by a player",
-  "WS/48": "Win Shares Per 48 Minutes - estimate of the number of wins contributed by a player per 48 minutes (league average is approximately .100)",
-  "OBPM": "Offensive Box Plus/Minus - box score estimate of the offensive points per 100 possessions a player contributed above a league-average player, translated to an average team",
-  "DBPM": "Defensive Box Plus/Minus - box score estimate of the defensive points per 100 possessions a player contributed above a league-average player, translated to an average team",
-  "BPM": "Box Plus/Minus - box score estimate of the points per 100 possessions a player contributed above a league-average player, translated to an average team",
-  "VORP": "Value over Replacement Player - box score estimate of the points per 100 TEAM possessions that a player contributed above a replacement-level (-2.0) player, translated to an average team and prorated to an 82-game season"
-}
 
 export default class Plot {
 
@@ -75,37 +27,31 @@ export default class Plot {
     let aStat = DEFAULT_A;
     let year = DEFAULT_YEAR;
 
-    // Add li for stats description
-    const statsUl = d3.select(".stats-list");
-    for (const [key, val] of Object.entries(DESCRIPTIONS)) {
-      statsUl.append("li").html(`<strong>${key}</strong> - ${val}`)
-    }
-
     // SVG
-    this.svg = d3.select(".scatter").append("svg").attr("width", Util.WIDTH).attr("height", Util.HEIGHT);
+    this.svg = d3.select(".scatter").append("svg").attr("width", Constants.WIDTH).attr("height", Constants.HEIGHT);
 
     // X-Axis
     let xScale = Util.scaleX(data, xStat);
 
     const xGridF = scale => d3.axisBottom(scale)
-      .tickSize(-Util.HEIGHT + Util.TOP_MARGIN + Util.BOTTOM_MARGIN)
+      .tickSize(-Constants.HEIGHT + Constants.TOP_MARGIN + Constants.BOTTOM_MARGIN)
       .tickFormat("");
 
     const xGrid = this.svg.append("g")
-      .attr("transform", `translate(0, ${Util.HEIGHT - Util.BOTTOM_MARGIN})`)
+      .attr("transform", `translate(0, ${Constants.HEIGHT - Constants.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xGridF(xScale));
 
     const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
 
     const xAxis = this.svg.append("g")
-      .attr("transform", `translate(0, ${Util.HEIGHT - Util.BOTTOM_MARGIN})`)
+      .attr("transform", `translate(0, ${Constants.HEIGHT - Constants.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xAxisF(xScale));
 
     const xLabel = xAxis.append("text")
       .attr("class", "axis-label")
-      .attr("x", Util.WIDTH/2)
+      .attr("x", Constants.WIDTH/2)
       .attr("y", 50)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
@@ -115,25 +61,25 @@ export default class Plot {
     let yScale = Util.scaleY(data, yStat)
 
     const yGridF = scale => d3.axisLeft(scale)
-      .tickSize(-Util.WIDTH + Util.LEFT_MARGIN + Util.RIGHT_MARGIN)
+      .tickSize(-Constants.WIDTH + Constants.LEFT_MARGIN + Constants.RIGHT_MARGIN)
       .tickFormat("");
 
     const yGrid = this.svg.append("g")
-      .attr("transform", `translate(${Util.LEFT_MARGIN}, 0)`)
+      .attr("transform", `translate(${Constants.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yGridF(yScale));
 
     const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
 
     const yAxis = this.svg.append("g")
-      .attr("transform", `translate(${Util.LEFT_MARGIN}, 0)`)
+      .attr("transform", `translate(${Constants.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yAxisF(yScale));
 
     const yLabel = yAxis.append("text")
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
-      .attr("x", -Util.HEIGHT/2 + 14)
+      .attr("x", -Constants.HEIGHT/2 + 14)
       .attr("y", -40)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
@@ -271,7 +217,7 @@ export default class Plot {
     const ySelect = ySelectGroup.append("select");
     const yOptions = ySelect
       .selectAll("option")
-      .data(Util.DISPLAYABLE_COLS)
+      .data(Constants.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -293,7 +239,7 @@ export default class Plot {
     const xSelect = xSelectGroup.append("select");
     const xOptions = xSelect
       .selectAll("option")
-      .data(Util.DISPLAYABLE_COLS)
+      .data(Constants.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -315,7 +261,7 @@ export default class Plot {
     const aSelect = aSelectGroup.append("select");
     const aOptions = aSelect
       .selectAll("option")
-      .data(Util.DISPLAYABLE_COLS)
+      .data(Constants.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -342,7 +288,7 @@ export default class Plot {
           .style("visibility", "visible")
           .html(
             `<strong>${stat}</strong>
-            <p>${DESCRIPTIONS[stat]}</p>`
+            <p>${Constants.DESCRIPTIONS[stat]}</p>`
           );
       })
       .on("mousemove", (event) => {
@@ -359,7 +305,7 @@ export default class Plot {
           .style("visibility", "visible")
           .html(
             `<strong>${stat}</strong>
-            <p>${DESCRIPTIONS[stat]}</p>`
+            <p>${Constants.DESCRIPTIONS[stat]}</p>`
           );
       })
       .on("mousemove", (event) => {
@@ -376,7 +322,7 @@ export default class Plot {
           .style("visibility", "visible")
           .html(
             `<strong>${stat}</strong>
-            <p>${DESCRIPTIONS[stat]}</p>`
+            <p>${Constants.DESCRIPTIONS[stat]}</p>`
           );
       })
       .on("mousemove", (event) => {
@@ -393,7 +339,7 @@ export default class Plot {
     for (let year of YEARS) {
       let data = await d3.csv(`src/data/${year-1}-${year}-stats.csv`);
       for (let datum of data) {
-          for (let col of Util.DISPLAYABLE_COLS) {
+          for (let col of Constants.DISPLAYABLE_COLS) {
             datum[col] = +datum[col]
           }
           datum["All-Star"] = (datum["All-Star"] === "true");
