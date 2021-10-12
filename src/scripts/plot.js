@@ -179,36 +179,36 @@ export default class Plot {
 
     // for circle size
     legend.append("circle").attr("class", "legend")
-      .attr("cx", 5)
+      .attr("cx", 7)
       .attr("cy", 25)
       .attr("r", 4);
     legend.append("text").text("---")
-      .attr("x", 15)
+      .attr("x", 17)
       .attr("y", 29);
     legend.append("circle").attr("class", "legend")
-      .attr("cx", 45)
+      .attr("cx", 47)
       .attr("cy", 25)
       .attr("r", 8);
     const aLabel = legend.append("text").text(aStat)
-      .attr("x", 62)
+      .attr("x", 66)
       .attr("y", 32);
 
     // for All-Stars
     legend.append("circle").attr("class", "all-star")
-      .attr("cx", 45)
+      .attr("cx", 47)
       .attr("cy", 50)
       .attr("r", 7);
     legend.append("text").text("All-Stars")
-      .attr("x", 62)
+      .attr("x", 66)
       .attr("y", 57);
 
     // for non All-stars
     legend.append("circle")
-      .attr("cx", 45)
+      .attr("cx", 47)
       .attr("cy", 75)
       .attr("r", 7);
     legend.append("text").text("Not All-Stars")
-      .attr("x", 62)
+      .attr("x", 66)
       .attr("y", 82);
 
     // Div for selects
@@ -216,7 +216,7 @@ export default class Plot {
 
     // Year options and label
     const yearSelectGroup = selects.append("div");
-    yearSelectGroup.append("label").text("Season:");
+    yearSelectGroup.append("label").text("Season");
     const yearSelect = yearSelectGroup.append("select");
     const yearOptions = yearSelect
       .selectAll("option")
@@ -262,7 +262,7 @@ export default class Plot {
 
     // Y-axis options and label
     const ySelectGroup = selects.append("div");
-    ySelectGroup.append("label").text("Y-axis:");
+    ySelectGroup.append("label").text("Y-axis");
     const ySelect = ySelectGroup.append("select");
     const yOptions = ySelect
       .selectAll("option")
@@ -285,7 +285,7 @@ export default class Plot {
 
     // X-axis options and label
     const xSelectGroup = selects.append("div");
-    xSelectGroup.append("label").text("X-axis:");
+    xSelectGroup.append("label").text("X-axis");
     const xSelect = xSelectGroup.append("select");
     const xOptions = xSelect
       .selectAll("option")
@@ -308,7 +308,7 @@ export default class Plot {
 
     // Area options and label
     const aSelectGroup = selects.append("div");
-    aSelectGroup.append("label").text("Circle size:");
+    aSelectGroup.append("label").text("Circle Size");
     const aSelect = aSelectGroup.append("select");
     const aOptions = aSelect
       .selectAll("option")

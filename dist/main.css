@@ -165,10 +165,11 @@ strong {
 }
 .legend-selects .scatter-selects label, .legend-selects .scatter-selects select {
   display: table-cell;
+  margin: 3px 0px;
 }
 .legend-selects .scatter-selects label {
   text-align: right;
-  padding-right: 5px;
+  padding-right: 10px;
 }
 
 circle {
