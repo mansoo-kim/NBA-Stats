@@ -29,7 +29,7 @@ const DESCRIPTIONS = {
   "ORB": "Offensive Rebounds Per Game",
   "DRB": "Defensive Rebounds Per Game",
   "TRB": "Total Rebounds Per Game",
-  "AST": "Assits Per Game",
+  "AST": "Assists Per Game",
   "STL": "Steals Per Game",
   "BLK": "Blocks Per Game",
   "TOV": "Turnovers Per Game",
