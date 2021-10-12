@@ -25,8 +25,10 @@ header {
     padding-left: 10px;
 
     .stats-list-div {
+      position: absolute;
       left: 0px;
       top: 50px;
+      opacity: 90%;
       font-size: 12px;
       display: none;
 

@@ -63,7 +63,6 @@ body {
 }
 
 .stats-list-div, .about-div {
-  position: absolute;
   background: whitesmoke;
   opacity: 90%;
   text-align: center;
@@ -72,32 +71,46 @@ body {
   padding: 15px;
 }
 
-.about-div {
-  position: absolute;
-  left: 100px;
-  top: 100px;
+#modal-container.visible {
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+
+#modal-container {
+  position: fixed;
+  background-color: lightgray;
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#modal-container .about-div {
+  position: relative;
+  top: 200px;
+  left: calc(50% - 400px);
   font-size: 16px;
   width: 800px;
 }
-.about-div h2 {
+#modal-container .about-div h2 {
   font-weight: 700;
   margin: 10px 0px;
 }
-.about-div ul {
+#modal-container .about-div ul {
   list-style: circle inside;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.about-div ul li {
+#modal-container .about-div ul li {
   text-align: left;
   width: 90%;
 }
-.about-div p {
+#modal-container .about-div p {
   padding: 20px 10px;
 }
-
-.about-div:last-child {
+#modal-container #about-div:last-child {
   padding: 10px 10px 5px 10px;
 }
 
@@ -127,8 +140,10 @@ header .hover-div {
   padding-left: 10px;
 }
 header .hover-div .stats-list-div {
+  position: absolute;
   left: 0px;
   top: 50px;
+  opacity: 90%;
   font-size: 12px;
   display: none;
 }
