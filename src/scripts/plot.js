@@ -6,8 +6,8 @@ const DEFAULT_YEAR = 2021;
 const DEFAULT_Y = "PTS";
 const DEFAULT_X = "MP";
 const DEFAULT_A = "VORP";
-const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"];
 // const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
+
 const DESCRIPTIONS = {
   "Age": "Player's age on Februrary 1st of the season",
   "G": "Games Played",
@@ -271,7 +271,7 @@ export default class Plot {
     const ySelect = ySelectGroup.append("select");
     const yOptions = ySelect
       .selectAll("option")
-      .data(DISPLAYABLE_COLS)
+      .data(Util.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -293,7 +293,7 @@ export default class Plot {
     const xSelect = xSelectGroup.append("select");
     const xOptions = xSelect
       .selectAll("option")
-      .data(DISPLAYABLE_COLS)
+      .data(Util.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -315,7 +315,7 @@ export default class Plot {
     const aSelect = aSelectGroup.append("select");
     const aOptions = aSelect
       .selectAll("option")
-      .data(DISPLAYABLE_COLS)
+      .data(Util.DISPLAYABLE_COLS)
       .enter()
       .append("option")
       .text(d => d)
@@ -393,7 +393,7 @@ export default class Plot {
     for (let year of YEARS) {
       let data = await d3.csv(`src/data/${year-1}-${year}-stats.csv`);
       for (let datum of data) {
-          for (let col of DISPLAYABLE_COLS) {
+          for (let col of Util.DISPLAYABLE_COLS) {
             datum[col] = +datum[col]
           }
           datum["All-Star"] = (datum["All-Star"] === "true");

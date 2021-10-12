@@ -6,6 +6,7 @@ export const BOTTOM_MARGIN = 60;
 export const LEFT_MARGIN = 60;
 export const TOP_MARGIN = 30;
 export const RIGHT_MARGIN = 60;
+export const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"]
 
 export const scaleX = (data, column) => {
   return d3.scaleLinear()
