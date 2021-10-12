@@ -150,10 +150,11 @@ export default class Plot {
 
     circles
       .on("mouseenter", (_, d) => {
+        const imgTag = (d["Tm"] !== "TOT") ? `<img src="src/assets/images/team-logos/${d["Tm"]}.png" width="30px">` : "";
         circlesTooltip
         .style("visibility", "visible")
         .html(
-          `<strong>${d["Player"]}</strong>
+          `<div class="tooltip-logo-line"><strong>${d["Player"]}</strong>${imgTag}</div>
           <p>${yStat}: ${d[yStat]}</p>
           <p>${xStat}: ${d[xStat]}</p>
           <p>${aStat}: ${d[aStat]}</p>`
@@ -379,7 +380,7 @@ export default class Plot {
       })
       .on("mousemove", (event) => {
         labelTooltip
-          .style("left", event.pageX - 240 + "px")
+          .style("left", event.pageX - 275 + "px")
           .style("top", event.pageY - 25 + "px");
       })
       .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));

@@ -188,12 +188,24 @@ circle.legend {
   flex-direction: column;
   align-items: center;
   width: max-content;
-  max-width: 200px;
+  max-width: 240px;
 }
 
 strong, .strong {
   margin-bottom: 5px;
   font-weight: 600;
+}
+
+.tooltip-logo-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.tooltip-logo-line img {
+  margin-left: 3px;
+}
+.tooltip-logo-line strong {
+  white-space: nowrap;
 }
 
 .scatter {
