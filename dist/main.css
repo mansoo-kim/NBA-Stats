@@ -252,17 +252,18 @@ strong, .strong {
 .legend-selects :first-child {
   align-self: flex-end;
 }
-.legend-selects .scatter-selects {
+
+.scatter-selects, .train-stats-selects {
   display: table;
 }
-.legend-selects .scatter-selects div {
+.scatter-selects div, .train-stats-selects div {
   display: table-row;
 }
-.legend-selects .scatter-selects label, .legend-selects .scatter-selects select {
+.scatter-selects label, .scatter-selects select, .train-stats-selects label, .train-stats-selects select {
   display: table-cell;
   margin: 3px 0px;
 }
-.legend-selects .scatter-selects label {
+.scatter-selects label, .train-stats-selects label {
   text-align: right;
   padding-right: 10px;
 }

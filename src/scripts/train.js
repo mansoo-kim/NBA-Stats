@@ -1,13 +1,33 @@
 import { DISPLAYABLE_COLS } from "./constants"
 import * as d3 from "d3";
 
+const NUM_STATS = 5;
+
 export default class ML {
 
-  constructor(allData) {
-    this.allData = allData;
+  constructor() {
+    this.buildTrainingLine();
   }
 
-  train = (columns) => {
+  buildTrainingLine() {
+    const selects = d3.select(".train-stats-selects");
+    for (let i=0; i < NUM_STATS; i++) {
+      console.log("test")
+      const selectGroup = selects.append("div");
+      selectGroup.append("label").text(`Stat ${i+1}`);
+      const select = selectGroup.append("select");
+      select
+        .selectAll("option")
+        .data(DISPLAYABLE_COLS)
+        .enter()
+        .append("option")
+        .text(d => d)
+        .attr("value", d => d)
+        .property("selected", d => d === DISPLAYABLE_COLS[i]);
+    }
+  }
+
+  train = (allData, columns=DISPLAYABLE_COLS) => {
     const dataTraining = allData[2020];
     const dataTesting = allData[2021];
 

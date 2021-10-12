@@ -26,7 +26,6 @@ const setupModal = function() {
 }
 
 const setupStatsDescriptions = function() {
-  console.log("here");
   const statsUl = d3.select(".stats-list");
   for (const [key, val] of Object.entries(Constants.DESCRIPTIONS)) {
     statsUl.append("li").html(`<strong>${key}</strong> - ${val}`)
