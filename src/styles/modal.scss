@@ -1,17 +1,13 @@
-#modal-container.visible {
-  width: 100%;
-  height: 100%;
-  opacity: 0.9;
-  transition: opacity 0.3s;
+#modal-container.hidden {
+  display: none;
 }
 
 #modal-container {
   position: fixed;
   background-color: lightgray;
-  width: 0px;
-  height: 0px;
-  opacity: 0;
-  transition: opacity 0.3s;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
 
   #about-div {
     position: relative;

@@ -5,11 +5,11 @@ export default () => {
   const aboutDiv = document.getElementById("about-div");
 
   aboutButton.addEventListener("click", () => {
-    modalContainer.classList.add("visible");
+    modalContainer.classList.remove("hidden");
   });
 
   modalContainer.addEventListener("click", () => {
-    modalContainer.classList.remove("visible");
+    modalContainer.classList.add("hidden");
   });
 
   aboutDiv.addEventListener("click", (e) => {
