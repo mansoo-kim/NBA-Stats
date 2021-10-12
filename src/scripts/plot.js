@@ -235,7 +235,23 @@ export default class Plot {
       Util.updateAxis(yAxis, yAxisF, yScale);
       circles = circles.data(data);
       circles.exit().remove();
-      circles.enter().append("circle");
+      circles.enter().append("circle")
+        .on("mouseenter", (_, d) => {
+          circlesTooltip
+          .style("visibility", "visible")
+          .html(
+            `<strong>${d["Player"]}</strong>
+            <p>${yStat}: ${d[yStat]}</p>
+            <p>${xStat}: ${d[xStat]}</p>
+            <p>${aStat}: ${d[aStat]}</p>`
+          );
+        })
+        .on("mousemove", (event) => {
+          circlesTooltip
+            .style("left", event.pageX + 20 + "px")
+            .style("top", event.pageY - 40 + "px");
+        })
+        .on("mouseleave", () => circlesTooltip.style("visibility", "hidden"));
       circles = this.svg.select(".scatter-circles").selectAll("circle");
       Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
     });
