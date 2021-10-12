@@ -178,36 +178,36 @@ export default class Plot {
 
     // for circle size
     legend.append("circle").attr("class", "legend")
-      .attr("cx", 20)
+      .attr("cx", 5)
       .attr("cy", 25)
       .attr("r", 4);
     legend.append("text").text("---")
-      .attr("x", 30)
+      .attr("x", 15)
       .attr("y", 29);
     legend.append("circle").attr("class", "legend")
-      .attr("cx", 60)
+      .attr("cx", 45)
       .attr("cy", 25)
       .attr("r", 8);
     const aLabel = legend.append("text").text(aStat)
-      .attr("x", 73)
+      .attr("x", 58)
       .attr("y", 32);
 
     // for All-Stars
     legend.append("circle").attr("class", "all-star")
-      .attr("cx", 20)
+      .attr("cx", 45)
       .attr("cy", 50)
       .attr("r", 7);
     legend.append("text").text("All-Stars")
-      .attr("x", 33)
+      .attr("x", 58)
       .attr("y", 57);
 
     // for non All-stars
     legend.append("circle")
-      .attr("cx", 20)
+      .attr("cx", 45)
       .attr("cy", 75)
       .attr("r", 7);
     legend.append("text").text("Not All-Stars")
-      .attr("x", 33)
+      .attr("x", 58)
       .attr("y", 82);
 
     // Year options and label
