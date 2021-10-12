@@ -108,7 +108,14 @@ header .nav-links {
 header .nav-links img {
   width: 40px;
 }
-header h1 {
+header .header-center {
+  display: flex;
+  align-items: center;
+}
+header .header-center img {
+  width: 40px;
+}
+header .header-center h1 {
   padding: 10px;
   font-size: 24px;
 }
@@ -135,7 +142,7 @@ strong {
 }
 
 .scatter {
-  margin-top: 40px;
+  margin-top: 80px;
   display: flex;
   width: 100%;
   justify-content: center;
