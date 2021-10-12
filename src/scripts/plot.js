@@ -128,7 +128,7 @@ export default class Plot {
     const yLabel = yAxis.append("text")
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
-      .attr("x", -Util.HEIGHT/2)
+      .attr("x", -Util.HEIGHT/2 + 14)
       .attr("y", -30)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
