@@ -76,16 +76,15 @@ header {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
-}
-
-.circle-tooltips {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: max-content;
+  max-width: 200px;
 }
 
-.label-tooltips {
-  width: 200;
+strong {
+  font-weight: 600;
 }
 
 .scatter {

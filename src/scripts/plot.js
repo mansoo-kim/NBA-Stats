@@ -73,7 +73,7 @@ export default class Plot {
     // Add li for stats description
     const statsUl = d3.select(".stats-list");
     for (const [key, val] of Object.entries(DESCRIPTIONS)) {
-      statsUl.append("li").text(`${key} - ${val}`)
+      statsUl.append("li").html(`<strong>${key}</strong> - ${val}`)
     }
 
     // SVG
@@ -139,7 +139,7 @@ export default class Plot {
 
     // Hover text tooltip for circles
     const circlesTooltip = d3.select(".scatter").append("div")
-      .attr("class", "tooltip circle-tooltips")
+      .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
@@ -309,7 +309,7 @@ export default class Plot {
 
     // Hover text tooltip for axis/area labels
     const labelTooltip = d3.select(".scatter").append("div")
-      .attr("class", "tooltip label-tooltips")
+      .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
@@ -317,15 +317,16 @@ export default class Plot {
       .on("mouseenter", () => {
         let stat = xLabel.text();
         labelTooltip
-        .style("visibility", "visible")
-        .html(
-          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
-        );
+          .style("visibility", "visible")
+          .html(
+            `<strong>${stat}</strong>
+            <p>${DESCRIPTIONS[stat]}</p>`
+          );
       })
       .on("mousemove", (event) => {
         labelTooltip
           .style("left", event.pageX + 20 + "px")
-          .style("top", event.pageY - 40 + "px");
+          .style("top", event.pageY - 25 + "px");
       })
       .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
 
@@ -333,15 +334,16 @@ export default class Plot {
       .on("mouseenter", () => {
         let stat = yLabel.text();
         labelTooltip
-        .style("visibility", "visible")
-        .html(
-          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
-        );
+          .style("visibility", "visible")
+          .html(
+            `<strong>${stat}</strong>
+            <p>${DESCRIPTIONS[stat]}</p>`
+          );
       })
       .on("mousemove", (event) => {
         labelTooltip
-          .style("left", event.pageX + "px")
-          .style("top", event.pageY + "px");
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 25 + "px");
       })
       .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
 
@@ -349,15 +351,16 @@ export default class Plot {
       .on("mouseenter", () => {
         let stat = aLabel.text();
         labelTooltip
-        .style("visibility", "visible")
-        .html(
-          `<p>${stat} - ${DESCRIPTIONS[stat]}</p>`
-        );
+          .style("visibility", "visible")
+          .html(
+            `<strong>${stat}</strong>
+            <p>${DESCRIPTIONS[stat]}</p>`
+          );
       })
       .on("mousemove", (event) => {
         labelTooltip
-          .style("left", event.pageX + 20 + "px")
-          .style("top", event.pageY - 40 + "px");
+          .style("left", event.pageX - 240 + "px")
+          .style("top", event.pageY - 25 + "px");
       })
       .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
 
