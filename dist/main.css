@@ -63,8 +63,9 @@ body {
 }
 
 header {
+  position: fixed;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 80%;
 }
@@ -76,16 +77,10 @@ header a.links {
   text-decoration: none;
   color: black;
 }
-header .nav-div {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-header .nav-div .hover-div {
+header .hover-div {
   position: relative;
 }
-header .nav-div .hover-div .description {
+header .hover-div .description {
   display: none;
   position: absolute;
   padding: 5px;
@@ -94,24 +89,23 @@ header .nav-div .hover-div .description {
   font-size: 12px;
   text-align: center;
 }
-header .nav-div .hover-div .description .stats-list {
+header .hover-div .description .stats-list {
   display: flex;
   flex-direction: column;
   width: 900px;
   padding: 5px;
 }
-header .nav-div .hover-div .description .stats-list li {
+header .hover-div .description .stats-list li {
   padding: 2px 5px;
   text-align: left;
 }
-header .nav-div .hover-div:hover .description {
+header .hover-div:hover .description {
   display: block;
 }
-header .nav-div .nav-links {
-  align-self: flex-end;
+header .nav-links {
   display: flex;
 }
-header .nav-div .nav-links img {
+header .nav-links img {
   width: 40px;
 }
 header h1 {
@@ -140,6 +134,7 @@ strong {
 }
 
 .scatter {
+  margin-top: 40px;
   display: flex;
   width: 100%;
   justify-content: center;

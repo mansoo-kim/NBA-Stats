@@ -8,8 +8,9 @@ body {
 }
 
 header {
+  position: fixed;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 80%;
 
@@ -22,50 +23,42 @@ header {
     color: black;
   }
 
-  .nav-div {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+  .hover-div {
+    position: relative;
 
-    .hover-div {
-      position: relative;
+    .description {
+      display: none;
+      position: absolute;
+      padding: 5px;
+      background: whitesmoke;
+      opacity: 80%;
+      font-size: 12px;
+      text-align: center;
 
-      .description {
-        display: none;
-        position: absolute;
+      .stats-list {
+        display: flex;
+        flex-direction: column;
+        width: 900px;
         padding: 5px;
-        background: whitesmoke;
-        opacity: 80%;
-        font-size: 12px;
-        text-align: center;
 
-        .stats-list {
-          display: flex;
-          flex-direction: column;
-          width: 900px;
-          padding: 5px;
-
-          li {
-            padding: 2px 5px;
-            text-align: left;
-          }
+        li {
+          padding: 2px 5px;
+          text-align: left;
         }
       }
-
     }
 
-    .hover-div:hover .description {
-      display: block;
-    }
+  }
 
-    .nav-links {
-      align-self: flex-end;
-      display: flex;
+  .hover-div:hover .description {
+    display: block;
+  }
 
-      img {
-        width: 40px;
-      }
+  .nav-links {
+    display: flex;
+
+    img {
+      width: 40px;
     }
   }
 
@@ -97,6 +90,7 @@ strong {
 }
 
 .scatter {
+  margin-top: 40px;
   display: flex;
   width: 100%;
   justify-content: center;
