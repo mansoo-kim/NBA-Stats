@@ -80,29 +80,36 @@ header a.links {
 header .hover-div {
   position: relative;
 }
-header .hover-div .description {
+header .hover-div div {
   display: none;
   position: absolute;
-  left: -60px;
-  padding: 5px;
   background: whitesmoke;
   opacity: 90%;
-  font-size: 12px;
   text-align: center;
   border-radius: 10px;
   border: 1px solid black;
+  padding: 5px;
 }
-header .hover-div .description .stats-list {
+header .hover-div .about-div {
+  left: -450px;
+  font-size: 16px;
+  width: 500px;
+}
+header .hover-div .stats-list-div {
+  left: -60px;
+  font-size: 12px;
+}
+header .hover-div .stats-list-div .stats-list {
   display: flex;
   flex-direction: column;
   width: 900px;
   padding: 5px;
 }
-header .hover-div .description .stats-list li {
+header .hover-div .stats-list-div .stats-list li {
   padding: 2px 5px;
   text-align: left;
 }
-header .hover-div:hover .description {
+header .hover-div:hover .stats-list-div, header .hover-div:hover .about-div {
   display: block;
 }
 header .nav-links {
@@ -116,15 +123,38 @@ header .header-center {
   align-items: center;
 }
 header .header-center img {
-  width: 40px;
+  height: 50px;
 }
 header .header-center h1 {
   padding: 10px;
   font-size: 24px;
 }
 
-button {
-  font-size: 24px;
+circle {
+  opacity: 0.5;
+  fill: #17408b;
+  stroke: black;
+}
+
+circle.all-star {
+  fill: #c9082a;
+}
+
+circle.legend {
+  fill: white;
+}
+
+.tick line {
+  stroke: lightgray;
+}
+
+.axis path {
+  stroke: lightgray;
+}
+
+.axis-label {
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .tooltip {
@@ -174,31 +204,4 @@ strong, .strong {
 .legend-selects .scatter-selects label {
   text-align: right;
   padding-right: 10px;
-}
-
-circle {
-  opacity: 0.5;
-  fill: #17408b;
-  stroke: black;
-}
-
-circle.all-star {
-  fill: #c9082a;
-}
-
-circle.legend {
-  fill: white;
-}
-
-.tick line {
-  stroke: lightgray;
-}
-
-.axis path {
-  stroke: lightgray;
-}
-
-.axis-label {
-  font-weight: 700;
-  font-size: 20px;
 }
