@@ -20,60 +20,15 @@ header {
     color: black;
   }
 
-  .hover-div.left {
-    padding-left: 10px;
-  }
-
   .hover-div {
     position: relative;
-
-    div {
-      display: none;
-      position: absolute;
-      background: whitesmoke;
-      opacity: 90%;
-      text-align: center;
-      border-radius: 10px;
-      border: 1px solid black;
-      padding: 15px;
-    }
-
-    .about-div {
-      left: -470px;
-      top: 50px;
-      font-size: 16px;
-      width: 800px;
-
-      h2 {
-        font-weight: 700;
-        margin: 10px 0px;
-      }
-
-      ul {
-        list-style: circle inside;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        li {
-          text-align: left;
-          width: 90%;
-        }
-      }
-
-      p {
-        padding: 20px 10px;
-      }
-    }
-
-    .about-div:last-child {
-      padding: 10px 10px 5px 10px;
-    }
+    padding-left: 10px;
 
     .stats-list-div {
       left: 0px;
       top: 50px;
       font-size: 12px;
+      display: none;
 
       .stats-list {
         display: flex;
@@ -89,7 +44,7 @@ header {
     }
   }
 
-  .hover-div:hover .stats-list-div, .hover-div:hover .about-div {
+  .hover-div:hover .stats-list-div{
     display: block;
   }
 
@@ -113,7 +68,6 @@ header {
       padding: 10px;
       font-size: 24px;
     }
-
   }
 
 }

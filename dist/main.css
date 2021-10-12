@@ -56,10 +56,49 @@ table {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.stats-list-div, .about-div {
+  position: absolute;
+  background: whitesmoke;
+  opacity: 90%;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.about-div {
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  font-size: 16px;
+  width: 800px;
+}
+.about-div h2 {
+  font-weight: 700;
+  margin: 10px 0px;
+}
+.about-div ul {
+  list-style: circle inside;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.about-div ul li {
+  text-align: left;
+  width: 90%;
+}
+.about-div p {
+  padding: 20px 10px;
+}
+
+.about-div:last-child {
+  padding: 10px 10px 5px 10px;
 }
 
 header {
@@ -83,52 +122,15 @@ header a.links {
   text-decoration: none;
   color: black;
 }
-header .hover-div.left {
-  padding-left: 10px;
-}
 header .hover-div {
   position: relative;
-}
-header .hover-div div {
-  display: none;
-  position: absolute;
-  background: whitesmoke;
-  opacity: 90%;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid black;
-  padding: 15px;
-}
-header .hover-div .about-div {
-  left: -470px;
-  top: 50px;
-  font-size: 16px;
-  width: 800px;
-}
-header .hover-div .about-div h2 {
-  font-weight: 700;
-  margin: 10px 0px;
-}
-header .hover-div .about-div ul {
-  list-style: circle inside;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-header .hover-div .about-div ul li {
-  text-align: left;
-  width: 90%;
-}
-header .hover-div .about-div p {
-  padding: 20px 10px;
-}
-header .hover-div .about-div:last-child {
-  padding: 10px 10px 5px 10px;
+  padding-left: 10px;
 }
 header .hover-div .stats-list-div {
   left: 0px;
   top: 50px;
   font-size: 12px;
+  display: none;
 }
 header .hover-div .stats-list-div .stats-list {
   display: flex;
@@ -140,7 +142,7 @@ header .hover-div .stats-list-div .stats-list li {
   padding: 2px 5px;
   text-align: left;
 }
-header .hover-div:hover .stats-list-div, header .hover-div:hover .about-div {
+header .hover-div:hover .stats-list-div {
   display: block;
 }
 header .nav-links {
