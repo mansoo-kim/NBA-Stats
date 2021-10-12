@@ -29,11 +29,14 @@ header {
     .description {
       display: none;
       position: absolute;
+      left: -60px;
       padding: 5px;
       background: whitesmoke;
       opacity: 80%;
       font-size: 12px;
       text-align: center;
+      border-radius: 10px;
+      border: 1px solid black;
 
       .stats-list {
         display: flex;
