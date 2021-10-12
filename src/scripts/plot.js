@@ -229,7 +229,6 @@ export default class Plot {
       .property("selected", d => d === year);
 
     yearSelect.on("change", (event) => {
-      console.log(event.target.value);
       data = allYears[event.target.value];
       xScale = Util.scaleX(data, xStat);
       yScale = Util.scaleY(data, yStat);
@@ -275,7 +274,6 @@ export default class Plot {
       .property("selected", d => d === yStat);
 
     ySelect.on("change", (event) => {
-      console.log(event.target.value);
       yStat = event.target.value;
       yScale = Util.scaleY(data, yStat);
       Util.updateAxis(yGrid, yGridF, yScale);
@@ -298,7 +296,6 @@ export default class Plot {
       .property("selected", d => d === xStat);
 
     xSelect.on("change", (event) => {
-      console.log(event.target.value);
       xStat = event.target.value;
       xScale = Util.scaleX(data, xStat);
       Util.updateAxis(xGrid, xGridF, xScale);
@@ -321,7 +318,6 @@ export default class Plot {
       .property("selected", d => d === aStat);
 
     aSelect.on("change", (event) => {
-      console.log(event.target.value);
       aStat = event.target.value;
       aScale = Util.scaleA(data, aStat);
       Util.updateCirclesA(circles, aScale, aStat);
