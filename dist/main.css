@@ -68,14 +68,26 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 80%;
+  background: white;
+  border-bottom: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-radius: 5px;
+  opacity: 90%;
 }
 header a.links {
   display: flex;
   align-items: center;
-  padding: 5px;
   height: 40px;
+  padding: 5px;
   text-decoration: none;
   color: black;
+}
+header .hover-div.left {
+  padding-left: 10px;
+}
+header .hover-div.right {
+  padding-right: 10px;
 }
 header .hover-div {
   position: relative;
@@ -88,10 +100,11 @@ header .hover-div div {
   text-align: center;
   border-radius: 10px;
   border: 1px solid black;
-  padding: 5px;
+  padding: 15px;
 }
 header .hover-div .about-div {
-  left: -450px;
+  left: -470px;
+  top: 50px;
   font-size: 16px;
   width: 500px;
 }
@@ -103,7 +116,8 @@ header .hover-div .about-div p {
   padding: 5px;
 }
 header .hover-div .stats-list-div {
-  left: -5px;
+  left: 0px;
+  top: 50px;
   font-size: 12px;
 }
 header .hover-div .stats-list-div .stats-list {
