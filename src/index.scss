@@ -13,10 +13,20 @@ header {
   align-items: center;
   width: 80%;
 
+  a.links{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    height: 40px;
+    text-decoration: none;
+    color: black;
+  }
+
   .nav-div {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
 
     .hover-div {
       position: relative;
@@ -25,9 +35,9 @@ header {
         display: none;
         position: absolute;
         padding: 5px;
-        background: violet;
-        opacity: 70%;
-        font-size: 14px;
+        background: whitesmoke;
+        opacity: 80%;
+        font-size: 12px;
         text-align: center;
 
         .stats-list {
@@ -53,14 +63,8 @@ header {
       align-self: flex-end;
       display: flex;
 
-      a {
-        display: flex;
-        align-items: center;
-        padding: 5px;
-
-        img {
-          width: 40px;
-        }
+      img {
+        width: 40px;
       }
     }
   }
@@ -69,6 +73,11 @@ header {
     padding: 10px;
     font-size: 24px;
   }
+}
+
+button {
+  font-size: 24px;
+
 }
 
 .tooltip {

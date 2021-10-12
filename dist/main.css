@@ -68,10 +68,19 @@ header {
   align-items: center;
   width: 80%;
 }
+header a.links {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  height: 40px;
+  text-decoration: none;
+  color: black;
+}
 header .nav-div {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 header .nav-div .hover-div {
   position: relative;
@@ -80,9 +89,9 @@ header .nav-div .hover-div .description {
   display: none;
   position: absolute;
   padding: 5px;
-  background: violet;
-  opacity: 70%;
-  font-size: 14px;
+  background: whitesmoke;
+  opacity: 80%;
+  font-size: 12px;
   text-align: center;
 }
 header .nav-div .hover-div .description .stats-list {
@@ -102,16 +111,15 @@ header .nav-div .nav-links {
   align-self: flex-end;
   display: flex;
 }
-header .nav-div .nav-links a {
-  display: flex;
-  align-items: center;
-  padding: 5px;
-}
-header .nav-div .nav-links a img {
+header .nav-div .nav-links img {
   width: 40px;
 }
 header h1 {
   padding: 10px;
+  font-size: 24px;
+}
+
+button {
   font-size: 24px;
 }
 
