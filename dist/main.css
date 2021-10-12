@@ -88,7 +88,8 @@ body {
 #modal-container #about-div {
   position: relative;
   top: 200px;
-  left: calc(50% - 400px);
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 16px;
   width: 800px;
 }
@@ -116,14 +117,14 @@ body {
 header {
   position: fixed;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  flex: 1;
   width: 80%;
   background: white;
   border-bottom: 1px solid lightgray;
   border-left: 1px solid lightgray;
   border-right: 1px solid lightgray;
-  border-radius: 5px;
+  border-radius: 10px;
   opacity: 90%;
 }
 header a.links {
@@ -133,6 +134,18 @@ header a.links {
   padding: 5px 10px;
   text-decoration: none;
   color: black;
+}
+header .header-child {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header .header-child:first-child > div {
+  margin-right: auto;
+}
+header .header-child:last-child > a:first-child {
+  margin-left: auto;
 }
 header .hover-div {
   position: relative;
@@ -159,15 +172,8 @@ header .hover-div .stats-list-div .stats-list li {
 header .hover-div:hover .stats-list-div {
   display: block;
 }
-header .nav-links {
-  display: flex;
-}
 header .nav-links img {
   width: 40px;
-}
-header .header-center {
-  display: flex;
-  align-items: center;
 }
 header .header-center img {
   height: 50px;
