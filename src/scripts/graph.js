@@ -4,6 +4,7 @@ export default class Graph {
 
   constructor(startingDiv, CONSTANTS) {
     this.constants = CONSTANTS
+    this.tooltip = d3.select(".tooltip");
 
     this.svg = d3.select(startingDiv).append("svg").attr("width", this.constants.WIDTH).attr("height", this.constants.HEIGHT);
   }
@@ -97,5 +98,16 @@ export default class Graph {
     this.yGrid.transition().duration(1000).call(this.yGridF(this.yScale));
     this.yAxis.transition().duration(1000).call(this.yAxisF(this.yScale));
     this.yLabel.text(label);
+  }
+
+  addTooltip(label, onEnter) {
+    label
+      .on("mouseenter", onEnter)
+      .on("mousemove", (event) => {
+        this.tooltip
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 25 + "px");
+      })
+      .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
   }
 }

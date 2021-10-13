@@ -7,6 +7,7 @@ const EPOCHS = 10;
 export default class ML {
 
   constructor() {
+    this.tooltip = d3.select(".tooltip");
     this.buildTrainingLinePlot();
     this.buildResultsScatter();
   }
@@ -16,10 +17,23 @@ export default class ML {
    this.resultsScatter.buildXAxis("True Values", [0,1]);
    this.resultsScatter.buildYAxis("Predicted Values", [0,1]);
 
-   this.circlesTooltip = d3.select(".result-scatter").append("div")
-      .attr("class", "tooltip")
-      .style("visibility", "hidden")
-      .style("position", "absolute");
+   this.resultsScatter.addTooltip(this.resultsScatter.xLabel, () => {
+    this.tooltip
+      .style("visibility", "visible")
+      .html(
+        `<strong>True Value</strong>
+        <p>Real Stat from Data</p>`
+      );
+  });
+
+  this.resultsScatter.addTooltip(this.resultsScatter.yLabel, () => {
+    this.tooltip
+      .style("visibility", "visible")
+      .html(
+        `<strong>Predicted Value</strong>
+        <p>Output from ML Model</p>`
+      );
+  });
   }
 
 
@@ -27,13 +41,32 @@ export default class ML {
     this.trainingLine = new Graph(".training-line", SMALL);
     this.trainingLine.buildXAxis("Epoch", [0,EPOCHS-1]);
     this.trainingLine.buildYAxis("Loss", [0,1]);
+    this.trainingLosses = []
 
     // Create path that will be updated as training occurs
     this.path = this.trainingLine.svg.append("path")
       .attr("fill", "none")
       .attr("stroke", "#c9082a")
       .attr("stroke-width", 1.5);
-    this.trainingLosses = []
+
+    this.trainingLine.addTooltip(this.trainingLine.xLabel, () => {
+      this.tooltip
+        .style("visibility", "visible")
+        .html(
+          `<strong>Epoch</strong>
+          <p>Training Iteration #</p>`
+        );
+    });
+
+    this.trainingLine.addTooltip(this.trainingLine.yLabel, () => {
+      this.tooltip
+        .style("visibility", "visible")
+        .html(
+          `<strong>Loss</strong>
+          <p>Mean Squared Error Loss</p>
+          <p>Lower is Better</p>`
+        );
+    });
   }
 
   async run(allData, inputColumns, outputColumn) {
@@ -181,7 +214,7 @@ export default class ML {
       .attr("cy", d => this.resultsScatter.yScale(d[1]))
       .attr("r", _ => 5)
       .on("mouseenter", (_, d) => {
-        this.circlesTooltip
+        this.tooltip
           .style("visibility", "visible")
           .html(
             `<p>Predicted: ${d[1].toFixed(2)}</p>
@@ -189,10 +222,10 @@ export default class ML {
         );
       })
       .on("mousemove", (event) => {
-        this.circlesTooltip
+        this.tooltip
           .style("left", event.pageX + 20 + "px")
           .style("top", event.pageY - 40 + "px");
       })
-      .on("mouseleave", () => this.circlesTooltip.style("visibility", "hidden"));
+      .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
   }
 }
