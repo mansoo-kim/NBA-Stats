@@ -234,6 +234,7 @@ export default class ML {
 
     // Finally enable the trainButton
     document.getElementById("train-button").disabled = false;
+    document.getElementById("clear-button").disabled = false;
   }
 
   reset() {

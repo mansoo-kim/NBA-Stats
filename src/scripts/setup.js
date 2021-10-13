@@ -35,10 +35,9 @@ export const setupMLInputSelects = () => {
     const selectGroup = selects.append("div");
     selectGroup.append("label").text(`Stat ${i+1}`);
     const select = selectGroup.append("select").attr("class", `select-${i+1}`);
-    select.append("option").property("default", "true").text("Select");
     select
       .selectAll("option")
-      .data(DISPLAYABLE_COLS)
+      .data(["Select", ...DISPLAYABLE_COLS])
       .enter()
       .append("option")
       .text(d => d)
@@ -48,10 +47,9 @@ export const setupMLInputSelects = () => {
   const selectGroup = selects.append("div");
     selectGroup.append("label").text("Output Stat");
     const select = selectGroup.append("select").attr("class", "output-select");
-    select.append("option").property("default", "true").text("Select");
     select
       .selectAll("option")
-      .data(DISPLAYABLE_COLS)
+      .data(["Select", ...DISPLAYABLE_COLS])
       .enter()
       .append("option")
       .text(d => d)
@@ -60,6 +58,7 @@ export const setupMLInputSelects = () => {
 
 export const setupMLButtons = (plot, ml) => {
   const trainButton = document.getElementById("train-button");
+  const clearButton = document.getElementById("clear-button");
 
   trainButton.addEventListener("click", () => {
     const data = plot.getData();
@@ -85,10 +84,10 @@ export const setupMLButtons = (plot, ml) => {
     console.log(columns, outputColumn);
 
     trainButton.disabled = true;
+    clearButton.disabled = true;
     ml.run(data, columns, outputColumn);
   });
 
-  const clearButton = document.getElementById("clear-button");
 
   clearButton.addEventListener("click", () => {
     ml.reset();
