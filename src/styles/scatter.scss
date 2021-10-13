@@ -71,22 +71,22 @@ strong, .strong {
   :first-child {
     align-self: flex-end;
   }
-}
 
-.scatter-selects, .train-stats-selects {
-  display: table;
+  .scatter-selects {
+    display: table;
 
-  div {
-    display: table-row;
-  }
+    div {
+      display: table-row;
+    }
 
-  label, select {
-    display: table-cell;
-    margin: 3px 0px;
-  }
+    label, select {
+      display: table-cell;
+      margin: 3px 0px;
+    }
 
-  label {
-    text-align: right;
-    padding-right: 10px;
+    label {
+      text-align: right;
+      padding-right: 10px;
+    }
   }
 }

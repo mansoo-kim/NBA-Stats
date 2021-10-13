@@ -1,17 +1,17 @@
 import * as d3 from "d3";
-import * as Constants from "./constants"
+import { SCATTER } from "./constants"
 
 export const scaleX = (data, column) => {
   return d3.scaleLinear()
     .domain(d3.extent(data, d => d[column]))
-    .range([Constants.LEFT_MARGIN, Constants.WIDTH-Constants.RIGHT_MARGIN])
+    .range([SCATTER.LEFT_MARGIN, SCATTER.WIDTH-SCATTER.RIGHT_MARGIN])
     .nice();
 }
 
 export const scaleY = (data, column) => {
   return d3.scaleLinear()
     .domain(d3.extent(data, d => d[column]))
-    .range([Constants.HEIGHT-Constants.BOTTOM_MARGIN, Constants.TOP_MARGIN])
+    .range([SCATTER.HEIGHT-SCATTER.BOTTOM_MARGIN, SCATTER.TOP_MARGIN])
     .nice();
 }
 

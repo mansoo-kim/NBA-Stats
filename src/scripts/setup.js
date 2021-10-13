@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import * as Constants from "./constants"
+import { DESCRIPTIONS } from "./constants"
 
 export default () => {
   setupModal();
@@ -27,7 +27,7 @@ const setupModal = function() {
 
 const setupStatsDescriptions = function() {
   const statsUl = d3.select(".stats-list");
-  for (const [key, val] of Object.entries(Constants.DESCRIPTIONS)) {
+  for (const [key, val] of Object.entries(DESCRIPTIONS)) {
     statsUl.append("li").html(`<strong>${key}</strong> - ${val}`)
   }
 }

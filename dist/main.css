@@ -252,18 +252,41 @@ strong, .strong {
 .legend-selects :first-child {
   align-self: flex-end;
 }
-
-.scatter-selects, .train-stats-selects {
+.legend-selects .scatter-selects {
   display: table;
 }
-.scatter-selects div, .train-stats-selects div {
+.legend-selects .scatter-selects div {
   display: table-row;
 }
-.scatter-selects label, .scatter-selects select, .train-stats-selects label, .train-stats-selects select {
+.legend-selects .scatter-selects label, .legend-selects .scatter-selects select {
   display: table-cell;
   margin: 3px 0px;
 }
-.scatter-selects label, .train-stats-selects label {
+.legend-selects .scatter-selects label {
   text-align: right;
   padding-right: 10px;
+}
+
+section.ml {
+  margin-top: 30px;
+  width: 90%;
+}
+section.ml h2 {
+  font-weight: 700;
+  margin: 10px 0px;
+}
+section.ml p {
+  padding: 10px;
+}
+section.ml .ml-input {
+  display: flex;
+}
+section.ml .ml-input .train-stats-selects {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+section.ml .ml-input .train-stats-selects label {
+  margin-right: 10px;
+  margin-left: 20px;
 }
