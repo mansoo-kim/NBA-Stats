@@ -79,13 +79,15 @@ export default class ML {
   }
 
   async run(allData, columns=DISPLAYABLE_COLS) {
-    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax, positivesCount, negativesCount } = this.prepData(allData, columns);
+    const { trainingInputs, trainingLabels, testingInputs, testingLabels, positivesCount, negativesCount } = this.prepData(allData, columns);
 
     const model = this.createModel();
     tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
 
     await this.train(model, trainingInputs, trainingLabels, positivesCount, negativesCount);
+
+    this.test(model, testingInputs, testingLabels);
   }
 
   prepData(allData, columns) {
@@ -136,7 +138,6 @@ export default class ML {
     const inputMin = trainingInputTensor.min(0);
     const inputMax = trainingInputTensor.max(0);
 
-
     const normalizedTrainingInputs = trainingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
     const normalizedTestinggInputs = testingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
 
@@ -145,8 +146,6 @@ export default class ML {
       trainingLabels: trainingLabelTensor,
       testingInputs: normalizedTestinggInputs,
       testingLabels: testingLabelTensor,
-      inputMin,
-      inputMax,
       positivesCount,
       negativesCount };
   }
@@ -187,5 +186,14 @@ export default class ML {
       )
     });
 
+  }
+
+  test(model, testingInputs, testingLabels) {
+    const preds = model.predict(testingInputs);
+    console.log(preds.print());
+    console.log(testingLabels.print());
+    console.log(tf.metrics.precision(testingLabels, preds).print());
+    console.log(tf.metrics.recall(testingLabels, preds).print());
+    console.log(tf.metrics.binaryAccuracy(testingLabels, preds).print());
   }
 }
