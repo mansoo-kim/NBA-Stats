@@ -1,6 +1,6 @@
 import setup from "./scripts/setup";
 import Plot from "./scripts/plot";
-import ML from "./scripts/train";
+import ML from "./scripts/ml";
 import { LINE } from "./scripts/constants";
 
 setup();
@@ -25,5 +25,5 @@ trainButton.addEventListener("click", () => {
   const outputColumn = columns[columns.length-1];
   columns = columns.slice(0,columns.length-1);
   console.log(columns, outputColumn)
-  // ml.run(data, columns, outputColumn);
+  ml.run(data, columns, outputColumn);
 });

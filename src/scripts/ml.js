@@ -78,19 +78,27 @@ export default class ML {
       .text("Loss");
   }
 
-  async run(allData, columns=DISPLAYABLE_COLS) {
-    const { trainingInputs, trainingLabels, testingInputs, testingLabels, positivesCount, negativesCount } = this.prepData(allData, columns);
+  async run(allData, inputColumns, outputColumn) {
+    const { trainingInputs, trainingY, testingInputs, testingY, outputMin, outputMax } = this.prepData(allData, inputColumns, outputColumn);
 
-    const model = this.createModel();
-    tfvis.show.modelSummary({name: 'Model Summary'}, model);
+    console.log(trainingInputs, trainingY, testingInputs, testingY);
+    trainingInputs.print();
+    trainingY.print();
+    testingInputs.print();
+    testingY.print();
+    outputMin.print();
+    outputMax.print();
+
+    // const model = this.createModel();
+    // tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
 
-    await this.train(model, trainingInputs, trainingLabels, positivesCount, negativesCount);
+    // await this.train(model, trainingInputs, trainingLabels, positivesCount, negativesCount);
 
-    this.test(model, testingInputs, testingLabels);
+    // this.test(model, testingInputs, testingLabels);
   }
 
-  prepData(allData, columns) {
+  prepData(allData, inputColumns, outputColumn) {
     let oneLargeArray = [];
     for (let key in allData) {
       oneLargeArray = oneLargeArray.concat(allData[key]);
@@ -105,34 +113,27 @@ export default class ML {
 
     const trainingInputs = trainingDataAllColumns.map(datum => {
       let inputs = [];
-      for (let column of columns) {
+      for (let column of inputColumns) {
         inputs.push(datum[column]);
       }
       return inputs;
     });
-    const trainingLabels = trainingDataAllColumns.map(datum =>  datum["All-Star"] ? 1 : 0);
+    const trainingY = trainingDataAllColumns.map(datum =>  datum[outputColumn]);
 
-    let positivesCount = 0;
-    for (let label of trainingLabels) {
-      positivesCount += label;
-    }
-    let negativesCount = trainingLabels.length - positivesCount;
-
-    const trainingInputTensor = tf.tensor2d(trainingInputs, [trainingInputs.length, LINE.NUM_STATS]);
-    const trainingLabelTensor = tf.tensor2d(trainingLabels, [trainingLabels.length, 1]);
-
+    const trainingInputTensor = tf.tensor2d(trainingInputs, [trainingInputs.length, inputColumns.length]);
+    const trainingYTensor = tf.tensor2d(trainingY, [trainingY.length, 1]);
 
     const testingInputs = testingDataAllColumns.map(datum => {
       let inputs = [];
-      for (let column of columns) {
+      for (let column of inputColumns) {
         inputs.push(datum[column]);
       }
       return inputs;
     });
-    const testingLabels = testingDataAllColumns.map(datum => datum["All-Star"] ? 1 : 0);
+    const testingY = testingDataAllColumns.map(datum => datum[outputColumn]);
 
-    const testingInputTensor = tf.tensor2d(testingInputs, [testingInputs.length, LINE.NUM_STATS]);
-    const testingLabelTensor = tf.tensor2d(testingLabels, [testingLabels.length, 1]);
+    const testingInputTensor = tf.tensor2d(testingInputs, [testingInputs.length, inputColumns.length]);
+    const testingYTensor = tf.tensor2d(testingY, [testingY.length, 1]);
 
     // Normalize inputs
     const inputMin = trainingInputTensor.min(0);
@@ -141,13 +142,21 @@ export default class ML {
     const normalizedTrainingInputs = trainingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
     const normalizedTestinggInputs = testingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
 
+    // Normalize Y output values
+    const outputMin = trainingYTensor.min();
+    const outputMax = trainingYTensor.max();
+
+    const normalizedTrainingY = trainingYTensor.sub(outputMin).div(outputMax.sub(outputMin));
+    const normalizedTestingY = testingYTensor.sub(outputMin).div(outputMax.sub(outputMin));
+
     return  {
       trainingInputs: normalizedTrainingInputs,
-      trainingLabels: trainingLabelTensor,
+      trainingY: normalizedTrainingY,
       testingInputs: normalizedTestinggInputs,
-      testingLabels: testingLabelTensor,
-      positivesCount,
-      negativesCount };
+      testingY: normalizedTestingY,
+      outputMin,
+      outputMax
+    };
   }
 
   createModel() {
