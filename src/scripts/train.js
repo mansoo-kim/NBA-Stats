@@ -79,13 +79,13 @@ export default class ML {
   }
 
   async run(allData, columns=DISPLAYABLE_COLS) {
-    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax } = this.prepData(allData, columns);
+    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax, positivesCount, negativesCount } = this.prepData(allData, columns);
 
-    const model = createModel();
+    const model = this.createModel();
     tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
 
-    await train
+    await this.train(model, trainingInputs, trainingLabels, positivesCount, negativesCount);
   }
 
   prepData(allData, columns) {
@@ -109,7 +109,12 @@ export default class ML {
       return inputs;
     });
     const trainingLabels = trainingDataAllColumns.map(datum =>  datum["All-Star"] ? 1 : 0);
-    console.log(trainingLabels);
+
+    let positivesCount = 0;
+    for (let label of trainingLabels) {
+      positivesCount += label;
+    }
+    let negativesCount = trainingLabels.length - positivesCount;
 
     const trainingInputTensor = tf.tensor2d(trainingInputs, [trainingInputs.length, LINE.NUM_STATS]);
     const trainingLabelTensor = tf.tensor2d(trainingLabels, [trainingLabels.length, 1]);
@@ -141,30 +146,43 @@ export default class ML {
       testingInputs: normalizedTestinggInputs,
       testingLabels: testingLabelTensor,
       inputMin,
-      inputMax };
+      inputMax,
+      positivesCount,
+      negativesCount };
   }
 
   createModel() {
-
+    const model = tf.sequential();
+    model.add(tf.layers.dense({units: 4, inputShape: [LINE.NUM_STATS], useBias: true}))
+    model.add(tf.layers.dense({units: 1, useBias: true, activation: 'sigmoid'}));
+    return model;
   }
 
-  async train(model, inputs, labels) {
+  async train(model, inputs, labels, positivesCount, negativesCount) {
     const batchSize = 32;
     const epochs = 50;
 
+    const weightNegative = 1/negativesCount * (positivesCount+negativesCount)/2
+    const weightPositive = 1/positivesCount * (positivesCount+negativesCount)/2
+
+    const weight = { 0: weightNegative, 1: weightPositive }
+
+    console.log(weight);
+
     model.compile({
       optimizer: tf.train.adam(),
-      loss: tf.losses.softmaxCrossEntropy,
-      metrics: ['precision', 'recall', 'binaryAccuracy'],
+      loss: tf.losses.sigmoidCrossEntropy,
+      metrics: ['precision', 'mse', 'binaryAccuracy'],
     });
 
     return await model.fit(inputs, labels, {
       batchSize,
       epochs,
       shuffle: true,
+      classWeight: weight,
       callbacks: tfvis.show.fitCallbacks(
         { name: 'Training Performance' },
-        ['loss', 'mse', 'precision', 'recall', 'binaryAccuracy'],
+        ['loss', 'mse', 'precision', 'binaryAccuracy'],
         { height: 200, callbacks: ['onEpochEnd'] }
       )
     });
