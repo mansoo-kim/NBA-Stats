@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { DESCRIPTIONS, DISPLAYABLE_COLS, LINE } from "./constants"
+import { DESCRIPTIONS, DISPLAYABLE_COLS, SMALL } from "./constants"
 
 export default () => {
   setupModal();
@@ -37,7 +37,7 @@ const setupStatsDescriptions = function() {
 const setupMLInputSelects = function() {
   // Populate input selects
   const selects = d3.select(".train-stats-selects");
-  for (let i=0; i < LINE.NUM_STATS; i++) {
+  for (let i=0; i < SMALL.NUM_STATS; i++) {
     const selectGroup = selects.append("div");
     selectGroup.append("label").text(`Stat ${i+1}`);
     const select = selectGroup.append("select").attr("class", `select-${i+1}`);

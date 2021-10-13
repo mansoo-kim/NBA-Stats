@@ -1,10 +1,9 @@
 import setup from "./scripts/setup";
-import Plot from "./scripts/plot";
+import Vis from "./scripts/vis";
 import ML from "./scripts/ml";
-import { LINE } from "./scripts/constants";
 
 setup();
-const plot = new Plot();
+const plot = new Vis();
 const ml = new ML();
 
 const trainButton = document.getElementById("train-button");

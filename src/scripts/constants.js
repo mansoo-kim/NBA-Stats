@@ -1,4 +1,4 @@
-export const SCATTER = {
+export const LARGE = {
   WIDTH: 800,
   HEIGHT: 800,
   BOTTOM_MARGIN: 60,
@@ -7,7 +7,7 @@ export const SCATTER = {
   RIGHT_MARGIN: 60
 };
 
-export const LINE = {
+export const SMALL = {
   WIDTH: 600,
   HEIGHT: 600,
   BOTTOM_MARGIN: 60,

@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import * as Util from "./plot_utils";
 import * as Constants from "./constants";
 
-const SCATTER = Constants.SCATTER;
+const SCATTER = Constants.LARGE;
 const YEARS = [2021, 2020, 2019, 2018, 2017]
 const DEFAULT_YEAR = 2021;
 const DEFAULT_Y = "PTS";
@@ -10,7 +10,7 @@ const DEFAULT_X = "MP";
 const DEFAULT_A = "VORP";
 // const OTHER_COLS = ["RK", "Player", "Pos", "Tm", "All-Star"]
 
-export default class Plot {
+export default class Vis {
 
   constructor() {
     this.getStats();

@@ -1,4 +1,4 @@
-import { DISPLAYABLE_COLS, LINE } from "./constants"
+import { SMALL } from "./constants"
 import Graph from "./graph";
 import * as d3 from "d3";
 
@@ -12,14 +12,14 @@ export default class ML {
   }
 
   buildResultsScatter() {
-   this.resultsScatter = new Graph(".result-scatter", LINE);
+   this.resultsScatter = new Graph(".result-scatter", SMALL);
    this.resultsScatter.buildXAxis("True Values", [0,1]);
    this.resultsScatter.buildYAxis("Predicted Values", [0,1]);
   }
 
 
   buildTrainingLinePlot() {
-    this.trainingLine = new Graph(".training-line", LINE);
+    this.trainingLine = new Graph(".training-line", SMALL);
     this.trainingLine.buildXAxis("Epoch", [0,EPOCHS-1]);
     this.trainingLine.buildYAxis("Loss", [0,1]);
 

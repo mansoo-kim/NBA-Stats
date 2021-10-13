@@ -73,7 +73,7 @@ export default class Graph {
       .text(legend);
   }
 
-  updateXAxis({domain, data, column, label}) {
+  updateXAxis({ domain, data, column, label }) {
     if (!domain) domain = d3.extent(data, d => d[column])
 
     this.xScale = d3.scaleLinear()
@@ -86,7 +86,7 @@ export default class Graph {
     this.xLabel.text(label);
   }
 
-  updateYAxis({domain, data, column, label}) {
+  updateYAxis({ domain, data, column, label }) {
     if (!domain) domain = d3.extent(data, d => d[column])
 
     this.yScale = d3.scaleLinear()
