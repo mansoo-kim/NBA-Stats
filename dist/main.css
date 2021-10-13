@@ -290,3 +290,6 @@ section.ml .ml-input .train-stats-selects label {
   margin-right: 10px;
   margin-left: 20px;
 }
+section.ml .line-plot {
+  margin-bottom: 50px;
+}

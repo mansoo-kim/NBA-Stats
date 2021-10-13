@@ -40,7 +40,7 @@ const setupMLInputSelects = function() {
   for (let i=0; i < LINE.NUM_STATS; i++) {
     const selectGroup = selects.append("div");
     selectGroup.append("label").text(`Stat ${i+1}`);
-    const select = selectGroup.append("select");
+    const select = selectGroup.append("select").attr("class", `select-${i+1}`);
     select
       .selectAll("option")
       .data(DISPLAYABLE_COLS)

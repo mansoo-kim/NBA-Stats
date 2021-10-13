@@ -8,7 +8,6 @@ export default class ML {
   }
 
   buildTrainingLine() {
-
     // SVG
     this.svg = d3.select(".line-plot").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
 
@@ -33,6 +32,14 @@ export default class ML {
       .attr("class", "axis")
       .call(xAxisF(xScale));
 
+    const xLabel = xAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("x", LINE.WIDTH/2)
+      .attr("y", 50)
+      .attr('text-anchor', 'middle')
+      .attr("fill", "black")
+      .text("Epoch");
+
     // Y-axis and grid
     let yScale = d3.scaleLinear()
       .domain([0, 100])
@@ -53,6 +60,15 @@ export default class ML {
       .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yAxisF(yScale));
+
+     const yLabel = yAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -LINE.HEIGHT/2 + 14)
+      .attr("y", -40)
+      .attr('text-anchor', 'middle')
+      .attr("fill", "black")
+      .text("Loss");
 
   }
 

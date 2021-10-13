@@ -10,8 +10,8 @@ export const SCATTER = {
 export const LINE = {
   WIDTH: 600,
   HEIGHT: 600,
-  BOTTOM_MARGIN: 30,
-  LEFT_MARGIN: 30,
+  BOTTOM_MARGIN: 60,
+  LEFT_MARGIN: 60,
   TOP_MARGIN: 30,
   RIGHT_MARGIN: 30,
   NUM_STATS: 5,
