@@ -3,7 +3,6 @@ import { DESCRIPTIONS, DISPLAYABLE_COLS, SMALL } from "./constants"
 
 export default () => {
   setupModal();
-  setupTooltip();
   setupStatsDescriptions();
   setupMLInputSelects();
 }
@@ -63,11 +62,4 @@ const setupMLInputSelects = function() {
       .append("option")
       .text(d => d)
       .attr("value", d => d)
-}
-
-const setupTooltip = function() {
-  d3.select("body").append("div")
-  .attr("class", "tooltip")
-  .style("visibility", "hidden")
-  .style("position", "absolute");
 }

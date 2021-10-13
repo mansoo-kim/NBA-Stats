@@ -233,7 +233,7 @@ export default class Vis {
     aLabel
       .on("mouseenter", () => {
         let stat = aLabel.text();
-        tooltip
+        this.tooltip
           .style("visibility", "visible")
           .html(
             `<strong>${stat}</strong>
@@ -241,11 +241,11 @@ export default class Vis {
           );
       })
       .on("mousemove", (event) => {
-        tooltip
+        this.tooltip
           .style("left", event.pageX - 275 + "px")
           .style("top", event.pageY - 25 + "px");
       })
-      .on("mouseleave", () => tooltip.style("visibility", "hidden"));
+      .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
 
   }
 
