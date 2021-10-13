@@ -23,5 +23,5 @@ trainButton.addEventListener("click", () => {
   columns = [... new Set(columns)]
 
   console.log(columns)
-  ml.train(data, columns);
+  ml.run(data, columns);
 });

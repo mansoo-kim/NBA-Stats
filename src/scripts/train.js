@@ -86,95 +86,55 @@ export default class ML {
 
     const trainingSize = Math.floor(oneLargeArray.length*0.8)
 
-    oneLargeArray = this.shuffle(oneLargeArray);
+    tf.util.shuffle(oneLargeArray);
 
     const trainingDataAllColumns = oneLargeArray.slice(0,trainingSize);
     const testingDataAllColumns = oneLargeArray.slice(trainingSize);
 
-    const trainingData = [];
-    for (let datum of trainingDataAllColumns) {
-      const inputs = {}
+    const trainingInputs = trainingDataAllColumns.map(datum => {
+      let inputs = [];
       for (let column of columns) {
-        inputs[column] = datum[column];
+        inputs.push(datum[column]);
       }
-      const output = { allStar: datum["All-Star"] ? "true" : "false" };
-      trainingData.push([inputs, output]);
-    }
+      return inputs;
+    });
+    const trainingLabels = trainingDataAllColumns.map(datum => datum["All-Star"]);
 
-    const testingInputs = [];
-    const testingLabels = [];
-    for (let datum of testingDataAllColumns) {
-      const inputs = {}
+    const trainingInputTensor = tf.tensor2d(trainingInputs, [trainingInputs.length, LINE.NUM_STATS]);
+    const trainingLabelTensor = tf.tensor2d(trainingLabels, [trainingLabels.length, 1]);
+
+
+    const testingInputs = testingDataAllColumns.map(datum => {
+      let inputs = [];
       for (let column of columns) {
-        inputs[column] = datum[column];
+        inputs.push(datum[column]);
       }
-      const output = datum["All-Star"] ? "true" : "false";
-      testingInputs.push(inputs);
-      testingLabels.push(output);
-    }
+      return inputs;
+    });
+    const testingLabels = testingDataAllColumns.map(datum => datum["All-Star"]);
 
-    return [trainingData, testingInputs, testingLabels];
+    const testingInputTensor = tf.tensor2d(testingInputs, [testingInputs.length, LINE.NUM_STATS]);
+    const testingLabelTensor = tf.tensor2d(testingLabels, [testingLabels.length, 1]);
+
+    // Normalize inputs
+    const inputMin = trainingInputTensor.min(0);
+    const inputMax = trainingInputTensor.max(0);
+
+
+    const normalizedTrainingInputs = trainingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
+    const normalizedTestinggInputs = testingInputTensor.sub(inputMin).div(inputMax.sub(inputMin));
+
+    return  {
+      trainingInputs: normalizedTrainingInputs,
+      trainingLabels: trainingLabelTensor,
+      testingInputs: normalizedTestinggInputs,
+      testingLabels: testingLabelTensor,
+      inputMin,
+      inputMax };
   }
 
-  shuffle(arr) {
-    // from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
-    for (let i=arr.length-1; i > 0; i--) {
-      const j = Math.floor(Math.random()*i);
-      [arr[i], arr[j]] = [arr[j], arr[i]]
-    }
-    return arr;
-  }
+  run(allData, columns=DISPLAYABLE_COLS) {
+    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax } = this.prepData(allData, columns);
 
-  train(allData, columns=DISPLAYABLE_COLS) {
-    const [trainingData, testingInputs, testingLabels] = this.prepData(allData, columns);
-
-    const options = {
-      task: 'classification',
-      debug: true
-    }
-
-    const nn = ml5.neuralNetwork(options);
-
-    for (let datum of trainingData) {
-      nn.addData(...datum);
-    }
-
-    nn.normalizeData();
-
-    const trainingOptions = {
-      epochs: 50,
-      batchSize: 12
-    }
-
-    const whileTraining = (epoch, loss) => {
-      console.log(epoch, loss);
-      this.trainingLosses.push({ epoch, loss})
-      this.path.datum(this.trainingLosses)
-        .attr("d",
-          d3.line()
-            .x(d => this.xScale(d.epoch))
-            .y(d => this.yScale(d.loss.loss))
-        );
-    }
-
-    const doneTraining = () => {
-      classify();
-    }
-
-    const classify = () => {
-      for (let [i, datum] of testingInputs.entries()) {
-        nn.classify(datum, handleResults);
-      }
-    }
-
-    const handleResults = (error, result) => {
-      if(error){
-        console.error(error);
-        return;
-      }
-      console.log(result);
-    }
-
-    nn.train(trainingOptions, whileTraining, doneTraining);
   }
 }
