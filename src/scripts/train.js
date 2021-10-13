@@ -69,30 +69,57 @@ export default class ML {
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
       .text("Loss");
-
   }
 
-  train(allData, columns=DISPLAYABLE_COLS) {
-    const dataTraining = allData[2020];
-    const dataTesting = allData[2021];
+  prepData(allData, columns) {
+    let oneLargeArray = [];
+    for (let key in allData) {
+      oneLargeArray = oneLargeArray.concat(allData[key]);
+    }
+
+    const trainingSize = Math.floor(oneLargeArray.length*0.8)
+
+    oneLargeArray = this.shuffle(oneLargeArray);
+
+    const trainingDataAllColumns = oneLargeArray.slice(0,trainingSize);
+    const testingDataAllColumns = oneLargeArray.slice(trainingSize);
+
+    const trainingData = [];
+    for (let datum of trainingDataAllColumns) {
+      const inputs = {}
+      for (let column of columns) {
+        inputs[column] = datum[column];
+      }
+      const output = { allStar: datum["All-Star"] ? "true" : "false" };
+      trainingData.push([inputs, output]);
+    }
 
     const testingInputs = [];
     const testingLabels = [];
-
-    for (let datum of dataTesting) {
-      const inputs = {};
-      for (let key of columns) {
-        inputs[key] = datum[key];
+    for (let datum of testingDataAllColumns) {
+      const inputs = {}
+      for (let column of columns) {
+        inputs[column] = datum[column];
       }
-
-      const output = {
-        allStar: datum["All-Star"] ? "true" : "false",
-        Player: datum["Player"]
-      }
-
+      const output = datum["All-Star"] ? "true" : "false";
       testingInputs.push(inputs);
       testingLabels.push(output);
     }
+
+    return [trainingData, testingInputs, testingLabels];
+  }
+
+  shuffle(arr) {
+    // from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+    for (let i=arr.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random()*i);
+      [arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+    return arr;
+  }
+
+  train(allData, columns=DISPLAYABLE_COLS) {
+    const [trainingData, testingInputs, testingLabels] = this.prepData(allData, columns);
 
     const options = {
       task: 'classification',
@@ -101,43 +128,35 @@ export default class ML {
 
     const nn = ml5.neuralNetwork(options);
 
-    for (let datum of dataTraining) {
-      const inputs = {};
-      for (let key of columns) {
-        inputs[key] = datum[key];
-      }
-      const output = {
-        allStar: datum["All-Star"] ? "All-Star" : "Not"
-      };
-
-      nn.addData(inputs, output);
+    for (let datum of trainingData) {
+      nn.addData(...datum);
     }
 
     nn.normalizeData();
 
-    const trainingOptions = {
-      epochs: 32,
-      batchSize: 12
-    }
-    nn.train(trainingOptions, finishedTraining);
+  //   const trainingOptions = {
+  //     epochs: 32,
+  //     batchSize: 12
+  //   }
+  //   nn.train(trainingOptions, finishedTraining);
 
-    function finishedTraining(){
-      classify();
-    }
+  //   function finishedTraining(){
+  //     classify();
+  //   }
 
-    function classify(){
-      for (let [i, datum] of testingInputs.entries()) {
-        console.log(datum, testingLabels[i]);
-        nn.classify(datum, handleResults);
-      }
-    }
+  //   function classify(){
+  //     for (let [i, datum] of testingInputs.entries()) {
+  //       console.log(datum, testingLabels[i]);
+  //       nn.classify(datum, handleResults);
+  //     }
+  //   }
 
-    function handleResults(error, result) {
-        if(error){
-          console.error(error);
-          return;
-        }
-        console.log(result);
-    }
+  //   function handleResults(error, result) {
+  //       if(error){
+  //         console.error(error);
+  //         return;
+  //       }
+  //       console.log(result);
+  //   }
   }
 }

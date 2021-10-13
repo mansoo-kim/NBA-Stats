@@ -16,14 +16,12 @@ trainButton.addEventListener("click", () => {
   const selects = selectsGroup.querySelectorAll("select");
 
   let columns = [];
-
   for (let select of selects) {
     columns.push(select.value);
   }
-
   // Use set to get rid of duplicate column names
   columns = [... new Set(columns)]
 
   console.log(columns)
-  // ml.train(data, columns);
+  ml.train(data, columns);
 });
