@@ -7,6 +7,17 @@ export const SCATTER = {
   RIGHT_MARGIN: 60
 }
 
+export const LINE = {
+  WIDTH: 600,
+  HEIGHT: 600,
+  BOTTOM_MARGIN: 30,
+  LEFT_MARGIN: 30,
+  TOP_MARGIN: 30,
+  RIGHT_MARGIN: 30,
+  NUM_STATS: 5,
+  NUM_EPOCHS: 50
+}
+
 export const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"]
 
 export const DESCRIPTIONS = {

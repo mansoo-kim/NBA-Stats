@@ -1,7 +1,5 @@
-import { DISPLAYABLE_COLS } from "./constants"
+import { DISPLAYABLE_COLS, LINE } from "./constants"
 import * as d3 from "d3";
-
-const NUM_STATS = 5;
 
 export default class ML {
 
@@ -10,24 +8,55 @@ export default class ML {
   }
 
   buildTrainingLine() {
-    const selects = d3.select(".train-stats-selects");
-    for (let i=0; i < NUM_STATS; i++) {
-      console.log("test")
-      const selectGroup = selects.append("div");
-      selectGroup.append("label").text(`Stat ${i+1}`);
-      const select = selectGroup.append("select");
-      select
-        .selectAll("option")
-        .data(DISPLAYABLE_COLS)
-        .enter()
-        .append("option")
-        .text(d => d)
-        .attr("value", d => d)
-        .property("selected", d => d === DISPLAYABLE_COLS[i]);
-    }
+
+    // SVG
+    this.svg = d3.select(".line-plot").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
+
+    // X-axis and grid
+    let xScale = d3.scaleLinear()
+      .domain([0, LINE.NUM_EPOCHS])
+      .range([LINE.LEFT_MARGIN, LINE.WIDTH-LINE.RIGHT_MARGIN]);
+
+    const xGridF = scale => d3.axisBottom(scale)
+      .tickSize(-LINE.HEIGHT + LINE.TOP_MARGIN + LINE.BOTTOM_MARGIN)
+      .tickFormat("");
+
+    const xGrid = this.svg.append("g")
+      .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+      .attr("class", "axis")
+      .call(xGridF(xScale));
+
+    const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
+
+    const xAxis = this.svg.append("g")
+      .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+      .attr("class", "axis")
+      .call(xAxisF(xScale));
+
+    // Y-axis and grid
+    let yScale = d3.scaleLinear()
+      .domain([0, 100])
+      .range([LINE.HEIGHT-LINE.BOTTOM_MARGIN, LINE.TOP_MARGIN]);
+
+    const yGridF = scale => d3.axisLeft(scale)
+      .tickSize(-LINE.WIDTH + LINE.LEFT_MARGIN + LINE.RIGHT_MARGIN)
+      .tickFormat("");
+
+    const yGrid = this.svg.append("g")
+      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
+      .call(yGridF(yScale));
+
+    const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
+
+    const yAxis = this.svg.append("g")
+      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
+      .call(yAxisF(yScale));
+
   }
 
-  train = (allData, columns=DISPLAYABLE_COLS) => {
+  train(allData, columns=DISPLAYABLE_COLS) {
     const dataTraining = allData[2020];
     const dataTesting = allData[2021];
 
