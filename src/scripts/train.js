@@ -78,6 +78,16 @@ export default class ML {
       .text("Loss");
   }
 
+  async run(allData, columns=DISPLAYABLE_COLS) {
+    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax } = this.prepData(allData, columns);
+
+    const model = createModel();
+    tfvis.show.modelSummary({name: 'Model Summary'}, model);
+
+
+    await train
+  }
+
   prepData(allData, columns) {
     let oneLargeArray = [];
     for (let key in allData) {
@@ -98,7 +108,8 @@ export default class ML {
       }
       return inputs;
     });
-    const trainingLabels = trainingDataAllColumns.map(datum => datum["All-Star"]);
+    const trainingLabels = trainingDataAllColumns.map(datum =>  datum["All-Star"] ? 1 : 0);
+    console.log(trainingLabels);
 
     const trainingInputTensor = tf.tensor2d(trainingInputs, [trainingInputs.length, LINE.NUM_STATS]);
     const trainingLabelTensor = tf.tensor2d(trainingLabels, [trainingLabels.length, 1]);
@@ -111,7 +122,7 @@ export default class ML {
       }
       return inputs;
     });
-    const testingLabels = testingDataAllColumns.map(datum => datum["All-Star"]);
+    const testingLabels = testingDataAllColumns.map(datum => datum["All-Star"] ? 1 : 0);
 
     const testingInputTensor = tf.tensor2d(testingInputs, [testingInputs.length, LINE.NUM_STATS]);
     const testingLabelTensor = tf.tensor2d(testingLabels, [testingLabels.length, 1]);
@@ -133,8 +144,30 @@ export default class ML {
       inputMax };
   }
 
-  run(allData, columns=DISPLAYABLE_COLS) {
-    const { trainingInputs, trainingLabels, testingInputs, testingLabels, inputMin, inputMax } = this.prepData(allData, columns);
+  createModel() {
+
+  }
+
+  async train(model, inputs, labels) {
+    const batchSize = 32;
+    const epochs = 50;
+
+    model.compile({
+      optimizer: tf.train.adam(),
+      loss: tf.losses.softmaxCrossEntropy,
+      metrics: ['precision', 'recall', 'binaryAccuracy'],
+    });
+
+    return await model.fit(inputs, labels, {
+      batchSize,
+      epochs,
+      shuffle: true,
+      callbacks: tfvis.show.fitCallbacks(
+        { name: 'Training Performance' },
+        ['loss', 'mse', 'precision', 'recall', 'binaryAccuracy'],
+        { height: 200, callbacks: ['onEpochEnd'] }
+      )
+    });
 
   }
 }
