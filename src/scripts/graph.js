@@ -81,8 +81,8 @@ export default class Graph {
       .range([this.constants.LEFT_MARGIN, this.constants.WIDTH-this.constants.RIGHT_MARGIN])
       .nice();
 
-    this.xGrid = this.xGrid.call(this.xGridF(this.xScale));
-    this.xAxis = this.xAxis.call(this.xAxisF(this.xScale));
+    this.xGrid.transition().duration(1000).call(this.xGridF(this.xScale));
+    this.xAxis.transition().duration(1000).call(this.xAxisF(this.xScale));
     this.xLabel.text(label);
   }
 
@@ -94,8 +94,8 @@ export default class Graph {
       .range([this.constants.HEIGHT-this.constants.BOTTOM_MARGIN, this.constants.TOP_MARGIN])
       .nice();
 
-    this.yGrid = this.yGrid.call(this.yGridF(this.yScale));
-    this.yAxis = this.yAxis.call(this.yAxisF(this.yScale));
+    this.yGrid.transition().duration(1000).call(this.yGridF(this.yScale));
+    this.yAxis.transition().duration(1000).call(this.yAxisF(this.yScale));
     this.yLabel.text(label);
   }
 }
