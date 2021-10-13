@@ -134,29 +134,33 @@ export default class ML {
 
     nn.normalizeData();
 
-  //   const trainingOptions = {
-  //     epochs: 32,
-  //     batchSize: 12
-  //   }
-  //   nn.train(trainingOptions, finishedTraining);
+    const trainingOptions = {
+      epochs: 50,
+      batchSize: 12
+    }
 
-  //   function finishedTraining(){
-  //     classify();
-  //   }
+    const whileTraining = (epoch, loss) => {
+      return;
+    }
 
-  //   function classify(){
-  //     for (let [i, datum] of testingInputs.entries()) {
-  //       console.log(datum, testingLabels[i]);
-  //       nn.classify(datum, handleResults);
-  //     }
-  //   }
+    const doneTraining = () => {
+      classify();
+    }
 
-  //   function handleResults(error, result) {
-  //       if(error){
-  //         console.error(error);
-  //         return;
-  //       }
-  //       console.log(result);
-  //   }
+    const classify = () => {
+      for (let [i, datum] of testingInputs.entries()) {
+        nn.classify(datum, handleResults);
+      }
+    }
+
+    const handleResults = () => {
+      if(error){
+        console.error(error);
+        return;
+      }
+      console.log(result);
+    }
+
+    nn.train(trainingOptions, whileTraining, finishedTraining);
   }
 }
