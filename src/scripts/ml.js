@@ -229,5 +229,8 @@ export default class ML {
       .attr("cx", d => this.resultsScatter.xScale(d[0]))
       .attr("cy", d => this.resultsScatter.yScale(d[1]))
       .attr("r", _ => 5)
+
+    // Finally enable the trainButton
+    document.getElementById("train-button").disabled = false;
   }
 }

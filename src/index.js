@@ -32,5 +32,7 @@ trainButton.addEventListener("click", () => {
   if (!columns.length) return;
 
   console.log(columns, outputColumn);
-  // ml.run(data, columns, outputColumn);
+
+  trainButton.disabled = true;
+  ml.run(data, columns, outputColumn);
 });
