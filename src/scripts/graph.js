@@ -9,6 +9,15 @@ export default class Graph {
     this.svg = d3.select(startingDiv).append("svg").attr("width", this.constants.WIDTH).attr("height", this.constants.HEIGHT);
   }
 
+  addTitle(title) {
+    this.svg.append("text")
+      .attr("x", this.constants.WIDTH/2)
+      .attr("y", this.constants.TOP_MARGIN/2)
+      .attr("class", "graph-title")
+      .attr('text-anchor', 'middle')
+      .text(title);
+  }
+
   buildXAxis(legend, domain) {
     // X-axis and grid
     this.xScale = d3.scaleLinear()

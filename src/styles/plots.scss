@@ -22,7 +22,7 @@ circle.legend {
 
 .axis-label {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .tooltip {
@@ -53,6 +53,11 @@ strong, .strong {
   strong {
     white-space: nowrap;
   }
+}
+
+.graph-title {
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .vis-scatter {

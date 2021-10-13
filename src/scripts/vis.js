@@ -186,8 +186,8 @@ export default class Vis {
 
     xSelect.on("change", (event) => {
       xStat = event.target.value;
-      this.plot.updateYAxis({ data, column: xStat, label: xStat });
-      Util.updateCirclesY(circles, this.plot.xScale, xStat);
+      this.plot.updateXAxis({ data, column: xStat, label: xStat });
+      Util.updateCirclesX(circles, this.plot.xScale, xStat);
     });
 
     // Area options and label

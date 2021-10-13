@@ -14,6 +14,7 @@ export default class ML {
    this.resultsScatter = new Graph(".result-scatter", SMALL);
    this.resultsScatter.buildXAxis("True Values", [0,1]);
    this.resultsScatter.buildYAxis("Predicted Values", [0,1]);
+   this.resultsScatter.addTitle("Results");
 
    this.resultsScatter.addTooltip(this.resultsScatter.xLabel, () => {
     this.tooltip
@@ -39,6 +40,7 @@ export default class ML {
     this.trainingLine = new Graph(".training-line", SMALL);
     this.trainingLine.buildXAxis("Epoch", [0,SMALL.NUM_EPOCHS-1]);
     this.trainingLine.buildYAxis("Loss", [0,1]);
+    this.trainingLine.addTitle("Training Progress");
     this.trainingLosses = []
 
     // Create path that will be updated as training occurs
