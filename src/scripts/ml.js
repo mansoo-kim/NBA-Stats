@@ -2,6 +2,8 @@ import { DISPLAYABLE_COLS, LINE } from "./constants"
 import Graph from "./graph";
 import * as d3 from "d3";
 
+const EPOCHS = 10;
+
 export default class ML {
 
   constructor() {
@@ -17,85 +19,23 @@ export default class ML {
 
 
   buildTrainingLinePlot() {
-    // SVG
-    this.svgLine = d3.select(".line-plot").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
+    this.trainingLine = new Graph(".training-line", LINE);
+    this.trainingLine.buildXAxis("Epoch", [0,EPOCHS-1]);
+    this.trainingLine.buildYAxis("Loss", [0,1]);
 
     // Create path that will be updated as training occurs
-    this.path = this.svgLine.append("path")
+    this.path = this.trainingLine.svg.append("path")
       .attr("fill", "none")
-      .attr("stroke", "blue")
+      .attr("stroke", "#c9082a")
       .attr("stroke-width", 1.5);
     this.trainingLosses = []
-
-    // X-axis and grid
-    this.xScale = d3.scaleLinear()
-      .domain([0, LINE.NUM_EPOCHS])
-      .range([LINE.LEFT_MARGIN, LINE.WIDTH-LINE.RIGHT_MARGIN]);
-
-    const xGridF = scale => d3.axisBottom(scale)
-      .tickSize(-LINE.HEIGHT + LINE.TOP_MARGIN + LINE.BOTTOM_MARGIN)
-      .tickFormat("");
-
-    const xGrid = this.svgLine.append("g")
-      .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
-      .attr("class", "axis")
-      .call(xGridF(this.xScale));
-
-    const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
-
-    const xAxis = this.svgLine.append("g")
-      .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
-      .attr("class", "axis")
-      .call(xAxisF(this.xScale));
-
-    const xLabel = xAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("x", LINE.WIDTH/2)
-      .attr("y", 50)
-      .attr('text-anchor', 'middle')
-      .attr("fill", "black")
-      .text("Epoch");
-
-    // Y-axis and grid
-    this.yScale = d3.scaleLinear()
-      .domain([0, 0.3])
-      .range([LINE.HEIGHT-LINE.BOTTOM_MARGIN, LINE.TOP_MARGIN]);
-
-    const yGridF = scale => d3.axisLeft(scale)
-      .tickSize(-LINE.WIDTH + LINE.LEFT_MARGIN + LINE.RIGHT_MARGIN)
-      .tickFormat("");
-
-    const yGrid = this.svgLine.append("g")
-      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
-      .attr("class", "axis")
-      .call(yGridF(this.yScale));
-
-    const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
-
-    const yAxis = this.svgLine.append("g")
-      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
-      .attr("class", "axis")
-      .call(yAxisF(this.yScale));
-
-     const yLabel = yAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("transform", "rotate(-90)")
-      .attr("x", -LINE.HEIGHT/2 + 14)
-      .attr("y", -40)
-      .attr('text-anchor', 'middle')
-      .attr("fill", "black")
-      .text("Loss");
   }
 
   async run(allData, inputColumns, outputColumn) {
     this.outputColumn = outputColumn;
     const { trainingInputs, trainingY, testingInputs, testingY, outputMin, outputMax } = this.prepData(allData, inputColumns, outputColumn);
 
-    let arr = await testingYTensor.array();
-    console.log(arr);
-
     const model = this.createModel(inputColumns.length);
-    // tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
     await this.train(model, trainingInputs, trainingY);
 
@@ -173,18 +113,18 @@ export default class ML {
   }
 
   lossUpdateCallback(epoch, logs) {
-    // console.log(epoch, logs);
+    if (epoch === 0) this.trainingLine.updateYAxis({ domain: [0, logs.loss], label: "Loss"})
     this.trainingLosses.push({epoch, logs});
     this.path.datum(this.trainingLosses)
       .attr("d", d3.line()
-        .x(d => this.xScale(d.epoch))
-        .y(d => this.yScale(d.logs.loss))
+        .x(d => this.trainingLine.xScale(d.epoch))
+        .y(d => this.trainingLine.yScale(d.logs.loss))
       );
   }
 
   async train(model, inputs, labels) {
     const batchSize = 32;
-    const epochs = 10;
+    const epochs = EPOCHS;
 
     model.compile({
       optimizer: tf.train.adam(),
@@ -197,11 +137,6 @@ export default class ML {
       epochs,
       shuffle: true,
       callbacks: [
-        // tfvis.show.fitCallbacks(
-        //   { name: 'Training Performance' },
-        //   ['loss', 'mse'],
-        //   { height: 200, callbacks: ['onEpochEnd'] }
-        // ),
         new tf.CustomCallback({
           onEpochEnd: this.lossUpdateCallback.bind(this),
         })
@@ -214,21 +149,27 @@ export default class ML {
     return model.predict(testingInputs);
   }
 
-  async updateResults(yTrue, yPred, outputMin, outputMax) {
+  async updateResults(yTrueTensor, yPredTensor, outputMin, outputMax) {
+    // Un-normalize Y values
+    const unNormTrue = yTrueTensor.mul(outputMax.sub(outputMin)).add(outputMin);
+    const unNormPred = yPredTensor.mul(outputMax.sub(outputMin)).add(outputMin);
+    const yTrue = await unNormTrue.array();
+    const yPred = await unNormPred.array();
 
-    const unNormTrue = yTrue.mul(outputMax.sub(outputMin)).add(outputMin);
-    const unNormPred = yPred.mul(outputMax.sub(outputMin)).add(outputMin);
-    const trueY = await unNormTrue.array();
-    const predY = await unNormPred.array();
-
-    const zipped = trueY.map((el, i)  => {
-      return [el[0], predY[i][0]]
+    const zipped = yTrue.map((el, i)  => {
+      return [el[0], yPred[i][0]]
     });
 
-    this.resultsScatter.updateXAxis(zipped, 0, `True ${this.outputColumn}`)
-    this.resultsScatter.updateYAxis(zipped, 1, `Predicted ${this.outputColumn}`)
+    let flattened = [
+      ...d3.extent(zipped, d => d[0]),
+      ...d3.extent(zipped, d => d[1])
+    ]
+    let domain = d3.extent(flattened);
 
-    let circles = this.resultsScatter.svg.append("g")
+    this.resultsScatter.updateXAxis({domain, label: `True ${this.outputColumn}`})
+    this.resultsScatter.updateYAxis({domain, label: `Predicted ${this.outputColumn}`})
+
+    this.circles = this.resultsScatter.svg.append("g")
       .attr("class", "scatter-circles")
       .selectAll("circle").data(zipped).enter().append("circle")
       .attr("cx", d => this.resultsScatter.xScale(d[0]))

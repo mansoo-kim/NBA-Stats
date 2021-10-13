@@ -73,29 +73,29 @@ export default class Graph {
       .text(legend);
   }
 
-  updateXAxis(data, column, legend) {
-    console.log(data);
-    console.log(d3.extent(data, d => d[column]));
-    console.log(d3.min(data, d => d[column]));
-    console.log(d3.max(data, d => d[column]));
+  updateXAxis({domain, data, column, label}) {
+    if (!domain) domain = d3.extent(data, d => d[column])
+
     this.xScale = d3.scaleLinear()
-      .domain(d3.extent(data, d => d[column]))
+      .domain(domain)
       .range([this.constants.LEFT_MARGIN, this.constants.WIDTH-this.constants.RIGHT_MARGIN])
       .nice();
 
     this.xGrid = this.xGrid.call(this.xGridF(this.xScale));
     this.xAxis = this.xAxis.call(this.xAxisF(this.xScale));
-    this.xLabel.text(legend);
+    this.xLabel.text(label);
   }
 
-  updateYAxis(data, column, legend) {
+  updateYAxis({domain, data, column, label}) {
+    if (!domain) domain = d3.extent(data, d => d[column])
+
     this.yScale = d3.scaleLinear()
-      .domain(d3.extent(data, d => d[column]))
+      .domain(domain)
       .range([this.constants.HEIGHT-this.constants.BOTTOM_MARGIN, this.constants.TOP_MARGIN])
       .nice();
 
     this.yGrid = this.yGrid.call(this.yGridF(this.yScale));
     this.yAxis = this.yAxis.call(this.yAxisF(this.yScale));
-    this.yLabel.text(legend);
+    this.yLabel.text(label);
   }
 }
