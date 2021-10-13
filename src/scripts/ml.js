@@ -81,21 +81,14 @@ export default class ML {
   async run(allData, inputColumns, outputColumn) {
     const { trainingInputs, trainingY, testingInputs, testingY, outputMin, outputMax } = this.prepData(allData, inputColumns, outputColumn);
 
-    console.log(trainingInputs, trainingY, testingInputs, testingY);
-    trainingInputs.print();
-    trainingY.print();
-    testingInputs.print();
-    testingY.print();
-    outputMin.print();
-    outputMax.print();
+    const model = this.createModel(inputColumns.length);
+    tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
-    // const model = this.createModel();
-    // tfvis.show.modelSummary({name: 'Model Summary'}, model);
+    await this.train(model, trainingInputs, trainingY);
 
+    const preds = this.test(model, testingInputs);
 
-    // await this.train(model, trainingInputs, trainingLabels, positivesCount, negativesCount);
-
-    // this.test(model, testingInputs, testingLabels);
+    this.updateResults(testingY, preds, outputMin, outputMax);
   }
 
   prepData(allData, inputColumns, outputColumn) {
@@ -109,7 +102,7 @@ export default class ML {
     tf.util.shuffle(oneLargeArray);
 
     const trainingDataAllColumns = oneLargeArray.slice(0,trainingSize);
-    const testingDataAllColumns = oneLargeArray.slice(trainingSize);
+    const testingDataAllColumns = oneLargeArray.slice(trainingSize, trainingSize+10);
 
     const trainingInputs = trainingDataAllColumns.map(datum => {
       let inputs = [];
@@ -159,50 +152,53 @@ export default class ML {
     };
   }
 
-  createModel() {
+  createModel(inputShape) {
     const model = tf.sequential();
-    model.add(tf.layers.dense({units: 4, inputShape: [LINE.NUM_STATS], useBias: true}))
-    model.add(tf.layers.dense({units: 1, useBias: true, activation: 'sigmoid'}));
+    model.add(tf.layers.dense({units: 3, inputShape: [inputShape], useBias: true}))
+    model.add(tf.layers.dense({units: 1, useBias: true}));
     return model;
   }
 
-  async train(model, inputs, labels, positivesCount, negativesCount) {
+  // lossUpdateCallback() {
+
+  // }
+
+  async train(model, inputs, labels) {
     const batchSize = 32;
-    const epochs = 50;
-
-    const weightNegative = 1/negativesCount * (positivesCount+negativesCount)/2
-    const weightPositive = 1/positivesCount * (positivesCount+negativesCount)/2
-
-    const weight = { 0: weightNegative, 1: weightPositive }
-
-    console.log(weight);
+    const epochs = 20;
 
     model.compile({
       optimizer: tf.train.adam(),
-      loss: tf.losses.sigmoidCrossEntropy,
-      metrics: ['precision', 'mse', 'binaryAccuracy'],
+      loss: tf.losses.meanSquaredError,
+      metrics: ['mse'],
     });
 
     return await model.fit(inputs, labels, {
       batchSize,
       epochs,
       shuffle: true,
-      classWeight: weight,
       callbacks: tfvis.show.fitCallbacks(
         { name: 'Training Performance' },
-        ['loss', 'mse', 'precision', 'binaryAccuracy'],
+        ['loss'],
         { height: 200, callbacks: ['onEpochEnd'] }
       )
     });
 
   }
 
-  test(model, testingInputs, testingLabels) {
-    const preds = model.predict(testingInputs);
-    console.log(preds.print());
-    console.log(testingLabels.print());
-    console.log(tf.metrics.precision(testingLabels, preds).print());
-    console.log(tf.metrics.recall(testingLabels, preds).print());
-    console.log(tf.metrics.binaryAccuracy(testingLabels, preds).print());
+  test(model, testingInputs) {
+    return model.predict(testingInputs);
+  }
+
+  updateResults(yTrue, yPred, outputMin, outputMax) {
+    yTrue.print();
+    yPred.print();
+    outputMin.print();
+    outputMax.print();
+
+    const unNormTrue = yTrue.mul(outputMax.sub(outputMin)).add(outputMin);
+    const unNormPred = yPred.mul(outputMax.sub(outputMin)).add(outputMin);
+    unNormTrue.print();
+    unNormPred.print();
   }
 }
