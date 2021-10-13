@@ -1,6 +1,10 @@
 section.ml {
   margin-top: 30px;
+  margin-bottom: 60px;
   width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h2 {
     font-weight: 700;
@@ -13,6 +17,8 @@ section.ml {
 
   .ml-input {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .train-stats-selects {
       margin-top: 15px;
@@ -26,8 +32,25 @@ section.ml {
     }
   }
 
-  .line-plot {
-    margin-bottom: 50px;
+  .ml-plots {
+    display: flex;
   }
 
+}
+
+.ml-button{
+  opacity: 90%;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.train-button {
+  background: #c9082a;
+  margin-right: 100px;
+}
+
+.clear-button {
+  background: #17408b;
 }

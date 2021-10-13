@@ -57,8 +57,16 @@ export const setupMLInputSelects = () => {
 }
 
 export const setupMLButtons = (plot, ml) => {
-  const trainButton = document.getElementById("train-button");
-  const clearButton = document.getElementById("clear-button");
+  // const trainButton = document.getElementById("train-button");
+  // const clearButton = document.getElementById("clear-button");
+  const buttonsDiv = document.querySelector(".buttons-div");
+  const trainButton = document.createElement("button");
+  trainButton.className = "ml-button train-button";
+  trainButton.innerText = "Train";
+  const clearButton = document.createElement("button");
+  clearButton.className = "ml-button clear-button";
+  clearButton.innerText = "Clear";
+  buttonsDiv.append(trainButton, clearButton);
 
   trainButton.addEventListener("click", () => {
     const data = plot.getData();
@@ -81,7 +89,7 @@ export const setupMLButtons = (plot, ml) => {
     // Must select at least one output stat
     if (!columns.length) return;
 
-    console.log(columns, outputColumn);
+    // console.log(columns, outputColumn);
 
     trainButton.disabled = true;
     clearButton.disabled = true;
