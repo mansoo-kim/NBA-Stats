@@ -4,15 +4,81 @@ import * as d3 from "d3";
 export default class ML {
 
   constructor() {
-    this.buildTrainingLine();
+    this.buildTrainingLinePlot();
+    this.buildResultsScatter();
   }
 
-  buildTrainingLine() {
+  buildResultsScatter() {
     // SVG
-    this.svg = d3.select(".line-plot").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
+    this.svgScatter = d3.select(".result-scatter").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
+
+    // X-axis and grid
+    this.xScaleScatter = d3.scaleLinear()
+      .domain([0, 1])
+      .range([LINE.LEFT_MARGIN, LINE.WIDTH-LINE.RIGHT_MARGIN]);
+
+    // const xGridF = scale => d3.axisBottom(scale)
+    //   .tickSize(-LINE.HEIGHT + LINE.TOP_MARGIN + LINE.BOTTOM_MARGIN)
+    //   .tickFormat("");
+
+    // const xGrid = this.svgScatter.append("g")
+    //   .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+    //   .attr("class", "axis")
+    //   .call(xGridF(this.xScaleScatter));
+
+    // const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
+
+    // const xAxis = this.svgScatter.append("g")
+    //   .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+    //   .attr("class", "axis")
+    //   .call(xAxisF(this.xScaleScatter));
+
+    // const xLabel = xAxis.append("text")
+    //   .attr("class", "axis-label")
+    //   .attr("x", LINE.WIDTH/2)
+    //   .attr("y", 50)
+    //   .attr('text-anchor', 'middle')
+    //   .attr("fill", "black")
+    //   .text("True Values");
+
+    // Y-axis and grid
+    this.yScaleScatter = d3.scaleLinear()
+      .domain([0, 1])
+      .range([LINE.HEIGHT-LINE.BOTTOM_MARGIN, LINE.TOP_MARGIN]);
+
+    // const yGridF = scale => d3.axisLeft(scale)
+    //   .tickSize(-LINE.WIDTH + LINE.LEFT_MARGIN + LINE.RIGHT_MARGIN)
+    //   .tickFormat("");
+
+    // const yGrid = this.svgScatter.append("g")
+    //   .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+    //   .attr("class", "axis")
+    //   .call(yGridF(this.yScaleScatter));
+
+    // const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
+
+    // const yAxis = this.svgScatter.append("g")
+    //   .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+    //   .attr("class", "axis")
+    //   .call(yAxisF(this.yScaleScatter));
+
+    // const yLabel = yAxis.append("text")
+    //   .attr("class", "axis-label")
+    //   .attr("transform", "rotate(-90)")
+    //   .attr("x", -LINE.HEIGHT/2 + 14)
+    //   .attr("y", -40)
+    //   .attr('text-anchor', 'middle')
+    //   .attr("fill", "black")
+    //   .text("Predicted Values");
+  }
+
+
+  buildTrainingLinePlot() {
+    // SVG
+    this.svgLine = d3.select(".line-plot").append("svg").attr("width", LINE.WIDTH).attr("height", LINE.HEIGHT);
 
     // Create path that will be updated as training occurs
-    this.path = this.svg.append("path")
+    this.path = this.svgLine.append("path")
       .attr("fill", "none")
       .attr("stroke", "blue")
       .attr("stroke-width", 1.5);
@@ -27,14 +93,14 @@ export default class ML {
       .tickSize(-LINE.HEIGHT + LINE.TOP_MARGIN + LINE.BOTTOM_MARGIN)
       .tickFormat("");
 
-    const xGrid = this.svg.append("g")
+    const xGrid = this.svgLine.append("g")
       .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xGridF(this.xScale));
 
     const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
 
-    const xAxis = this.svg.append("g")
+    const xAxis = this.svgLine.append("g")
       .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
       .attr("class", "axis")
       .call(xAxisF(this.xScale));
@@ -56,14 +122,14 @@ export default class ML {
       .tickSize(-LINE.WIDTH + LINE.LEFT_MARGIN + LINE.RIGHT_MARGIN)
       .tickFormat("");
 
-    const yGrid = this.svg.append("g")
+    const yGrid = this.svgLine.append("g")
       .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yGridF(this.yScale));
 
     const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
 
-    const yAxis = this.svg.append("g")
+    const yAxis = this.svgLine.append("g")
       .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
       .attr("class", "axis")
       .call(yAxisF(this.yScale));
@@ -82,7 +148,7 @@ export default class ML {
     const { trainingInputs, trainingY, testingInputs, testingY, outputMin, outputMax } = this.prepData(allData, inputColumns, outputColumn);
 
     const model = this.createModel(inputColumns.length);
-    tfvis.show.modelSummary({name: 'Model Summary'}, model);
+    // tfvis.show.modelSummary({name: 'Model Summary'}, model);
 
     await this.train(model, trainingInputs, trainingY);
 
@@ -102,7 +168,7 @@ export default class ML {
     tf.util.shuffle(oneLargeArray);
 
     const trainingDataAllColumns = oneLargeArray.slice(0,trainingSize);
-    const testingDataAllColumns = oneLargeArray.slice(trainingSize, trainingSize+10);
+    const testingDataAllColumns = oneLargeArray.slice(trainingSize);
 
     const trainingInputs = trainingDataAllColumns.map(datum => {
       let inputs = [];
@@ -201,7 +267,7 @@ export default class ML {
     return model.predict(testingInputs);
   }
 
-  updateResults(yTrue, yPred, outputMin, outputMax) {
+  async updateResults(yTrue, yPred, outputMin, outputMax) {
     yTrue.print();
     yPred.print();
     outputMin.print();
@@ -209,7 +275,61 @@ export default class ML {
 
     const unNormTrue = yTrue.mul(outputMax.sub(outputMin)).add(outputMin);
     const unNormPred = yPred.mul(outputMax.sub(outputMin)).add(outputMin);
-    unNormTrue.print();
-    unNormPred.print();
+    const trueY = await unNormTrue.array();
+    const predY = await unNormPred.array();
+    console.log(trueY);
+    console.log(predY);
+
+    const zipped = trueY.map((el, i)  => {
+      return [el, predY[i]];
+    });
+
+    const xScale = d3.scaleLinear()
+      .domain(d3.extent(zipped, d => d[0]))
+      .range([LINE.LEFT_MARGIN, LINE.WIDTH-LINE.RIGHT_MARGIN]);
+
+    const xGridF = scale => d3.axisBottom(scale)
+      .tickSize(-LINE.HEIGHT + LINE.TOP_MARGIN + LINE.BOTTOM_MARGIN)
+      .tickFormat("");
+
+    const xGrid = this.svgScatter.append("g")
+      .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+      .attr("class", "axis")
+      .call(xGridF(xScale));
+
+      const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
+
+      const xAxis = this.svgScatter.append("g")
+        .attr("transform", `translate(0, ${LINE.HEIGHT - LINE.BOTTOM_MARGIN})`)
+        .attr("class", "axis")
+        .call(xAxisF(xScale));
+
+    const yScale = d3.scaleLinear()
+      .domain(d3.extent(zipped, d => d[1]))
+      .range([LINE.HEIGHT-LINE.BOTTOM_MARGIN, LINE.TOP_MARGIN]);
+
+
+      const yGridF = scale => d3.axisLeft(scale)
+      .tickSize(-LINE.WIDTH + LINE.LEFT_MARGIN + LINE.RIGHT_MARGIN)
+      .tickFormat("");
+
+    const yGrid = this.svgScatter.append("g")
+      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
+      .call(yGridF(yScale));
+
+    const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
+
+    const yAxis = this.svgScatter.append("g")
+      .attr("transform", `translate(${LINE.LEFT_MARGIN}, 0)`)
+      .attr("class", "axis")
+      .call(yAxisF(yScale));
+
+    let circles = this.svgScatter.append("g")
+      .attr("class", "scatter-circles")
+      .selectAll("circle").data(zipped).enter().append("circle")
+      .attr("cx", d => xScale(d[0]))
+      .attr("cy", d => yScale(d[1]))
+      .attr("r", _ => 5)
   }
 }
