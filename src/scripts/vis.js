@@ -172,11 +172,8 @@ export default class Vis {
 
     ySelect.on("change", (event) => {
       yStat = event.target.value;
-      yScale = Util.scaleY(data, yStat);
-      Util.updateAxis(yGrid, yGridF, yScale);
-      Util.updateAxis(yAxis, yAxisF, yScale);
-      Util.updateCirclesY(circles, yScale, yStat);
-      yLabel.text(yStat);
+      this.plot.updateYAxis({ data, column: yStat, label: yStat });
+      Util.updateCirclesY(circles, this.plot.yScale, yStat);
     });
 
     // X-axis options and label
@@ -194,11 +191,8 @@ export default class Vis {
 
     xSelect.on("change", (event) => {
       xStat = event.target.value;
-      xScale = Util.scaleX(data, xStat);
-      Util.updateAxis(xGrid, xGridF, xScale);
-      Util.updateAxis(xAxis, xAxisF, xScale);
-      Util.updateCirclesX(circles, xScale, xStat);
-      xLabel.text(xStat);
+      this.plot.updateYAxis({ data, column: xStat, label: xStat });
+      Util.updateCirclesY(circles, this.plot.xScale, xStat);
     });
 
     // Area options and label
