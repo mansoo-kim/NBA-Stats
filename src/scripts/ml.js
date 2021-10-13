@@ -159,13 +159,13 @@ export default class ML {
     return model;
   }
 
-  // lossUpdateCallback() {
+  lossUpdateCallback() {
 
-  // }
+  }
 
   async train(model, inputs, labels) {
     const batchSize = 32;
-    const epochs = 20;
+    const epochs = 40;
 
     model.compile({
       optimizer: tf.train.adam(),
@@ -177,11 +177,18 @@ export default class ML {
       batchSize,
       epochs,
       shuffle: true,
-      callbacks: tfvis.show.fitCallbacks(
-        { name: 'Training Performance' },
-        ['loss'],
-        { height: 200, callbacks: ['onEpochEnd'] }
-      )
+      callbacks: [
+        // tfvis.show.fitCallbacks(
+        //   { name: 'Training Performance' },
+        //   ['loss', 'mse'],
+        //   { height: 200, callbacks: ['onEpochEnd'] }
+        // ),
+        new tf.CustomCallback({
+          onEpochEnd: async(epoch, logs) => {
+            console.log(epoch, logs);
+          },
+        })
+      ]
     });
 
   }
