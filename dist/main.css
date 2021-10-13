@@ -236,7 +236,7 @@ strong, .strong {
   white-space: nowrap;
 }
 
-.scatter {
+.vis-scatter {
   margin-top: 80px;
   display: flex;
   width: 100%;

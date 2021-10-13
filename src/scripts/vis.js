@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import * as Util from "./plot_utils";
 import * as Constants from "./constants";
+import Graph from "./graph";
 
 const SCATTER = Constants.LARGE;
 const YEARS = [2021, 2020, 2019, 2018, 2017]
@@ -21,6 +22,7 @@ export default class Vis {
   }
 
   buildScatter(allYears) {
+
     this.allData = allYears;
     let data = allYears[DEFAULT_YEAR]
     let xStat = DEFAULT_X;
@@ -29,74 +31,21 @@ export default class Vis {
     let year = DEFAULT_YEAR;
 
     // SVG
-    this.svg = d3.select(".scatter").append("svg").attr("width", SCATTER.WIDTH).attr("height", SCATTER.HEIGHT);
-
-    // X-Axis
-    let xScale = Util.scaleX(data, xStat);
-
-    const xGridF = scale => d3.axisBottom(scale)
-      .tickSize(-SCATTER.HEIGHT + SCATTER.TOP_MARGIN + SCATTER.BOTTOM_MARGIN)
-      .tickFormat("");
-
-    const xGrid = this.svg.append("g")
-      .attr("transform", `translate(0, ${SCATTER.HEIGHT - SCATTER.BOTTOM_MARGIN})`)
-      .attr("class", "axis")
-      .call(xGridF(xScale));
-
-    const xAxisF = scale => d3.axisBottom(scale).tickSize(10);
-
-    const xAxis = this.svg.append("g")
-      .attr("transform", `translate(0, ${SCATTER.HEIGHT - SCATTER.BOTTOM_MARGIN})`)
-      .attr("class", "axis")
-      .call(xAxisF(xScale));
-
-    const xLabel = xAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("x", SCATTER.WIDTH/2)
-      .attr("y", 50)
-      .attr('text-anchor', 'middle')
-      .attr("fill", "black")
-      .text(xStat);
-
-    // Y-Axis
-    let yScale = Util.scaleY(data, yStat)
-
-    const yGridF = scale => d3.axisLeft(scale)
-      .tickSize(-SCATTER.WIDTH + SCATTER.LEFT_MARGIN + SCATTER.RIGHT_MARGIN)
-      .tickFormat("");
-
-    const yGrid = this.svg.append("g")
-      .attr("transform", `translate(${SCATTER.LEFT_MARGIN}, 0)`)
-      .attr("class", "axis")
-      .call(yGridF(yScale));
-
-    const yAxisF = scale => d3.axisLeft(scale).tickSize(10);
-
-    const yAxis = this.svg.append("g")
-      .attr("transform", `translate(${SCATTER.LEFT_MARGIN}, 0)`)
-      .attr("class", "axis")
-      .call(yAxisF(yScale));
-
-    const yLabel = yAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("transform", "rotate(-90)")
-      .attr("x", -SCATTER.HEIGHT/2 + 14)
-      .attr("y", -40)
-      .attr('text-anchor', 'middle')
-      .attr("fill", "black")
-      .text(yStat);
+    this.plot = new Graph(".vis-scatter", SCATTER)
+    this.plot.buildXAxis(xStat, d3.extent(data, d => d[xStat]));
+    this.plot.buildYAxis(yStat, d3.extent(data, d => d[yStat]));
 
     // Area for Circles
     let aScale = Util.scaleA(data, aStat);
 
     // Hover text tooltip for circles
-    const circlesTooltip = d3.select(".scatter").append("div")
+    const circlesTooltip = d3.select(".vis-scatter").append("div")
       .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
     // Circles
-    let circles = this.svg.append("g")
+    let circles = this.plot.svg.append("g")
       .attr("class", "scatter-circles")
       .selectAll("circle").data(data).enter().append("circle");
 
@@ -118,14 +67,14 @@ export default class Vis {
           .style("top", event.pageY - 40 + "px");
       })
       .on("mouseleave", () => circlesTooltip.style("visibility", "hidden"))
-      .attr("cx", d => xScale(d[xStat]))
-      .attr("cy", d => yScale(d[yStat]))
+      .attr("cx", d => this.plot.xScale(d[xStat]))
+      .attr("cy", d => this.plot.yScale(d[yStat]))
       .attr("r", d => aScale(d[aStat]))
       .attr("class", d => d["All-Star"] === true ? "all-star" : null);
 
 
     // Div for selecting stats/year
-    const legendSelect = d3.select(".scatter").append("div").attr("class", "legend-selects");
+    const legendSelect = d3.select(".vis-scatter").append("div").attr("class", "legend-selects");
 
     // Legend
     const legend = legendSelect.append("svg").attr("width", 162).attr("height", 120);
@@ -182,13 +131,9 @@ export default class Vis {
 
     yearSelect.on("change", (event) => {
       data = allYears[event.target.value];
-      xScale = Util.scaleX(data, xStat);
-      yScale = Util.scaleY(data, yStat);
+      this.plot.updateXAxis({ data, column: xStat, label: xStat });
+      this.plot.updateYAxis({ data, column: yStat, label: yStat });
       aScale = Util.scaleA(data, aStat);
-      Util.updateAxis(xGrid, xGridF, xScale);
-      Util.updateAxis(yGrid, yGridF, yScale);
-      Util.updateAxis(xAxis, xAxisF, xScale);
-      Util.updateAxis(yAxis, yAxisF, yScale);
       circles = circles.data(data);
       circles.exit().remove();
       circles.enter().append("circle")
@@ -208,8 +153,8 @@ export default class Vis {
             .style("top", event.pageY - 40 + "px");
         })
         .on("mouseleave", () => circlesTooltip.style("visibility", "hidden"));
-      circles = this.svg.select(".scatter-circles").selectAll("circle");
-      Util.updateCircles(circles, xScale, yScale, aScale, xStat, yStat, aStat);
+      circles = this.plot.svg.select(".scatter-circles").selectAll("circle");
+      Util.updateCircles(circles, this.plot.xScale, this.plot.yScale, aScale, xStat, yStat, aStat);
     });
 
     // Y-axis options and label
@@ -277,14 +222,14 @@ export default class Vis {
     });
 
     // Hover text tooltip for axis/area labels
-    const labelTooltip = d3.select(".scatter").append("div")
+    const labelTooltip = d3.select(".vis-scatter").append("div")
       .attr("class", "tooltip")
       .style("visibility", "hidden")
       .style("position", "absolute");
 
-    xLabel
+    this.plot.xLabel
       .on("mouseenter", () => {
-        let stat = xLabel.text();
+        let stat = this.plot.xLabel.text();
         labelTooltip
           .style("visibility", "visible")
           .html(
@@ -299,9 +244,9 @@ export default class Vis {
       })
       .on("mouseleave", () => labelTooltip.style("visibility", "hidden"));
 
-    yLabel
+    this.plot.yLabel
       .on("mouseenter", () => {
-        let stat = yLabel.text();
+        let stat = this.plot.yLabel.text();
         labelTooltip
           .style("visibility", "visible")
           .html(
