@@ -41,6 +41,7 @@ const setupMLInputSelects = function() {
     const selectGroup = selects.append("div");
     selectGroup.append("label").text(`Stat ${i+1}`);
     const select = selectGroup.append("select").attr("class", `select-${i+1}`);
+    select.append("option").property("default", "true").text("Select");
     select
       .selectAll("option")
       .data(DISPLAYABLE_COLS)
@@ -48,6 +49,17 @@ const setupMLInputSelects = function() {
       .append("option")
       .text(d => d)
       .attr("value", d => d)
-      .property("selected", d => d === DISPLAYABLE_COLS[i]);
   }
+
+  const selectGroup = selects.append("div");
+    selectGroup.append("label").text("Output Stat");
+    const select = selectGroup.append("select");
+    select.append("option").property("default", "true").text("Select");
+    select
+      .selectAll("option")
+      .data(DISPLAYABLE_COLS)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d)
 }

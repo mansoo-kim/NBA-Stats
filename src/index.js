@@ -20,8 +20,10 @@ trainButton.addEventListener("click", () => {
     columns.push(select.value);
   }
   // Use set to get rid of duplicate column names
-  columns = [... new Set(columns)]
+  columns = [... new Set(columns)].filter( d => d !== "Select")
 
-  console.log(columns)
-  ml.run(data, columns);
+  const outputColumn = columns[columns.length-1];
+  columns = columns.slice(0,columns.length-1);
+  console.log(columns, outputColumn)
+  // ml.run(data, columns, outputColumn);
 });
