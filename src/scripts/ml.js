@@ -15,6 +15,11 @@ export default class ML {
    this.resultsScatter = new Graph(".result-scatter", SMALL);
    this.resultsScatter.buildXAxis("True Values", [0,1]);
    this.resultsScatter.buildYAxis("Predicted Values", [0,1]);
+
+   this.circlesTooltip = d3.select(".result-scatter").append("div")
+      .attr("class", "tooltip")
+      .style("visibility", "hidden")
+      .style("position", "absolute");
   }
 
 
@@ -175,5 +180,19 @@ export default class ML {
       .attr("cx", d => this.resultsScatter.xScale(d[0]))
       .attr("cy", d => this.resultsScatter.yScale(d[1]))
       .attr("r", _ => 5)
+      .on("mouseenter", (_, d) => {
+        this.circlesTooltip
+          .style("visibility", "visible")
+          .html(
+            `<p>Predicted: ${d[1].toFixed(2)}</p>
+            <p>True: ${d[0].toFixed(2)}</p>`
+        );
+      })
+      .on("mousemove", (event) => {
+        this.circlesTooltip
+          .style("left", event.pageX + 20 + "px")
+          .style("top", event.pageY - 40 + "px");
+      })
+      .on("mouseleave", () => this.circlesTooltip.style("visibility", "hidden"));
   }
 }

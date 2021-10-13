@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import * as Util from "./plot_utils";
+import * as Util from "./vis_utils";
 import * as Constants from "./constants";
 import Graph from "./graph";
 

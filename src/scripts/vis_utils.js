@@ -1,19 +1,4 @@
 import * as d3 from "d3";
-import { LARGE } from "./constants"
-
-export const scaleX = (data, column) => {
-  return d3.scaleLinear()
-    .domain(d3.extent(data, d => d[column]))
-    .range([LARGE.LEFT_MARGIN, LARGE.WIDTH-LARGE.RIGHT_MARGIN])
-    .nice();
-}
-
-export const scaleY = (data, column) => {
-  return d3.scaleLinear()
-    .domain(d3.extent(data, d => d[column]))
-    .range([LARGE.HEIGHT-LARGE.BOTTOM_MARGIN, LARGE.TOP_MARGIN])
-    .nice();
-}
 
 export const scaleA = (data, column) => {
   const scale = d3.scaleLinear()
@@ -24,10 +9,6 @@ export const scaleA = (data, column) => {
     const area = scale(d);
     return Math.sqrt(area/ Math.PI);
   };
-}
-
-export const updateAxis = (axis, f, scale) => {
-  axis.transition().duration(1000).call(f(scale));
 }
 
 export const updateCirclesX = (circles, scale, column) => {

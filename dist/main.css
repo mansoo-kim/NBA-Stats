@@ -275,7 +275,7 @@ section.ml h2 {
   font-weight: 700;
   margin: 10px 0px;
 }
-section.ml p {
+section.ml > p {
   padding: 10px;
 }
 section.ml .ml-input {
