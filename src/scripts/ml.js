@@ -159,8 +159,14 @@ export default class ML {
     return model;
   }
 
-  lossUpdateCallback() {
-
+  lossUpdateCallback(epoch, logs) {
+    console.log(epoch, logs);
+    this.trainingLosses.push({epoch, logs});
+    this.path.datum(this.trainingLosses)
+      .attr("d", d3.line()
+        .x(d => this.xScale(d.epoch))
+        .y(d => this.yScale(d.logs.loss))
+      );
   }
 
   async train(model, inputs, labels) {
@@ -184,9 +190,7 @@ export default class ML {
         //   { height: 200, callbacks: ['onEpochEnd'] }
         // ),
         new tf.CustomCallback({
-          onEpochEnd: async(epoch, logs) => {
-            console.log(epoch, logs);
-          },
+          onEpochEnd: this.lossUpdateCallback.bind(this),
         })
       ]
     });
