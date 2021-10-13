@@ -53,7 +53,7 @@ const setupMLInputSelects = function() {
 
   const selectGroup = selects.append("div");
     selectGroup.append("label").text("Output Stat");
-    const select = selectGroup.append("select");
+    const select = selectGroup.append("select").attr("class", "output-select");
     select.append("option").property("default", "true").text("Select");
     select
       .selectAll("option")
