@@ -235,4 +235,18 @@ export default class ML {
     // Finally enable the trainButton
     document.getElementById("train-button").disabled = false;
   }
+
+  reset() {
+    this.trainingLine.reset();
+    this.resultsScatter.reset();
+
+    this.path.remove();
+    this.path = this.trainingLine.svg.append("path")
+      .attr("fill", "none")
+      .attr("stroke", "#c9082a")
+      .attr("stroke-width", 1.5);
+    this.trainingLosses = [];
+
+    this.circles.remove();
+  }
 }

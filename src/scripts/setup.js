@@ -89,4 +89,8 @@ export const setupMLButtons = (plot, ml) => {
   });
 
   const clearButton = document.getElementById("clear-button");
+
+  clearButton.addEventListener("click", () => {
+    ml.reset();
+  });
 }

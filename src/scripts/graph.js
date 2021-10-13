@@ -18,8 +18,8 @@ export default class Graph {
       .text(title);
   }
 
-  buildXAxis(legend, domain) {
-    this.initialX = { legend, domain}
+  buildXAxis(label, domain) {
+    this.initialX = { label, domain}
     // X-axis and grid
     this.xScale = d3.scaleLinear()
       .domain(domain)
@@ -48,11 +48,11 @@ export default class Graph {
       .attr("y", 50)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
-      .text(legend);
+      .text(label);
   }
 
-  buildYAxis(legend, domain) {
-    this.initialY = { legend, domain};
+  buildYAxis(label, domain) {
+    this.initialY = { label, domain};
     // Y-axis and grid
     this.yScale = d3.scaleLinear()
       .domain(domain)
@@ -82,7 +82,7 @@ export default class Graph {
       .attr("y", -40)
       .attr('text-anchor', 'middle')
       .attr("fill", "black")
-      .text(legend);
+      .text(label);
   }
 
   updateXAxis({ domain, data, column, label }) {
