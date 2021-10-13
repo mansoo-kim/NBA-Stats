@@ -12,13 +12,14 @@ export default class Graph {
   addTitle(title) {
     this.svg.append("text")
       .attr("x", this.constants.WIDTH/2)
-      .attr("y", this.constants.TOP_MARGIN/2)
+      .attr("y", this.constants.TOP_MARGIN*2/3)
       .attr("class", "graph-title")
       .attr('text-anchor', 'middle')
       .text(title);
   }
 
   buildXAxis(legend, domain) {
+    this.initialX = { legend, domain}
     // X-axis and grid
     this.xScale = d3.scaleLinear()
       .domain(domain)
@@ -51,6 +52,7 @@ export default class Graph {
   }
 
   buildYAxis(legend, domain) {
+    this.initialY = { legend, domain};
     // Y-axis and grid
     this.yScale = d3.scaleLinear()
       .domain(domain)
@@ -109,7 +111,7 @@ export default class Graph {
     this.yLabel.text(label);
   }
 
-  addTooltip(label, onEnter) {
+  addLabelTooltip(label, onEnter) {
     label
       .on("mouseenter", onEnter)
       .on("mousemove", (event) => {
@@ -119,4 +121,10 @@ export default class Graph {
       })
       .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
   }
+
+  reset() {
+    this.updateXAxis(this.initialX);
+    this.updateYAxis(this.initialY);
+  }
+
 }

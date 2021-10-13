@@ -133,7 +133,7 @@ export default class Vis {
       circles.exit().remove();
       circles.enter().append("circle")
         .on("mouseenter", (_, d) => {
-          tooltip
+          this.tooltip
           .style("visibility", "visible")
           .html(
             `<strong>${d["Player"]}</strong>
@@ -143,11 +143,11 @@ export default class Vis {
           );
         })
         .on("mousemove", (event) => {
-          tooltip
+          this.tooltip
             .style("left", event.pageX + 20 + "px")
             .style("top", event.pageY - 40 + "px");
         })
-        .on("mouseleave", () => tooltip.style("visibility", "hidden"));
+        .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
       circles = this.plot.svg.select(".scatter-circles").selectAll("circle");
       Util.updateCircles(circles, this.plot.xScale, this.plot.yScale, aScale, xStat, yStat, aStat);
     });
@@ -210,7 +210,7 @@ export default class Vis {
       aLabel.text(aStat);
     });
 
-    this.plot.addTooltip(this.plot.xLabel, () => {
+    this.plot.addLabelTooltip(this.plot.xLabel, () => {
       let stat = this.plot.xLabel.text();
       this.tooltip
         .style("visibility", "visible")
@@ -220,7 +220,7 @@ export default class Vis {
         );
     });
 
-    this.plot.addTooltip(this.plot.yLabel, () => {
+    this.plot.addLabelTooltip(this.plot.yLabel, () => {
       let stat = this.plot.yLabel.text();
       this.tooltip
         .style("visibility", "visible")

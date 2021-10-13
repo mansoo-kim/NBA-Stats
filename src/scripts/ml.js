@@ -16,7 +16,7 @@ export default class ML {
    this.resultsScatter.buildYAxis("Predicted Values", [0,1]);
    this.resultsScatter.addTitle("Results");
 
-   this.resultsScatter.addTooltip(this.resultsScatter.xLabel, () => {
+   this.resultsScatter.addLabelTooltip(this.resultsScatter.xLabel, () => {
     this.tooltip
       .style("visibility", "visible")
       .html(
@@ -25,7 +25,7 @@ export default class ML {
       );
   });
 
-  this.resultsScatter.addTooltip(this.resultsScatter.yLabel, () => {
+  this.resultsScatter.addLabelTooltip(this.resultsScatter.yLabel, () => {
     this.tooltip
       .style("visibility", "visible")
       .html(
@@ -49,7 +49,7 @@ export default class ML {
       .attr("stroke", "#c9082a")
       .attr("stroke-width", 1.5);
 
-    this.trainingLine.addTooltip(this.trainingLine.xLabel, () => {
+    this.trainingLine.addLabelTooltip(this.trainingLine.xLabel, () => {
       this.tooltip
         .style("visibility", "visible")
         .html(
@@ -58,7 +58,7 @@ export default class ML {
         );
     });
 
-    this.trainingLine.addTooltip(this.trainingLine.yLabel, () => {
+    this.trainingLine.addLabelTooltip(this.trainingLine.yLabel, () => {
       this.tooltip
         .style("visibility", "visible")
         .html(
