@@ -2,8 +2,6 @@ import { SMALL } from "./constants"
 import Graph from "./graph";
 import * as d3 from "d3";
 
-const EPOCHS = 10;
-
 export default class ML {
 
   constructor() {
@@ -39,7 +37,7 @@ export default class ML {
 
   buildTrainingLinePlot() {
     this.trainingLine = new Graph(".training-line", SMALL);
-    this.trainingLine.buildXAxis("Epoch", [0,EPOCHS-1]);
+    this.trainingLine.buildXAxis("Epoch", [0,SMALL.NUM_EPOCHS-1]);
     this.trainingLine.buildYAxis("Loss", [0,1]);
     this.trainingLosses = []
 
@@ -162,7 +160,7 @@ export default class ML {
 
   async train(model, inputs, labels) {
     const batchSize = 32;
-    const epochs = EPOCHS;
+    const epochs = SMALL.NUM_EPOCHS;
 
     model.compile({
       optimizer: tf.train.adam(),
@@ -210,9 +208,6 @@ export default class ML {
     this.circles = this.resultsScatter.svg.append("g")
       .attr("class", "scatter-circles")
       .selectAll("circle").data(zipped).enter().append("circle")
-      .attr("cx", d => this.resultsScatter.xScale(d[0]))
-      .attr("cy", d => this.resultsScatter.yScale(d[1]))
-      .attr("r", _ => 5)
       .on("mouseenter", (_, d) => {
         this.tooltip
           .style("visibility", "visible")
@@ -227,5 +222,12 @@ export default class ML {
           .style("top", event.pageY - 40 + "px");
       })
       .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
+
+    this.circles
+      .transition()
+      .duration(1000)
+      .attr("cx", d => this.resultsScatter.xScale(d[0]))
+      .attr("cy", d => this.resultsScatter.yScale(d[1]))
+      .attr("r", _ => 5)
   }
 }
