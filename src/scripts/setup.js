@@ -83,7 +83,7 @@ export const setupMLButtons = (plot, ml) => {
     if (!columns.length) return;
 
     // console.log(columns, outputColumn);
-
+    if (ml.ran) ml.reset();
     trainButton.disabled = true;
     clearButton.disabled = true;
     ml.run(data, columns, outputColumn);
@@ -91,6 +91,6 @@ export const setupMLButtons = (plot, ml) => {
 
 
   clearButton.addEventListener("click", () => {
-    ml.reset();
+    if (ml.ran) ml.reset();
   });
 }

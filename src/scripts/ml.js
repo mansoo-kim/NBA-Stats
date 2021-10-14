@@ -8,6 +8,7 @@ export default class ML {
     this.tooltip = d3.select(".tooltip");
     this.buildTrainingLinePlot();
     this.buildResultsScatter();
+    this.ran = false;
   }
 
   buildResultsScatter() {
@@ -70,6 +71,7 @@ export default class ML {
   }
 
   async run(allData, inputColumns, outputColumn) {
+    this.ran = true;
     this.outputColumn = outputColumn;
     const { trainingInputs, trainingY, testingInputs, testingY, outputMin, outputMax } = this.prepData(allData, inputColumns, outputColumn);
 
