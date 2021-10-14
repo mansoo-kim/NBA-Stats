@@ -77,36 +77,36 @@ export default class Vis {
     // for circle size
     legend.append("circle").attr("class", "legend")
       .attr("cx", 7)
-      .attr("cy", 25)
+      .attr("cy", 75)
       .attr("r", 4);
     legend.append("text").text("---")
       .attr("x", 17)
-      .attr("y", 29);
+      .attr("y", 79);
     legend.append("circle").attr("class", "legend")
       .attr("cx", 47)
-      .attr("cy", 25)
+      .attr("cy", 75)
       .attr("r", 8);
     const aLabel = legend.append("text").text(aStat).attr("class", "strong")
       .attr("x", 66)
-      .attr("y", 32);
+      .attr("y", 82);
 
     // for All-Stars
     legend.append("circle").attr("class", "all-star")
       .attr("cx", 47)
-      .attr("cy", 50)
+      .attr("cy", 25)
       .attr("r", 7);
     legend.append("text").text("All-Stars")
       .attr("x", 66)
-      .attr("y", 57);
+      .attr("y", 32);
 
     // for non All-stars
     legend.append("circle")
       .attr("cx", 47)
-      .attr("cy", 75)
+      .attr("cy", 50)
       .attr("r", 7);
     legend.append("text").text("Not All-Stars")
       .attr("x", 66)
-      .attr("y", 82);
+      .attr("y", 57);
 
     // Div for selects
     const selects = legendSelect.append("div").attr("class", "scatter-selects");
@@ -154,7 +154,7 @@ export default class Vis {
 
     // Y-axis options and label
     const ySelectGroup = selects.append("div");
-    ySelectGroup.append("label").text("Y-axis");
+    ySelectGroup.append("label").text("Y-Axis");
     const ySelect = ySelectGroup.append("select");
     const yOptions = ySelect
       .selectAll("option")
@@ -173,7 +173,7 @@ export default class Vis {
 
     // X-axis options and label
     const xSelectGroup = selects.append("div");
-    xSelectGroup.append("label").text("X-axis");
+    xSelectGroup.append("label").text("X-Axis");
     const xSelect = xSelectGroup.append("select");
     const xOptions = xSelect
       .selectAll("option")
@@ -238,15 +238,16 @@ export default class Vis {
           .html(
             `<strong>${stat}</strong>
             <p>${Constants.DESCRIPTIONS[stat]}</p>`
-          );
+          )
+          .style("transform", "translateX(-100%)");
       })
       .on("mousemove", (event) => {
         this.tooltip
-          .style("left", event.pageX - 275 + "px")
+          .style("left", event.pageX - 20 + "px")
           .style("top", event.pageY - 25 + "px");
       })
-      .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
-
+      .on("mouseleave", () => this.tooltip.style("visibility", "hidden")
+        .style("transform", "translateX(0%)"));
   }
 
   async getStats() {

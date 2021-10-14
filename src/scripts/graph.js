@@ -117,7 +117,7 @@ export default class Graph {
       .on("mousemove", (event) => {
         this.tooltip
           .style("left", event.pageX + 20 + "px")
-          .style("top", event.pageY - 25 + "px");
+          .style("top", event.pageY - 25 + "px")
       })
       .on("mouseleave", () => this.tooltip.style("visibility", "hidden"));
   }

@@ -2,7 +2,7 @@
 
 section.ml {
   margin-top: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@ section.ml {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 60%;
 
     .train-stats-selects {
       margin-top: 15px;
@@ -46,10 +46,11 @@ section.ml {
   align-items: center;
   justify-content: space-evenly;
   margin-top: 30px;
-  width: 40%;
+  width: 50%;
 
   label {
     margin-right: 10px;
+    font-weight: 700;
   }
 }
 
@@ -62,8 +63,10 @@ section.ml {
 
 #train-button {
   background: $red-80;
+  border: 3px solid $base-red;
 }
 
 #clear-button {
   background: $blue-80;
+  border: 3px solid $base-blue;
 }

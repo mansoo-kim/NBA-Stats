@@ -242,7 +242,7 @@ strong, .strong {
 }
 
 .vis-scatter {
-  margin-top: 80px;
+  margin-top: 60px;
   display: flex;
   width: 100%;
   justify-content: center;
@@ -275,7 +275,7 @@ strong, .strong {
 
 section.ml {
   margin-top: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -292,7 +292,7 @@ section.ml .ml-input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 60%;
 }
 section.ml .ml-input .train-stats-selects {
   margin-top: 15px;
@@ -312,10 +312,11 @@ section.ml .ml-plots {
   align-items: center;
   justify-content: space-evenly;
   margin-top: 30px;
-  width: 40%;
+  width: 50%;
 }
 .buttons-div label {
   margin-right: 10px;
+  font-weight: 700;
 }
 
 .ml-button {
@@ -327,8 +328,10 @@ section.ml .ml-plots {
 
 #train-button {
   background: rgba(201, 8, 44, 0.8);
+  border: 3px solid #c9082a;
 }
 
 #clear-button {
   background: rgba(23, 64, 140, 0.8);
+  border: 3px solid #17408b;
 }
