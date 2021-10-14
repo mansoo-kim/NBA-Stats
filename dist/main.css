@@ -89,12 +89,21 @@ body {
   font-size: 16px;
   width: 800px;
 }
+#modal-container #about-div p:last-child {
+  margin: 10px 0px;
+}
 #modal-container #about-div h2 {
   font-weight: 700;
+  margin: 20px 0px;
+  font-size: 20px;
+}
+#modal-container #about-div h3 {
+  font-weight: 600;
   margin: 10px 0px;
 }
 #modal-container #about-div ul {
   list-style: circle inside;
+  list-style-position: outside;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,9 +111,6 @@ body {
 #modal-container #about-div ul li {
   text-align: left;
   width: 90%;
-}
-#modal-container #about-div p {
-  padding: 20px 10px;
 }
 #modal-container #about-div:last-child {
   padding: 10px 10px 5px 10px;
