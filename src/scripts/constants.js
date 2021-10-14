@@ -15,7 +15,7 @@ export const SMALL = {
   TOP_MARGIN: 60,
   RIGHT_MARGIN: 60,
   NUM_STATS: 5,
-  NUM_EPOCHS: 20
+  NUM_EPOCHS: 30
 };
 
 export const DISPLAYABLE_COLS = ["Age", "G","GS","MP","FG","FGA","FG%","3P","3PA","3P%","2P","2PA","2P%","eFG%","FT","FTA","FT%","ORB","DRB","TRB","AST","STL","BLK","TOV","PF","PTS", "PER","TS%","3PAr","FTr","ORB%","DRB%","TRB%","AST%","STL%","BLK%","TOV%","USG%","OWS","DWS","WS","WS/48","OBPM","DBPM","BPM","VORP"];

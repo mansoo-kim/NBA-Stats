@@ -145,7 +145,8 @@ export default class ML {
 
   createModel(inputShape) {
     const model = tf.sequential();
-    model.add(tf.layers.dense({units: 3, inputShape: [inputShape], useBias: true}))
+    model.add(tf.layers.dense({units: 5, inputShape: [inputShape], useBias: true}))
+    model.add(tf.layers.dense({units: 3, useBias: true}))
     model.add(tf.layers.dense({units: 1, useBias: true}));
     return model;
   }
