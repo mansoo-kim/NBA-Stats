@@ -62,11 +62,13 @@ export const setupMLButtons = (plot, ml) => {
   const clearButton = document.getElementById("clear-button");
 
   trainButton.addEventListener("click", () => {
-    const data = plot.getData();
     const outputColumn = document.querySelector(".output-select").value;
+    const errorDiv = document.querySelector(".error");
 
     // Must select an output stat to predict
     if (outputColumn === "Select") {
+      // outputSelect.className = "output-select empty";
+      errorDiv.innerHTML = "Please select an ouput stat!";
       return;
     }
 
@@ -80,12 +82,17 @@ export const setupMLButtons = (plot, ml) => {
     columns = [...new Set(columns)]
 
     // Must select at least one output stat
-    if (!columns.length) return;
+    if (!columns.length) {
+      errorDiv.innerHTML = "Please select at least one input stat!";
+      return;
+    }
 
     // console.log(columns, outputColumn);
-    if (ml.ran) ml.reset();
     trainButton.disabled = true;
     clearButton.disabled = true;
+    errorDiv.innerHTML = "";
+    if (ml.ran) ml.reset();
+    const data = plot.getData();
     ml.run(data, columns, outputColumn);
   });
 

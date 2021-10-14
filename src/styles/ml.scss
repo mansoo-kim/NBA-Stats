@@ -60,15 +60,22 @@ section.ml {
 }
 
 .buttons-div {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-top: 30px;
+  margin-top: 50px;
   width: 50%;
 
   label {
     margin-right: 10px;
     font-weight: 700;
+  }
+
+  .error {
+    position: absolute;
+    top: -25px;
+    color: $base-red;
   }
 }
 
