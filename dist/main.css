@@ -281,26 +281,42 @@ section.ml {
   flex-direction: column;
   align-items: center;
 }
-section.ml h2 {
-  font-weight: 700;
-  margin: 10px 0px;
+section.ml div.ml-ui-container {
+  border: 1px solid #17408b;
+  border-radius: 10px;
+  width: 80%;
+  padding: 5px;
+  display: flex;
 }
-section.ml > p {
-  padding: 10px;
-}
-section.ml .ml-input {
+section.ml div.ml-ui {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 100%;
+  border: 1px solid #c9082a;
+  border-radius: 10px;
+  padding: 20px 0px;
 }
-section.ml .ml-input .train-stats-selects {
+section.ml div.ml-ui h2 {
+  font-weight: 700;
+  margin: 10px 0px;
+}
+section.ml div.ml-ui > p {
+  padding: 10px;
+}
+section.ml div.ml-ui .ml-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+}
+section.ml div.ml-ui .ml-input .train-stats-selects {
   margin-top: 15px;
   display: flex;
   justify-content: space-evenly;
   width: 100%;
 }
-section.ml .ml-input .train-stats-selects label {
+section.ml div.ml-ui .ml-input .train-stats-selects label {
   margin-right: 10px;
 }
 section.ml .ml-plots {
