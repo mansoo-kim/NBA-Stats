@@ -246,6 +246,7 @@ strong, .strong {
   display: flex;
   width: 100%;
   justify-content: center;
+  height: 800px;
 }
 
 .legend-selects {
@@ -291,33 +292,43 @@ section.ml .ml-input {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 80%;
 }
 section.ml .ml-input .train-stats-selects {
   margin-top: 15px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  width: 100%;
 }
 section.ml .ml-input .train-stats-selects label {
   margin-right: 10px;
-  margin-left: 20px;
 }
 section.ml .ml-plots {
   display: flex;
 }
 
+.buttons-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 30px;
+  width: 40%;
+}
+.buttons-div label {
+  margin-right: 10px;
+}
+
 .ml-button {
-  opacity: 90%;
   color: white;
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
 }
 
-.train-button {
-  background: #c9082a;
-  margin-right: 100px;
+#train-button {
+  background: rgba(201, 8, 44, 0.8);
 }
 
-.clear-button {
-  background: #17408b;
+#clear-button {
+  background: rgba(23, 64, 140, 0.8);
 }

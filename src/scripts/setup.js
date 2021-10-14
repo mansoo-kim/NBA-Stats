@@ -44,7 +44,8 @@ export const setupMLInputSelects = () => {
       .attr("value", d => d)
   }
 
-  const selectGroup = selects.append("div");
+  const buttonsDiv = d3.select(".buttons-div");
+  const selectGroup = buttonsDiv.insert("div", ":first-child");
     selectGroup.append("label").text("Output Stat");
     const select = selectGroup.append("select").attr("class", "output-select");
     select
@@ -57,16 +58,8 @@ export const setupMLInputSelects = () => {
 }
 
 export const setupMLButtons = (plot, ml) => {
-  // const trainButton = document.getElementById("train-button");
-  // const clearButton = document.getElementById("clear-button");
-  const buttonsDiv = document.querySelector(".buttons-div");
-  const trainButton = document.createElement("button");
-  trainButton.className = "ml-button train-button";
-  trainButton.innerText = "Train";
-  const clearButton = document.createElement("button");
-  clearButton.className = "ml-button clear-button";
-  clearButton.innerText = "Clear";
-  buttonsDiv.append(trainButton, clearButton);
+  const trainButton = document.getElementById("train-button");
+  const clearButton = document.getElementById("clear-button");
 
   trainButton.addEventListener("click", () => {
     const data = plot.getData();

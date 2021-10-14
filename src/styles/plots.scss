@@ -1,11 +1,13 @@
+@import "./colors";
+
 circle {
   opacity: 0.5;
-  fill: #17408b;
+  fill: $base-blue;
   stroke: black;
 }
 
 circle.all-star {
-  fill: #c9082a;
+  fill: $base-red;
 }
 
 circle.legend {
@@ -65,6 +67,7 @@ strong, .strong {
   display: flex;
   width: 100%;
   justify-content: center;
+  height: 800px;
 }
 
 .legend-selects {
