@@ -8,7 +8,14 @@ NBA Stats was implemented using JavaScript, D3.js, and TensorFlow.js
 
 ## Key Features
 
-### Scatter Plot
+### Visualization Scatter Plot
 - Interactive D3.js scatter plot with hover tooltips for more information on stats.
-
+- User selectable stats for Y-axis, X-axis, and circle size.
 <img src='./src/assets/images/nba-stats-hover.gif' />
+<img src='./src/assets/images/nba-stats-select.gif' />
+
+### Machine Learning Sandbox
+- Powered by TensorFlow.js and its neural network implementation.
+- Select up to 5 stats to train a neural network model and an output stat to predict.
+- Click "Train" to initiate training the model, and wait for the results!
+<img src='./src/assets/images/nba-stats-ml.gif' />
