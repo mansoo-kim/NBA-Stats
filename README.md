@@ -1,6 +1,6 @@
 # NBA Stats
 
-[NBA Stats](https://mansookim.github.io/NBA-Stats/) is a data visualization app where users can explore NBA stats from past seasons. Additionally, users can use the machine learning sandbox to train and test a neural network to see how effective certain stats are at predicting an output stat.
+[NBA Stats](https://mansoo-kim.github.io/NBA-Stats/) is a data visualization app where users can explore NBA stats from past seasons. Additionally, users can use the machine learning sandbox to train and test a neural network to see how effective certain stats are at predicting an output stat.
 
 ## Technologies Used
 
