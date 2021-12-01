@@ -11,7 +11,7 @@ header {
   border-radius: 10px;
   opacity: 90%;
 
-  a.links{
+  .links{
     display: flex;
     align-items: center;
     height: 40px;
@@ -32,6 +32,15 @@ header {
   }
   .header-child:last-child > a:first-child {
     margin-left: auto;
+  }
+
+  .hover-stats {
+    cursor: pointer;
+  }
+
+  #about-button {
+    margin-left: auto;
+    cursor: pointer;
   }
 
   .hover-div {
@@ -69,12 +78,13 @@ header {
       width: 40px;
     }
 
-    a.links:hover {
+    .links:hover {
       transform: scale(1.1);
     }
   }
 
   .header-center{
+    cursor: default;
     img {
       height: 50px;
     }

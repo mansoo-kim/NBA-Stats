@@ -129,7 +129,7 @@ header {
   border-radius: 10px;
   opacity: 90%;
 }
-header a.links {
+header .links {
   display: flex;
   align-items: center;
   height: 40px;
@@ -148,6 +148,13 @@ header .header-child:first-child > div {
 }
 header .header-child:last-child > a:first-child {
   margin-left: auto;
+}
+header .hover-stats {
+  cursor: pointer;
+}
+header #about-button {
+  margin-left: auto;
+  cursor: pointer;
 }
 header .hover-div {
   position: relative;
@@ -177,8 +184,11 @@ header .hover-div:hover .stats-list-div {
 header .nav-links img {
   width: 40px;
 }
-header .nav-links a.links:hover {
+header .nav-links .links:hover {
   transform: scale(1.1);
+}
+header .header-center {
+  cursor: default;
 }
 header .header-center img {
   height: 50px;
