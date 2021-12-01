@@ -182,7 +182,7 @@ header .hover-div:hover .stats-list-div {
   display: block;
 }
 header .nav-links img {
-  width: 40px;
+  width: 30px;
 }
 header .nav-links .links:hover {
   transform: scale(1.1);
@@ -343,6 +343,7 @@ section.ml .ml-plots {
 }
 
 .buttons-div {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -366,9 +367,15 @@ section.ml .ml-plots {
   cursor: pointer;
   transition: transform 0.1s;
 }
-
 .ml-button:hover {
   transform: scale(1.1);
+}
+.ml-button.disabled {
+  cursor: not-allowed;
+  filter: brightness(0.8);
+}
+.ml-button.disabled:hover {
+  transform: none;
 }
 
 #train-button {

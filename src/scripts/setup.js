@@ -88,6 +88,8 @@ export const setupMLButtons = (plot, ml) => {
 
     trainButton.disabled = true;
     clearButton.disabled = true;
+    trainButton.classList.add("disabled");
+    clearButton.classList.add("disabled");
     errorDiv.innerHTML = "";
     if (ml.ran) ml.reset();
     const data = plot.getData();

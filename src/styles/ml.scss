@@ -60,6 +60,7 @@ section.ml {
 }
 
 .buttons-div {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -84,10 +85,19 @@ section.ml {
   padding: 10px;
   cursor: pointer;
   transition: transform 0.1s;
-}
 
-.ml-button:hover {
-  transform: scale(1.1);
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    filter: brightness(0.8);
+
+    &:hover {
+      transform: none;
+    }
+  }
 }
 
 #train-button {
