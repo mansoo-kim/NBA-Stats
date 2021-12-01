@@ -1,5 +1,6 @@
 header {
   position: fixed;
+  z-index: 1;
   display: flex;
   align-items: center;
   flex: 1;
@@ -51,7 +52,7 @@ header {
       position: absolute;
       left: 0px;
       top: 50px;
-      opacity: 90%;
+      opacity: 95%;
       font-size: 12px;
       display: none;
 

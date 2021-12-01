@@ -4,10 +4,11 @@
 
 #modal-container {
   position: fixed;
+  z-index: 1;
   background-color: lightgray;
   width: 100%;
   height: 100%;
-  opacity: 0.9;
+  opacity: 0.95;
 
   #about-div {
     position: relative;
