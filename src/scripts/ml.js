@@ -236,8 +236,12 @@ export default class ML {
       .attr("r", _ => 5)
 
     // Finally enable the trainButton
-    document.getElementById("train-button").disabled = false;
-    document.getElementById("clear-button").disabled = false;
+    const trainButton = document.getElementById("train-button");
+    const clearButton = document.getElementById("clear-button");
+    trainButton.disabled = false;
+    clearButton.disabled = false;
+    trainButton.classList.remove("disabled");
+    clearButton.classList.remove("disabled");
   }
 
   reset() {
