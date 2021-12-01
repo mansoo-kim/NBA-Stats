@@ -333,7 +333,6 @@ section.ml .ml-plots {
 }
 
 .buttons-div {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
